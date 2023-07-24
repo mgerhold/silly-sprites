@@ -12,8 +12,7 @@ jobs:
             fail-fast: false
             matrix:
                 os: [ ubuntu-latest , windows-latest]
-                build: [Release, Debug]
-        
+                build: [ Release, Debug ]
         
         steps:
         -   name: "checkoout"
