@@ -25,11 +25,11 @@ int main() {
     if (vec.has_value()) {
         spdlog::info("{},{},{}", vec->x, vec->y, vec->z);
     }
-    const auto value = gsl::narrow_cast<float>(3.14);
+    auto const value = gsl::narrow_cast<float>(3.14);
     spdlog::info("{}", value);
     spdlog::info("this is just a test!");
 
-    for (const auto color : magic_enum::enum_values<Color>()) {
+    for (auto const color : magic_enum::enum_values<Color>()) {
         spdlog::info("{} is a color", magic_enum::enum_name(color));
     }
 }
