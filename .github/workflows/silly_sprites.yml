@@ -22,10 +22,5 @@ jobs:
         -   name: "Generate Directory"
             run: cmake -S . -B build
           
-        -   name: "Build in Release"
-            run: cmake --build build --config Release
-            if: ${{ matrix.build == 'Release' }}
-        
-        -   name: "Build in Debug"
-            run: cmake --build build --config Debug
-            if: ${{ matrix.build == 'Debug' }}
+        -   name: "Build ${{matrix.os}}/${{matrix.build}}"
+            run: cmake --build build --config ${{matrix.build}}
