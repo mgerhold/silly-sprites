@@ -7,7 +7,7 @@ on:
         
 jobs:
     job:
-        name: ${{matrix.build}}/${{matrix.os}}/${{github.workflow}}
+        name: ${{matrix.build}} / ${{matrix.os}} / ${{github.workflow}}
         runs-on: ${{matrix.os}}
         strategy:
             fail-fast: false
@@ -22,5 +22,5 @@ jobs:
         -   name: "Generate Directory"
             run: cmake -S . -B build
           
-        -   name: "Build ${{matrix.os}}/${{matrix.build}}"
+        -   name: "Build ${{matrix.os}} / ${{matrix.build}}"
             run: cmake --build build --config ${{matrix.build}}
