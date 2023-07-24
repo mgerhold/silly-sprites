@@ -1,3 +1,4 @@
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <entt/entt.hpp>
 #include <glad/gl.h>
