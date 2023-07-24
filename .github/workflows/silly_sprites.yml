@@ -1,0 +1,29 @@
+name: silly-sprites
+on:
+    workflow_dispatch:
+    pull_request:
+        branches: [ main ]
+        
+jobs:
+    job:
+        name: ${{matrix.build}} / ${{matrix.os}} / ${{github.workflow}}
+        runs-on: ${{matrix.os}}
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ ubuntu-latest, windows-latest ]
+                build: [ Release, Debug ]
+        
+        steps:
+        -   name: "Checkout"
+            uses: actions/checkout@v3
+            
+        -   name: "Install xorg-dev for Ubuntu"
+            run: sudo apt install xorg-dev
+            if: ${{ matrix.os == 'ubuntu-latest' }}
+            
+        -   name: "Generate Directory"
+            run: cmake -S . -B build
+          
+        -   name: "Build ${{matrix.os}} / ${{matrix.build}}"
+            run: cmake --build build --config ${{matrix.build}}
