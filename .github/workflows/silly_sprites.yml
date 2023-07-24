@@ -20,7 +20,7 @@ jobs:
             
         -   name: "Install apt for Ubuntu"
             run: sudo apt install xorg-dev
-            if: ${{matrix.os == ubuntu-latest }}
+            if: ${{matrix.os == 'ubuntu-latest' }}
             
         -   name: "Generate Directory"
             run: cmake -S . -B build
