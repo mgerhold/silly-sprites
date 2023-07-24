@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.26)
+cmake_minimum_required(VERSION 3.26)
 
 project(sillysprites)
 
@@ -6,7 +6,7 @@ add_executable(sandbox src/sandbox/main.cpp)
 
 include(${CMAKE_SOURCE_DIR}/cmake/CPM.cmake)
 
-TARGET_INCLUDE_DIRECTORIES(sandbox PUBLIC ${CMAKE_SOURCE_DIR}/vendor)
+target_include_directories(sandbox PUBLIC ${CMAKE_SOURCE_DIR}/vendor)
 
 CPMAddPackage("gh:nlohmann/json@3.10.5")
 CPMAddPackage("gh:g-truc/glm#0.9.9.8")
