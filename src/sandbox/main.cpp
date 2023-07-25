@@ -5,9 +5,10 @@
 #include <glm/glm.hpp>
 #include <gsl/gsl>
 #include <iostream>
-#include <magic_enum/magic_enum_wrapper.hpp>
+#include <magic_enum_wrapper.hpp>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
+#include <test.hpp>
 #include <tl/expected.hpp>
 #include <tl/optional.hpp>
 
@@ -32,4 +33,6 @@ int main() {
     for (auto const color : magic_enum::enum_values<Color>()) {
         spdlog::info("{} is a color", magic_enum::enum_name(color));
     }
+
+    spdlog::info("40 + 2 = {}", add(40, 2));
 }
