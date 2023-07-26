@@ -1,8 +1,14 @@
 add_library(sillysprites
         STATIC
         include/magic_enum_wrapper.hpp
-        include/test.hpp
-        test.cpp
+        include/silly_sprites.hpp
+        application.hpp
+        silly_sprites.cpp
+        application.cpp
+        stopwatch.cpp
+        stopwatch.hpp
+        scene.cpp
+        scene.hpp
 )
 
 include(${CMAKE_SOURCE_DIR}/cmake/CPM.cmake)
@@ -41,4 +47,4 @@ target_link_libraries(sillysprites
         magic_enum::magic_enum
 )
 
-target_include_directories(sillysprites PUBLIC include)
+target_include_directories(sillysprites PUBLIC ${CMAKE_SOURCE_DIR}/src/silly_sprites/include)
