@@ -1,2 +1,3 @@
 add_subdirectory(sandbox)
+add_subdirectory(sandboxpurpur)
 add_subdirectory(silly_sprites)
