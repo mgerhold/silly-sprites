@@ -14,10 +14,10 @@ namespace sly::gl {
 
     public:
 		Window(GLFWwindow* window);
-		~Window();
-
 
 		[[nodiscard]] static tl::expected<Window,WindowError> create(int width, int height);
+		static void destroy();
+
 		[[nodiscard]] GLFWwindow* get() const;
 	};
 }

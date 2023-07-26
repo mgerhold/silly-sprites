@@ -6,10 +6,6 @@ namespace sly::gl {
     Window::Window(GLFWwindow* window) 
         : m_window{ window } { }
 
-    Window::~Window() {
-        glfwTerminate();
-    }
-
     tl::expected<Window, WindowError> Window::create(int const width, int const height) {
 		auto const result{ glfwInit() };
         if (result == GLFW_FALSE) {
@@ -40,8 +36,15 @@ namespace sly::gl {
         callback(window, width, height);
         glfwSetFramebufferSizeCallback(window, callback);
 
+        spdlog::info("window initialized");
+
         return window ;
     }
+    void Window::destroy() {
+        glfwTerminate();
+        spdlog::info("window destroyed");
+    }
+
     GLFWwindow* Window::get() const {
         return m_window;
     }

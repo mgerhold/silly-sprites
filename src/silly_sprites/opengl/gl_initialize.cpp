@@ -6,7 +6,6 @@
 namespace sly::gl {
 
     void initialize(int const width, int const height) {
-        spdlog::info("before window");
 
         auto window = Window::create(width, height);
 
@@ -15,13 +14,12 @@ namespace sly::gl {
             return;
         }
 
-        spdlog::info("before loop");
-
         while (not glfwWindowShouldClose(window->get())) {
             glfwSwapBuffers(window->get());
             glfwPollEvents();
         }
-        spdlog::info("after loop");
+
+        Window::destroy();
     }
 
 } // namespace sly::gl
