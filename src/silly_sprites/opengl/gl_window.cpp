@@ -40,7 +40,7 @@ namespace sly::gl {
         callback(window, width, height);
         glfwSetFramebufferSizeCallback(window, callback);
 
-        return Window{ window };
+        return window ;
     }
     GLFWwindow* Window::get() const {
         return m_window;
