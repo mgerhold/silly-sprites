@@ -19,5 +19,4 @@ namespace sly::gl {
             glfwPollEvents();
         }
     }
-
 } // namespace sly::gl

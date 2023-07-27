@@ -26,6 +26,5 @@ namespace sly::gl {
 
 			[[nodiscard]] bool should_close() const;
 			void swap_buffers();
-
 	};
 }
