@@ -13,6 +13,8 @@ namespace sly::gl {
 			GLFWwindow* m_window;
 			Window(GLFWwindow* window); // to force to use create()
 
+			[[nodiscard]] GLFWwindow* get() const;
+
 		public:
 			Window(Window const&) = delete;
 			Window(Window&&) = delete;
@@ -22,6 +24,8 @@ namespace sly::gl {
 
 			[[nodiscard]] static tl::expected<Window,WindowError> create(int width, int height);
 
-			[[nodiscard]] GLFWwindow* get() const;
+			[[nodiscard]] bool should_close() const;
+			void swap_buffers();
+
 	};
 }

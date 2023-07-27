@@ -11,6 +11,10 @@ namespace sly::gl {
         spdlog::info("window destroyed");
     }
 
+    [[nodiscard]] GLFWwindow* Window::get() const {
+        return m_window;
+    }
+
     [[nodiscard]] tl::expected<Window, WindowError> Window::create(int const width, int const height) {
         auto const result{ glfwInit() };
         if (result == GLFW_FALSE) {
@@ -46,7 +50,10 @@ namespace sly::gl {
         return window;
     }
 
-    [[nodiscard]] GLFWwindow* Window::get() const {
-        return m_window;
+    bool Window::should_close() const {
+        return glfwWindowShouldClose(m_window);
+    }
+    void Window::swap_buffers() {
+        glfwSwapBuffers(m_window);
     }
 }

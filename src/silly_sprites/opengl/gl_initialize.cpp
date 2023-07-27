@@ -14,8 +14,8 @@ namespace sly::gl {
             return;
         }
 
-        while (not glfwWindowShouldClose(window->get())) {
-            glfwSwapBuffers(window->get());
+        while (not window->should_close()) {
+            window->swap_buffers();
             glfwPollEvents();
         }
     }
