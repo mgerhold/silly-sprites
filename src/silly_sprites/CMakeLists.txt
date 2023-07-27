@@ -9,6 +9,12 @@ add_library(sillysprites
         stopwatch.hpp
         scene.cpp
         scene.hpp
+        include/gl_initialize.hpp
+        opengl/gl_initialize.cpp
+        opengl/gl_error.hpp
+        opengl/gl_error.cpp
+        opengl/gl_window.hpp
+        opengl/gl_window.cpp
 )
 
 include(${CMAKE_SOURCE_DIR}/cmake/CPM.cmake)
