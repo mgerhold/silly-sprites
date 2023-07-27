@@ -22,7 +22,7 @@ namespace sly::gl {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         GLFWwindow* window = glfwCreateWindow(width, height, "coder2k bester Mann", nullptr, nullptr);
-        if (not window) {
+        if (window == nullptr) {
             spdlog::critical("Failed to create GLFW window");
             glfwTerminate();
             return tl::unexpected(WindowError{ "Failed to create GLFW window" });
