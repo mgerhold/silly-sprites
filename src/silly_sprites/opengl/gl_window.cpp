@@ -30,8 +30,8 @@ namespace sly::gl {
         glfwMakeContextCurrent(window);
 
         if (not gladLoadGL(glfwGetProcAddress)) {
-            spdlog::critical("Failed to initialize GLSD");
-            return tl::unexpected( WindowError{ "Failed to initialize GLSD" });
+            spdlog::critical("Failed to initialize Glad");
+            return tl::unexpected( WindowError{ "Failed to initialize Glad" });
         }
 
         auto const callback{[](GLFWwindow* window, int width, int height){
