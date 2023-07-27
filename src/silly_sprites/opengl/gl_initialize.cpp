@@ -18,8 +18,6 @@ namespace sly::gl {
             glfwSwapBuffers(window->get());
             glfwPollEvents();
         }
-
-        Window::destroy();
     }
 
 } // namespace sly::gl

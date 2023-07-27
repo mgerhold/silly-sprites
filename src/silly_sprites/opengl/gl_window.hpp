@@ -14,9 +14,13 @@ namespace sly::gl {
 
 		public:
 			Window(GLFWwindow* window);
+			Window(Window const&) = delete;
+			Window(Window&&) = delete;
+			Window& operator=(Window const&) = delete;
+			Window& operator=(Window&&) = delete;
+			~Window();
 
 			[[nodiscard]] static tl::expected<Window,WindowError> create(int width, int height);
-			static void destroy();
 
 			[[nodiscard]] GLFWwindow* get() const;
 	};
