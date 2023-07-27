@@ -8,6 +8,7 @@ namespace sly::gl {
 
     Window::~Window() {
         glfwTerminate();
+        glfwDestroyWindow(m_window);
         spdlog::info("window destroyed");
     }
 
