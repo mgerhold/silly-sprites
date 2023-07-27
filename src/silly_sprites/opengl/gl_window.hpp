@@ -11,9 +11,9 @@ namespace sly::gl {
 	class Window final {
 		private:
 			GLFWwindow* m_window;
+			Window(GLFWwindow* window); // to force to use create()
 
 		public:
-			Window(GLFWwindow* window);
 			Window(Window const&) = delete;
 			Window(Window&&) = delete;
 			Window& operator=(Window const&) = delete;
