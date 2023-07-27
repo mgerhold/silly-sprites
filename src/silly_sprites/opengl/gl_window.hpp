@@ -9,15 +9,15 @@
 namespace sly::gl {
 	
 	class Window final {
-	private:
-		GLFWwindow* m_window;
+		private:
+			GLFWwindow* m_window;
 
-    public:
-		Window(GLFWwindow* window);
+		public:
+			Window(GLFWwindow* window);
 
-		[[nodiscard]] static tl::expected<Window,WindowError> create(int width, int height);
-		static void destroy();
+			[[nodiscard]] static tl::expected<Window,WindowError> create(int width, int height);
+			static void destroy();
 
-		[[nodiscard]] GLFWwindow* get() const;
+			[[nodiscard]] GLFWwindow* get() const;
 	};
 }
