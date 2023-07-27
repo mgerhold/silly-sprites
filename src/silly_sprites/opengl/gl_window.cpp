@@ -46,7 +46,7 @@ namespace sly::gl {
         glfwSetFramebufferSizeCallback(window, callback);
 
         spdlog::info("window initialized");
-        return window;
+        return Window(window);
     }
 
     bool Window::should_close() const {
