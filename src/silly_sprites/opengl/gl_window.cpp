@@ -5,7 +5,6 @@ namespace sly::gl {
 
     Window::Window(GLFWwindow* window) 
         : m_window{ window } { }
-
     Window::~Window() {
         glfwTerminate();
         glfwDestroyWindow(m_window);
@@ -13,7 +12,7 @@ namespace sly::gl {
     }
 
     [[nodiscard]] tl::expected<Window, WindowError> Window::create(int const width, int const height) {
-		auto const result{ glfwInit() };
+        auto const result{ glfwInit() };
         if (result == GLFW_FALSE) {
             spdlog::critical("Failed to initialize GLFW");
             return tl::unexpected(WindowError{ "Failed to initialize GLFW" });
@@ -44,10 +43,10 @@ namespace sly::gl {
 
         spdlog::info("window initialized");
 
-        return window ;
+        return window;
     }
 
-   [[nodiscard]] GLFWwindow* Window::get() const {
+    [[nodiscard]] GLFWwindow* Window::get() const {
         return m_window;
     }
 }
