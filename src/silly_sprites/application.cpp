@@ -27,8 +27,8 @@ namespace sly {
             } else if (std::holds_alternative<refresh_rate::Limited>(m_settings.refresh_rate)) {
                 auto const refresh_rate = std::get<refresh_rate::Limited>(m_settings.refresh_rate).limit;
                 auto const elapsed_since_last_update = m_stopwatch.elapsed_time() - last_update;
-                last_update = m_stopwatch.elapsed_time();
                 if (elapsed_since_last_update >= 1.0 / refresh_rate) {
+                    last_update = m_stopwatch.elapsed_time();
                     update(elapsed_since_last_update);
                     render();
                 }
