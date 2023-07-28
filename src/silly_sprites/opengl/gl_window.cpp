@@ -3,9 +3,16 @@
 
 namespace sly::gl {
 
+    namespace {
+        void destroy_glfw_window(GLFWwindow* const window) {
+            glfwDestroyWindow(window);
+            spdlog::info("window destroyed");
+        }
+    }
+
     Window::Window(GlfwContext context, GLFWwindow* window)
         : m_context{ std::move(context) },
-          m_window{ window, glfwDestroyWindow } { }
+          m_window{ window, destroy_glfw_window } { }
 
     [[nodiscard]] GLFWwindow* Window::get() const {
         return m_window.get();

@@ -3,16 +3,20 @@
 namespace sly::gl {
 
     GlfwContext::~GlfwContext() {
-        glfwTerminate();
+        if (m_initialized) {
+            glfwTerminate();
+            spdlog::info("GLFW terminated");
+        }
     }
 
     [[nodiscard]] tl::expected<GlfwContext, GlError> GlfwContext::create() {
-        auto const result{ glfwInit() };
-        if (result == GLFW_FALSE) {
+        glfwSetErrorCallback(error_callback);
+        if (glfwInit() == GLFW_FALSE) {
             spdlog::critical("Failed to initialize GLFW");
             return tl::unexpected{ GlError::FailedToInitializeGlfw };
         }
-        return GlfwContext{};
+        spdlog::info("GLFW initialized");
+        return GlfwContext{ };
     }
 
 } // namespace sly::gl
