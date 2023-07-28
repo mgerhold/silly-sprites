@@ -8,7 +8,7 @@ namespace sly::gl {
             glfwDestroyWindow(window);
             spdlog::info("window destroyed");
         }
-    }
+    } // namespace
 
     Window::Window(GlfwContext context, GLFWwindow* window)
         : m_context{ std::move(context) },

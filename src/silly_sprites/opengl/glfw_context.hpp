@@ -20,7 +20,7 @@ namespace sly::gl {
         GlfwContext(const GlfwContext&) = delete;
         GlfwContext& operator=(const GlfwContext&) = delete;
 
-        GlfwContext(GlfwContext&& other) noexcept : m_initialized{ other.m_initialized }{
+        GlfwContext(GlfwContext&& other) noexcept : m_initialized{ other.m_initialized } {
             other.m_initialized = false;
         }
 

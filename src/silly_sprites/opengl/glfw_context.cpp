@@ -16,7 +16,7 @@ namespace sly::gl {
             return tl::unexpected{ GlError::FailedToInitializeGlfw };
         }
         spdlog::info("GLFW initialized");
-        return GlfwContext{ };
+        return GlfwContext{};
     }
 
 } // namespace sly::gl
