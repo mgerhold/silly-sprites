@@ -1,7 +1,6 @@
-#include <tl/expected.hpp>
 #include "gl_initialize.hpp"
 #include "gl_window.hpp"
-#include "gl_error.hpp"
+#include <magic_enum_wrapper.hpp>
 
 namespace sly::gl {
 
@@ -10,7 +9,7 @@ namespace sly::gl {
         auto window = Window::create(width, height);
 
         if (not window.has_value()) {
-            spdlog::critical(window.error().get_message());
+            spdlog::critical(magic_enum::enum_name(window.error()));
             return;
         }
 
