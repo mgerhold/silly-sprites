@@ -98,4 +98,4 @@ target_link_libraries(sillysprites
         magic_enum::magic_enum
 )
 
-target_include_directories(sillysprites PUBLIC ${CMAKE_SOURCE_DIR}/src/silly_sprites/include)
+target_include_directories(sillysprites PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
