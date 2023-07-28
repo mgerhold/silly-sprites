@@ -19,15 +19,68 @@ add_library(sillysprites
 
 include(${CMAKE_SOURCE_DIR}/cmake/CPM.cmake)
 
-CPMAddPackage("gh:nlohmann/json@3.10.5")
+CPMAddPackage(
+        NAME NLOHMANN_JSON
+        GITHUB_REPOSITORY nlohmann/json
+        VERSION 3.10.5
+        OPTIONS
+        "JSON_BuildTests OFF"
+        "JSON_CI OFF"
+)
 CPMAddPackage("gh:g-truc/glm#0.9.9.8")
-CPMAddPackage("gh:TartanLlama/optional@1.1.0")
-CPMAddPackage("gh:TartanLlama/expected@1.1.0")
-CPMAddPackage("gh:gabime/spdlog@1.12.0")
-CPMAddPackage("gh:skypjack/entt@3.12.2")
-CPMAddPackage("gh:google/googletest@1.13.0")
-CPMAddPackage("gh:microsoft/GSL@4.0.0")
-CPMAddPackage("gh:Neargye/magic_enum@0.9.3")
+CPMAddPackage(
+        NAME TL_OPTIONAL
+        GITHUB_REPOSITORY TartanLlama/optional
+        VERSION 1.1.0
+        OPTIONS
+        "OPTIONAL_BUILD_TESTS OFF"
+        "OPTIONAL_BUILD_PACKAGE OFF"
+        "DPKG_BUILDPACKAGE_FOUND OFF"
+        "OPTIONAL_BUILD_PACKAGE OFF"
+        "RPMBUILD_FOUND OFF"
+        "OPTIONAL_BUILD_PACKAGE OFF"
+        "CMAKE_HOST_WIN32 OFF"
+)
+CPMAddPackage(
+        NAME TL_EXPECTED
+        GITHUB_REPOSITORY TartanLlama/expected
+        VERSION 1.1.0
+        OPTIONS
+        "EXPECTED_BUILD_TESTS OFF"
+        "EXPECTED_BUILD_PACKAGE_DEB OFF"
+)
+CPMAddPackage(
+        NAME SPDLOG
+        GITHUB_REPOSITORY gabime/spdlog
+        VERSION 1.12.0
+        OPTIONS
+        "SPDLOG_BUILD_EXAMPLE OFF"
+        "SPDLOG_BUILD_TESTS OFF"
+)
+CPMAddPackage(
+        NAME ENTT
+        GITHUB_REPOSITORY skypjack/entt
+        VERSION 3.12.2
+        OPTIONS
+        "ENTT_USE_SANITIZER ON"
+        "ENTT_BUILD_TESTING OFF"
+        "ENTT_BUILD_DOCS OFF"
+)
+CPMAddPackage(
+        NAME GSL
+        GITHUB_REPOSITORY microsoft/GSL
+        VERSION 4.0.0
+        OPTIONS
+        "GSL_TEST OFF"
+)
+CPMAddPackage(
+        NAME MAGIC_ENUM
+        GITHUB_REPOSITORY Neargye/magic_enum
+        VERSION 0.9.3
+        OPTIONS
+        "MAGIC_ENUM_OPT_BUILD_EXAMPLES OFF"
+        "MAGIC_ENUM_OPT_BUILD_TESTS OFF"
+)
 CPMAddPackage(
         NAME GLFW
         GITHUB_REPOSITORY glfw/glfw
@@ -46,8 +99,6 @@ target_link_libraries(sillysprites
         spdlog::spdlog
         EnTT::EnTT
         glfw
-        gtest
-        gtest_main
         Microsoft.GSL::GSL
         glad
         magic_enum::magic_enum

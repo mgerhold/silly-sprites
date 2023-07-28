@@ -26,3 +26,13 @@ add_subdirectory(doc)
 add_subdirectory(src bin)
 add_subdirectory(test)
 add_subdirectory(vendor)
+
+include(${CMAKE_SOURCE_DIR}/cmake/CPM.cmake)
+
+CPMAddPackage(
+        NAME GOOGLE_TEST
+        GITHUB_REPOSITORY google/googletest
+        VERSION 1.13.0
+        OPTIONS
+        "INSTALL_GTEST OFF"
+)
