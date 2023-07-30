@@ -18,12 +18,8 @@ namespace sly::gl {
             window->swap_buffers();
             glfwPollEvents();
             Input::update(window.value());
-            if (Input::is_mouse_pressed(Mouse::KeyLeft)) { spdlog::info("a is press"); }
-            if (Input::is_mouse_down(Mouse::KeyLeft)) { spdlog::info("a is down"); }
-            if (Input::is_mouse_hold(Mouse::KeyLeft)) { spdlog::info("a is hold"); }
-            if (Input::is_mouse_released(Mouse::KeyLeft)) { spdlog::info("a is release"); }
-            if (Input::is_mouse_up(Mouse::KeyLeft)) { spdlog::info("a is up"); }
-            if (Input::is_mouse_raised(Mouse::KeyLeft)) { spdlog::info("a is raise"); }
+            auto const mouse = Input::get_mouse_position();
+            spdlog::info("mouse position -> {} | {}", mouse.first, mouse.second);
         }
     }
 } // namespace sly::gl

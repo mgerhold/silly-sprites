@@ -14,12 +14,17 @@ namespace sly::gl {
 		static inline std::array<bool, magic_enum::enum_count<Mouse>()> current_mouse{  };
 		static inline std::array<bool, magic_enum::enum_count<Mouse>()> last_mouse{  };
 
+		using mouse_pos_ty = std::pair<double, double>;
+		static inline mouse_pos_ty mouse_position{ }; 
+
 		static void update_keys(Window const& window);
 		static void update_mouse(Window const& window);
+		static void update_mouse_position(Window const& window);
 
 	public:
-		
 		static void update(Window const& window);
+
+		[[nodiscard]] static mouse_pos_ty get_mouse_position();
 
 		// single frame
 		[[nodiscard]] static bool is_key_down(Keys key);

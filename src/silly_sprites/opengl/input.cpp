@@ -22,10 +22,18 @@ namespace sly::gl {
             if (g_key == GLFW_PRESS) { current_mouse[i] = true; }
         }
     }
+    void Input::update_mouse_position(Window const& window) {
+        glfwGetCursorPos(window.get(), &mouse_position.first, &mouse_position.second);
+    }
 
     void Input::update(Window const& window) {
         update_keys(window);
         update_mouse(window);
+        update_mouse_position(window);
+    }
+
+    Input::mouse_pos_ty Input::get_mouse_position() {
+        return mouse_position;
     }
 
     bool Input::is_key_down(Keys key) {
