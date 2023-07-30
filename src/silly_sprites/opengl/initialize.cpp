@@ -14,12 +14,12 @@ namespace sly::gl {
             return;
         }
 
+        auto result = Input::add_close_input({ Keys::KeyEscape, Keys::KeyA });
+        spdlog::info("result {}", result);
         while (not window->should_close()) {
             window->swap_buffers();
             glfwPollEvents();
             Input::update(window.value());
-            auto const mouse = Input::get_mouse_position();
-            spdlog::info("mouse position -> {} | {}", mouse.first, mouse.second);
         }
     }
 } // namespace sly::gl
