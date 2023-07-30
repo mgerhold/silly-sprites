@@ -1,7 +1,7 @@
 #pragma once
 
 #define GLFW_INCLUDE_NONE
-#include "gl_error.hpp"
+#include "error.hpp"
 #include "glfw_context.hpp"
 #include <GLFW/glfw3.h>
 #include <memory>

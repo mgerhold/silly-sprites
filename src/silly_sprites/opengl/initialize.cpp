@@ -1,5 +1,5 @@
 #include "gl_initialize.hpp"
-#include "gl_window.hpp"
+#include "window.hpp"
 #include <magic_enum_wrapper.hpp>
 
 namespace sly::gl {

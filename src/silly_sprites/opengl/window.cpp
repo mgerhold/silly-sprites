@@ -1,4 +1,4 @@
-#include "gl_window.hpp"
+#include "window.hpp"
 #include <glad/gl.h>
 
 namespace sly::gl {
