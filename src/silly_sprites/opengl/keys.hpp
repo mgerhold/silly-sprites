@@ -366,6 +366,7 @@ namespace sly::gl {
                 return Keys::KeyMenu;
             default:
                 assert(false);
+                throw std::runtime_error("invalid glfw key define");
         }
     }
     [[nodiscard]] constexpr int key_to_glfw(Keys key) {
@@ -612,6 +613,7 @@ namespace sly::gl {
                 return GLFW_KEY_MENU;
             default:
                 assert(false);
+                throw std::runtime_error("invalid key enum");
         }
     }
 } // namespace sly::gl

@@ -33,6 +33,7 @@ namespace sly::gl {
                 return Mouse::Key8;
             default:
                 assert(false);
+                throw std::runtime_error("invalid glfw mouse define");
         }
     }
     [[nodiscard]] constexpr int mouse_to_glfw(Mouse key) {
@@ -55,6 +56,7 @@ namespace sly::gl {
                 return GLFW_MOUSE_BUTTON_8;
             default:
                 assert(false);
+                throw std::runtime_error("invalid mouse enum");
         }
     }
 } // namespace sly::gl

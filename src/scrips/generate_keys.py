@@ -25,14 +25,14 @@ for key_name, key_code in key_macros:
     switch_key_glfw += f"case Keys::Key{lower_key_name}: return GLFW_KEY_{key_name};"
 
 enum_code += "};"
-switch_glfw_key += "default: assert(false);}}"
-switch_key_glfw += "default: assert(false);}}"
+switch_glfw_key += "default: assert(false); throw std::runtime_error(\"invalid glfw key define\"); }}"
+switch_key_glfw += "default: assert(false); throw std::runtime_error(\"invalid key enum\"); }}"
 
 path_ = "../silly_sprites/opengl/keys.hpp"
 
 # Write the code to a C++ header file
 with open(path_, "w") as file:
-    file.write("#pragma once\n namespace sly::gl {" + enum_code + switch_glfw_key + switch_key_glfw + '}')
+    file.write("#pragma once\n namespace sly::gl {" + enum_code + switch_glfw_key + switch_key_glfw + '}\n')
 
 print("Custom enum and switch case code for GLFW keys generated successfully!")
 
