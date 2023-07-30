@@ -35,6 +35,7 @@ namespace sly::gl {
             return tl::unexpected{ GlError::FailedToCreateWindow };
         }
         glfwMakeContextCurrent(window);
+        glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
 
         if (not gladLoadGL(glfwGetProcAddress)) {
             spdlog::critical("Failed to initialize Glad");
