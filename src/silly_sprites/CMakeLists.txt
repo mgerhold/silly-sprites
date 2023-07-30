@@ -17,6 +17,8 @@ add_library(sillysprites
         opengl/glfw_context.cpp
         opengl/glfw_context.hpp
         types.hpp
+        opengl/input.h
+        opengl/input.cpp
 )
 
 include(${CMAKE_SOURCE_DIR}/cmake/CPM.cmake)
