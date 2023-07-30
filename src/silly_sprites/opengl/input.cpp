@@ -6,7 +6,7 @@ namespace sly::gl {
         std::swap(current_keys, last_keys);
         current_keys.fill(false);
     
-        for (int i = 0; i <= current_keys.size(); ++i) {
+        for (int i = 0; i < current_keys.size(); ++i) {
             auto const key = static_cast<Keys>(i);
             auto const g_key = glfwGetKey(window.get(), key_to_glfw(key));
             if (g_key == GLFW_PRESS) { current_keys[i] = true; }
