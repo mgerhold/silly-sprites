@@ -36,6 +36,7 @@ namespace sly::gl {
         }
         glfwMakeContextCurrent(window);
         glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
+        glfwSetInputMode(window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
 
         if (not gladLoadGL(glfwGetProcAddress)) {
             spdlog::critical("Failed to initialize Glad");
