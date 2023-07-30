@@ -18,12 +18,12 @@ def to_pascal(word):
     return word.lower().replace("_", " ").title().replace(" ", "")
 
 for key_name, key_code in key_macros:
-    key_name = to_pascal(key_name)
-    enum_code += f"Key{key_name},"
-    switch_code += f"case GLFW_KEY_{key_name}: return Keys::Key{key_name};"
+    lower_key_name = to_pascal(key_name)
+    enum_code += f"Key{lower_key_name},"
+    switch_code += f"case GLFW_KEY_{key_name}: return Keys::Key{lower_key_name};"
 
 enum_code += "};"
-switch_code += "default: return assert(false);}}"
+switch_code += "default: assert(false);}}"
 
 path_ = "../silly_sprites/opengl/keys.hpp"
 

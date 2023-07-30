@@ -124,17 +124,17 @@ namespace sly::gl {
     };
     [[nodiscard]] constexpr Keys glfw_to_key(int glfw) {
         switch (glfw) {
-            case GLFW_KEY_Space:
+            case GLFW_KEY_SPACE:
                 return Keys::KeySpace;
-            case GLFW_KEY_Apostrophe:
+            case GLFW_KEY_APOSTROPHE:
                 return Keys::KeyApostrophe;
-            case GLFW_KEY_Comma:
+            case GLFW_KEY_COMMA:
                 return Keys::KeyComma;
-            case GLFW_KEY_Minus:
+            case GLFW_KEY_MINUS:
                 return Keys::KeyMinus;
-            case GLFW_KEY_Period:
+            case GLFW_KEY_PERIOD:
                 return Keys::KeyPeriod;
-            case GLFW_KEY_Slash:
+            case GLFW_KEY_SLASH:
                 return Keys::KeySlash;
             case GLFW_KEY_0:
                 return Keys::Key0;
@@ -156,9 +156,9 @@ namespace sly::gl {
                 return Keys::Key8;
             case GLFW_KEY_9:
                 return Keys::Key9;
-            case GLFW_KEY_Semicolon:
+            case GLFW_KEY_SEMICOLON:
                 return Keys::KeySemicolon;
-            case GLFW_KEY_Equal:
+            case GLFW_KEY_EQUAL:
                 return Keys::KeyEqual;
             case GLFW_KEY_A:
                 return Keys::KeyA;
@@ -212,55 +212,55 @@ namespace sly::gl {
                 return Keys::KeyY;
             case GLFW_KEY_Z:
                 return Keys::KeyZ;
-            case GLFW_KEY_LeftBracket:
+            case GLFW_KEY_LEFT_BRACKET:
                 return Keys::KeyLeftBracket;
-            case GLFW_KEY_Backslash:
+            case GLFW_KEY_BACKSLASH:
                 return Keys::KeyBackslash;
-            case GLFW_KEY_RightBracket:
+            case GLFW_KEY_RIGHT_BRACKET:
                 return Keys::KeyRightBracket;
-            case GLFW_KEY_GraveAccent:
+            case GLFW_KEY_GRAVE_ACCENT:
                 return Keys::KeyGraveAccent;
-            case GLFW_KEY_World1:
+            case GLFW_KEY_WORLD_1:
                 return Keys::KeyWorld1;
-            case GLFW_KEY_World2:
+            case GLFW_KEY_WORLD_2:
                 return Keys::KeyWorld2;
-            case GLFW_KEY_Escape:
+            case GLFW_KEY_ESCAPE:
                 return Keys::KeyEscape;
-            case GLFW_KEY_Enter:
+            case GLFW_KEY_ENTER:
                 return Keys::KeyEnter;
-            case GLFW_KEY_Tab:
+            case GLFW_KEY_TAB:
                 return Keys::KeyTab;
-            case GLFW_KEY_Backspace:
+            case GLFW_KEY_BACKSPACE:
                 return Keys::KeyBackspace;
-            case GLFW_KEY_Insert:
+            case GLFW_KEY_INSERT:
                 return Keys::KeyInsert;
-            case GLFW_KEY_Delete:
+            case GLFW_KEY_DELETE:
                 return Keys::KeyDelete;
-            case GLFW_KEY_Right:
+            case GLFW_KEY_RIGHT:
                 return Keys::KeyRight;
-            case GLFW_KEY_Left:
+            case GLFW_KEY_LEFT:
                 return Keys::KeyLeft;
-            case GLFW_KEY_Down:
+            case GLFW_KEY_DOWN:
                 return Keys::KeyDown;
-            case GLFW_KEY_Up:
+            case GLFW_KEY_UP:
                 return Keys::KeyUp;
-            case GLFW_KEY_PageUp:
+            case GLFW_KEY_PAGE_UP:
                 return Keys::KeyPageUp;
-            case GLFW_KEY_PageDown:
+            case GLFW_KEY_PAGE_DOWN:
                 return Keys::KeyPageDown;
-            case GLFW_KEY_Home:
+            case GLFW_KEY_HOME:
                 return Keys::KeyHome;
-            case GLFW_KEY_End:
+            case GLFW_KEY_END:
                 return Keys::KeyEnd;
-            case GLFW_KEY_CapsLock:
+            case GLFW_KEY_CAPS_LOCK:
                 return Keys::KeyCapsLock;
-            case GLFW_KEY_ScrollLock:
+            case GLFW_KEY_SCROLL_LOCK:
                 return Keys::KeyScrollLock;
-            case GLFW_KEY_NumLock:
+            case GLFW_KEY_NUM_LOCK:
                 return Keys::KeyNumLock;
-            case GLFW_KEY_PrintScreen:
+            case GLFW_KEY_PRINT_SCREEN:
                 return Keys::KeyPrintScreen;
-            case GLFW_KEY_Pause:
+            case GLFW_KEY_PAUSE:
                 return Keys::KeyPause;
             case GLFW_KEY_F1:
                 return Keys::KeyF1;
@@ -312,60 +312,60 @@ namespace sly::gl {
                 return Keys::KeyF24;
             case GLFW_KEY_F25:
                 return Keys::KeyF25;
-            case GLFW_KEY_Kp0:
+            case GLFW_KEY_KP_0:
                 return Keys::KeyKp0;
-            case GLFW_KEY_Kp1:
+            case GLFW_KEY_KP_1:
                 return Keys::KeyKp1;
-            case GLFW_KEY_Kp2:
+            case GLFW_KEY_KP_2:
                 return Keys::KeyKp2;
-            case GLFW_KEY_Kp3:
+            case GLFW_KEY_KP_3:
                 return Keys::KeyKp3;
-            case GLFW_KEY_Kp4:
+            case GLFW_KEY_KP_4:
                 return Keys::KeyKp4;
-            case GLFW_KEY_Kp5:
+            case GLFW_KEY_KP_5:
                 return Keys::KeyKp5;
-            case GLFW_KEY_Kp6:
+            case GLFW_KEY_KP_6:
                 return Keys::KeyKp6;
-            case GLFW_KEY_Kp7:
+            case GLFW_KEY_KP_7:
                 return Keys::KeyKp7;
-            case GLFW_KEY_Kp8:
+            case GLFW_KEY_KP_8:
                 return Keys::KeyKp8;
-            case GLFW_KEY_Kp9:
+            case GLFW_KEY_KP_9:
                 return Keys::KeyKp9;
-            case GLFW_KEY_KpDecimal:
+            case GLFW_KEY_KP_DECIMAL:
                 return Keys::KeyKpDecimal;
-            case GLFW_KEY_KpDivide:
+            case GLFW_KEY_KP_DIVIDE:
                 return Keys::KeyKpDivide;
-            case GLFW_KEY_KpMultiply:
+            case GLFW_KEY_KP_MULTIPLY:
                 return Keys::KeyKpMultiply;
-            case GLFW_KEY_KpSubtract:
+            case GLFW_KEY_KP_SUBTRACT:
                 return Keys::KeyKpSubtract;
-            case GLFW_KEY_KpAdd:
+            case GLFW_KEY_KP_ADD:
                 return Keys::KeyKpAdd;
-            case GLFW_KEY_KpEnter:
+            case GLFW_KEY_KP_ENTER:
                 return Keys::KeyKpEnter;
-            case GLFW_KEY_KpEqual:
+            case GLFW_KEY_KP_EQUAL:
                 return Keys::KeyKpEqual;
-            case GLFW_KEY_LeftShift:
+            case GLFW_KEY_LEFT_SHIFT:
                 return Keys::KeyLeftShift;
-            case GLFW_KEY_LeftControl:
+            case GLFW_KEY_LEFT_CONTROL:
                 return Keys::KeyLeftControl;
-            case GLFW_KEY_LeftAlt:
+            case GLFW_KEY_LEFT_ALT:
                 return Keys::KeyLeftAlt;
-            case GLFW_KEY_LeftSuper:
+            case GLFW_KEY_LEFT_SUPER:
                 return Keys::KeyLeftSuper;
-            case GLFW_KEY_RightShift:
+            case GLFW_KEY_RIGHT_SHIFT:
                 return Keys::KeyRightShift;
-            case GLFW_KEY_RightControl:
+            case GLFW_KEY_RIGHT_CONTROL:
                 return Keys::KeyRightControl;
-            case GLFW_KEY_RightAlt:
+            case GLFW_KEY_RIGHT_ALT:
                 return Keys::KeyRightAlt;
-            case GLFW_KEY_RightSuper:
+            case GLFW_KEY_RIGHT_SUPER:
                 return Keys::KeyRightSuper;
-            case GLFW_KEY_Menu:
+            case GLFW_KEY_MENU:
                 return Keys::KeyMenu;
             default:
-                return assert(false);
+                assert(false);
         }
     }
 } // namespace sly::gl
