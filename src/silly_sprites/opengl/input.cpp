@@ -19,7 +19,7 @@ namespace sly::gl {
         s_current_mouse.fill(false);
 
         for (std::size_t i = 0; i < s_current_mouse.size(); ++i) {
-            auto const key = static_cast<Mouse>(i);
+            auto const key = static_cast<MouseButton>(i);
             auto const glfw_key = glfwGetMouseButton(window.get(), mouse_to_glfw(key));
             if (glfw_key == GLFW_PRESS) {
                 s_current_mouse[i] = true;
@@ -55,16 +55,16 @@ namespace sly::gl {
         return s_last_keys[static_cast<int>(key)] and not s_current_keys[static_cast<int>(key)];
     }
 
-    [[nodiscard]] bool Input::is_mouse_down(Mouse const mouse) {
+    [[nodiscard]] bool Input::is_mouse_down(MouseButton const mouse) {
         return s_current_mouse[static_cast<int>(mouse)];
     }
-    [[nodiscard]] bool Input::is_mouse_up(Mouse const mouse) {
+    [[nodiscard]] bool Input::is_mouse_up(MouseButton const mouse) {
         return not s_current_mouse[static_cast<int>(mouse)];
     }
-    [[nodiscard]] bool Input::is_mouse_pressed(Mouse const mouse) {
+    [[nodiscard]] bool Input::is_mouse_pressed(MouseButton const mouse) {
         return not s_last_mouse[static_cast<int>(mouse)] and s_current_mouse[static_cast<int>(mouse)];
     }
-    [[nodiscard]] bool Input::is_mouse_released(Mouse const mouse) {
+    [[nodiscard]] bool Input::is_mouse_released(MouseButton const mouse) {
         return s_last_mouse[static_cast<int>(mouse)] and not s_current_mouse[static_cast<int>(mouse)];
     }
 

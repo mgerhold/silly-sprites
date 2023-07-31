@@ -10,7 +10,7 @@ namespace sly::gl {
     class Input final {
     private:
         static constexpr auto num_key = magic_enum::enum_count<Key>();
-        static constexpr auto num_mouse = magic_enum::enum_count<Mouse>();
+        static constexpr auto num_mouse = magic_enum::enum_count<MouseButton>();
 
         static inline std::array<bool, num_key> s_current_keys{};
         static inline std::array<bool, num_key> s_last_keys{};
@@ -35,9 +35,9 @@ namespace sly::gl {
         [[nodiscard]] static bool is_key_pressed(Key key);
         [[nodiscard]] static bool is_key_released(Key key);
 
-        [[nodiscard]] static bool is_mouse_down(Mouse key);
-        [[nodiscard]] static bool is_mouse_up(Mouse key);
-        [[nodiscard]] static bool is_mouse_pressed(Mouse key);
-        [[nodiscard]] static bool is_mouse_released(Mouse key);
+        [[nodiscard]] static bool is_mouse_down(MouseButton key);
+        [[nodiscard]] static bool is_mouse_up(MouseButton key);
+        [[nodiscard]] static bool is_mouse_pressed(MouseButton key);
+        [[nodiscard]] static bool is_mouse_released(MouseButton key);
     };
 } // namespace sly::gl
