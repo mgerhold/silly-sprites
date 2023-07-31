@@ -19,6 +19,9 @@ add_library(sillysprites
         types.hpp
         opengl/input.hpp
         opengl/input.cpp
+        entity.hpp
+        native_script.hpp
+        transform.hpp
 )
 
 include(${CMAKE_SOURCE_DIR}/cmake/CPM.cmake)
