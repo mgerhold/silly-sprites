@@ -1,4 +1,6 @@
 #pragma once
+#include <GLFW/glfw3.h>
+#include <cassert>
 namespace sly::gl {
     enum class Key {
         Space,

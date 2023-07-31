@@ -12,14 +12,14 @@ namespace sly::gl {
         static constexpr auto num_key = magic_enum::enum_count<Key>();
         static constexpr auto num_mouse = magic_enum::enum_count<Mouse>();
 
-        static inline std::array<bool, num_key> current_keys{};
-        static inline std::array<bool, num_key> last_keys{};
+        static inline std::array<bool, num_key> s_current_keys{};
+        static inline std::array<bool, num_key> s_last_keys{};
 
-        static inline std::array<bool, num_mouse> current_mouse{};
-        static inline std::array<bool, num_mouse> last_mouse{};
+        static inline std::array<bool, num_mouse> s_current_mouse{};
+        static inline std::array<bool, num_mouse> s_last_mouse{};
 
         using Vec2 = glm::vec2;
-        static inline Vec2 mouse_position{};
+        static inline Vec2 s_mouse_position{};
 
         static void update_keys(Window const& window);
         static void update_mouse(Window const& window);
