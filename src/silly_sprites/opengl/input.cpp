@@ -47,7 +47,6 @@ namespace sly::gl {
     }
     [[nodiscard]] bool Input::is_key_up(Key const key) {
         return not s_current_keys[static_cast<int>(key)];
-        ;
     }
     [[nodiscard]] bool Input::is_key_pressed(Key const key) {
         return not s_last_keys[static_cast<int>(key)] and s_current_keys[static_cast<int>(key)];
