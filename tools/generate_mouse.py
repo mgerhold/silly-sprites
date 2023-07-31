@@ -46,6 +46,6 @@ print("Custom enum and switch case code for GLFW keys generated successfully!")
 lc = ["clang-format","-i", path_] 
 retcode=call(lc)
 
-print("formated")
+print("formatted")
 
 input();
