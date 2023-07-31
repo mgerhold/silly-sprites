@@ -4,7 +4,11 @@ from subprocess import call
 
 # Fetch the GLFW key code header from the GLFW repository:
 # https://github.com/glfw/glfw/blob/master/include/GLFW/glfw3.h
-with open("glfw3.h", "r") as file:
+if len(sys.argv) < 3:
+    sys.exit(1)
+_,in_file, out_file = sys.argv
+
+with open(in_file, "r") as file:
     glfw_header = file.read()
 
 # Extract all GLFW key code macros
@@ -32,10 +36,8 @@ enum_code += "};"
 switch_glfw_key += 'default: assert(false); throw std::runtime_error("invalid glfw key define"); }}'
 switch_key_glfw += 'default: assert(false); throw std::runtime_error("invalid key enum"); }}'
 
-path_ = "../src/silly_sprites/opengl/key.hpp"
-
 # Write the code to a C++ header file
-with open(path_, "w") as file:
+with open(out_file, "w") as file:
     file.write("#pragma once\n#include <cassert>\n#include <GLFW/glfw3.h>\n#include <stdexcept>\n\n namespace sly::gl {" + enum_code + switch_glfw_key + switch_key_glfw + '}\n')
 
 print("Custom enum and switch case code for GLFW keys generated successfully!")
