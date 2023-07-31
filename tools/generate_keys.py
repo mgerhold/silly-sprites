@@ -44,5 +44,3 @@ lc = ["clang-format","-i", path_]
 retcode=call(lc)
 
 print("formatted")
-
-input();
