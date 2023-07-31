@@ -6,7 +6,7 @@ namespace sly::gl {
         std::swap(current_keys, last_keys);
         current_keys.fill(false);
 
-        for (int i = 0; i < current_keys.size(); ++i) {
+        for (std::size_t i = 0; i < current_keys.size(); ++i) {
             auto const key = static_cast<Key>(i);
             auto const g_key = glfwGetKey(window.get(), key_to_glfw(key));
             if (g_key == GLFW_PRESS) {
@@ -18,7 +18,7 @@ namespace sly::gl {
         std::swap(current_mouse, last_mouse);
         current_mouse.fill(false);
 
-        for (int i = 0; i < current_mouse.size(); ++i) {
+        for (std::size_t i = 0; i < current_mouse.size(); ++i) {
             auto const key = static_cast<Mouse>(i);
             auto const g_key = glfwGetMouseButton(window.get(), mouse_to_glfw(key));
             if (g_key == GLFW_PRESS) {
