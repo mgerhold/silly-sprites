@@ -1,6 +1,6 @@
 #include "gl_initialize.hpp"
-#include "window.hpp"
 #include "input.h"
+#include "window.hpp"
 #include <magic_enum_wrapper.hpp>
 
 namespace sly::gl {
@@ -14,7 +14,7 @@ namespace sly::gl {
             return;
         }
 
-        auto result = Input::add_close_input({ Keys::KeyEscape, Keys::KeyA });
+        auto result = Input::add_close_input({ Key::KeyEscape, Key::KeyA });
         spdlog::info("result {}", result);
         while (not window->should_close()) {
             window->swap_buffers();

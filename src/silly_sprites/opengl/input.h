@@ -1,6 +1,6 @@
 #pragma once
 #include "window.hpp"
-#include "keys.hpp"
+#include "key.hpp"
 #include "mouse.hpp"
 #include <array>
 #include <magic_enum.hpp>
@@ -8,16 +8,16 @@
 namespace sly::gl {
 	class Input final {
 	private:
-		static inline std::array<bool, magic_enum::enum_count<Keys>()> current_keys{  };
-		static inline std::array<bool, magic_enum::enum_count<Keys>()> last_keys{  };
+		static inline std::array<bool, magic_enum::enum_count<Key>()> current_keys{  };
+		static inline std::array<bool, magic_enum::enum_count<Key>()> last_keys{  };
 
 		static inline std::array<bool, magic_enum::enum_count<Mouse>()> current_mouse{  };
 		static inline std::array<bool, magic_enum::enum_count<Mouse>()> last_mouse{  };
 
-		static inline std::vector<std::vector<Keys>> close_input {{ 
-			{ Keys::KeyLeftAlt, Keys::KeyF4 },
-			{ Keys::KeyLeftControl, Keys::KeyLeftAlt, Keys::KeyF4 },
-			{ Keys::KeyLeftShift, Keys::KeyLeftAlt, Keys::KeyF4 },
+		static inline std::vector<std::vector<Key>> close_input {{ 
+			{ Key::KeyLeftAlt, Key::KeyF4 },
+			{ Key::KeyLeftControl, Key::KeyLeftAlt, Key::KeyF4 },
+			{ Key::KeyLeftShift, Key::KeyLeftAlt, Key::KeyF4 },
 		}};
 
 		using mouse_pos_ty = std::pair<double, double>;
@@ -34,15 +34,15 @@ namespace sly::gl {
 		[[nodiscard]] static mouse_pos_ty get_mouse_position();
 
 		// single frame
-		[[nodiscard]] static bool is_key_down(Keys key);
-		[[nodiscard]] static bool is_key_up(Keys key);
+		[[nodiscard]] static bool is_key_down(Key key);
+		[[nodiscard]] static bool is_key_up(Key key);
 
 		// multi-frame
-		[[nodiscard]] static bool is_key_pressed(Keys key);
-		[[nodiscard]] static bool is_key_released(Keys key);
+		[[nodiscard]] static bool is_key_pressed(Key key);
+		[[nodiscard]] static bool is_key_released(Key key);
 
-		[[nodiscard]] static bool is_key_hold(Keys key);
-		[[nodiscard]] static bool is_key_raised(Keys key);
+		[[nodiscard]] static bool is_key_hold(Key key);
+		[[nodiscard]] static bool is_key_raised(Key key);
 
 		// single frame
 		[[nodiscard]] static bool is_mouse_down(Mouse key);
@@ -55,7 +55,7 @@ namespace sly::gl {
 		[[nodiscard]] static bool is_mouse_hold(Mouse key);
 		[[nodiscard]] static bool is_mouse_raised(Mouse key);
 
-		[[nodiscard]] static bool add_close_input(std::vector<Keys> const& keys);
+		[[nodiscard]] static bool add_close_input(std::vector<Key> const& keys);
 		static void clear_close_input();
 	};
 }

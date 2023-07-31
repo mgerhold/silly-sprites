@@ -7,7 +7,7 @@ namespace sly::gl {
         current_keys.fill(false);
     
         for (int i = 0; i < current_keys.size(); ++i) {
-            auto const key = static_cast<Keys>(i);
+            auto const key = static_cast<Key>(i);
             auto const g_key = glfwGetKey(window.get(), key_to_glfw(key));
             if (g_key == GLFW_PRESS) { current_keys[i] = true; }
             }
@@ -47,24 +47,21 @@ namespace sly::gl {
         return mouse_position;
     }
 
-    [[nodiscard]] bool Input::is_key_down(Keys key) {
+    [[nodiscard]] bool Input::is_key_down(Key key) {
         return current_keys[static_cast<int>(key)];
     }
-    [[nodiscard]] bool Input::is_key_up(Keys key) {
+    [[nodiscard]] bool Input::is_key_up(Key key) {
         return not current_keys[static_cast<int>(key)];;
     }
 
-    [[nodiscard]] bool Input::is_key_pressed(Keys key) {
+    [[nodiscard]] bool Input::is_key_pressed(Key key) {
             return not last_keys[static_cast<int>(key)] and current_keys[static_cast<int>(key)];
     }
-    [[nodiscard]] bool Input::is_key_released(Keys key) {
-            return last_keys[static_cast<int>(key)] and not current_keys[static_cast<int>(key)];
-    }
 
-    [[nodiscard]] bool Input::is_key_hold(Keys key) {
+    [[nodiscard]] bool Input::is_key_hold(Key key) {
             return last_keys[static_cast<int>(key)] and current_keys[static_cast<int>(key)];
     }
-    [[nodiscard]] bool Input::is_key_raised(Keys key) {
+    [[nodiscard]] bool Input::is_key_raised(Key key) {
         return not last_keys[static_cast<int>(key)] and not current_keys[static_cast<int>(key)];
     }
 
@@ -89,9 +86,12 @@ namespace sly::gl {
         return not last_mouse[static_cast<int>(mouse)] and not current_mouse[static_cast<int>(mouse)];
     }
 
-    [[nodiscard]] bool Input::add_close_input(std::vector<Keys> const& keys) {
+    [[nodiscard]] bool Input::is_key_released(Key key) {
+            return last_keys[static_cast<int>(key)] and not current_keys[static_cast<int>(key)];
+    }
+    [[nodiscard]] bool Input::add_close_input(std::vector<Key> const& keys) {
         
-        auto const contains{[keys](Keys key) {
+        auto const contains{[keys](Key key) {
             for (auto const& k : keys) {
                 if (k == key) { return true; }
             }
