@@ -13,8 +13,6 @@ namespace sly::gl {
             return;
         }
 
-        auto result = Input::add_close_input({ Key::Escape, Key::A });
-        spdlog::info("result {}", result);
         while (not window->should_close()) {
             window->swap_buffers();
             glfwPollEvents();
