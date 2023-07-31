@@ -1,4 +1,5 @@
 #include "input.hpp"
+#include "../types.hpp"
 
 namespace sly::gl {
     void Input::update_keys(Window const& window) {
@@ -6,7 +7,7 @@ namespace sly::gl {
         std::swap(s_current_keys, s_last_keys);
         s_current_keys.fill(false);
 
-        for (std::size_t i = 0; i < s_current_keys.size(); ++i) {
+        for (usize i = 0; i < s_current_keys.size(); ++i) {
             auto const key = static_cast<Key>(i);
             auto const glfw_key = glfwGetKey(window.get(), key_to_glfw(key));
             if (glfw_key == GLFW_PRESS) {
@@ -18,7 +19,7 @@ namespace sly::gl {
         std::swap(s_current_mouse, s_last_mouse);
         s_current_mouse.fill(false);
 
-        for (std::size_t i = 0; i < s_current_mouse.size(); ++i) {
+        for (usize i = 0; i < s_current_mouse.size(); ++i) {
             auto const key = static_cast<MouseButton>(i);
             auto const glfw_key = glfwGetMouseButton(window.get(), mouse_to_glfw(key));
             if (glfw_key == GLFW_PRESS) {
