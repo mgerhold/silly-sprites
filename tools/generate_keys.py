@@ -29,8 +29,8 @@ for key_name, key_code in key_macros:
     switch_key_glfw += f"case Key::{name_prefix}{lower_key_name}: return GLFW_KEY_{key_name};"
 
 enum_code += "};"
-switch_glfw_key += "default: assert(false); throw std::runtime_error(\"invalid glfw key define\"); }}"
-switch_key_glfw += "default: assert(false); throw std::runtime_error(\"invalid key enum\"); }}"
+switch_glfw_key += 'default: assert(false); throw std::runtime_error("invalid glfw key define"); }}'
+switch_key_glfw += 'default: assert(false); throw std::runtime_error("invalid key enum"); }}'
 
 path_ = "../src/silly_sprites/opengl/key.hpp"
 
