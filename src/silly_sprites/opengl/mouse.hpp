@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <cassert>
 #include <stdexcept>
+
 namespace sly::gl {
     enum class MouseButton {
         Button1,
@@ -16,7 +17,8 @@ namespace sly::gl {
         Right = Button2,
         Middle = Button3,
     };
-    [[nodiscard]] constexpr MouseButton glfw_to_mouse(int glfw) {
+
+    [[nodiscard]] constexpr MouseButton glfw_to_mouse(int const glfw) {
         switch (glfw) {
             case GLFW_MOUSE_BUTTON_1:
                 return MouseButton::Button1;
@@ -39,7 +41,8 @@ namespace sly::gl {
                 throw std::runtime_error("invalid glfw mouse define");
         }
     }
-    [[nodiscard]] constexpr int mouse_to_glfw(MouseButton key) {
+
+    [[nodiscard]] constexpr int mouse_to_glfw(MouseButton const key) {
         switch (key) {
             case MouseButton::Button1:
                 return GLFW_MOUSE_BUTTON_1;

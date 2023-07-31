@@ -13,8 +13,8 @@ key_alias = re.findall(r"#define\s+GLFW_MOUSE_BUTTON_(\w+)\s+GLFW_MOUSE_BUTTON_(
 
 # Generate the C++ enum and switch case code
 enum_code = "enum class MouseButton {"
-switch_glfw_key = "[[nodiscard]] constexpr MouseButton glfw_to_mouse(int glfw) {switch (glfw) {"
-switch_key_glfw = "[[nodiscard]] constexpr int mouse_to_glfw(MouseButton key) {switch (key) {"
+switch_glfw_key = "\n\n[[nodiscard]] constexpr MouseButton glfw_to_mouse(int const glfw) {switch (glfw) {"
+switch_key_glfw = "\n\n[[nodiscard]] constexpr int mouse_to_glfw(MouseButton const key) {switch (key) {"
 
 def to_pascal(word):
     return word.lower().replace("_", " ").title().replace(" ", "")
@@ -42,7 +42,7 @@ path_ = "../src/silly_sprites/opengl/mouse.hpp"
 
 # Write the code to a C++ header file
 with open(path_, "w") as file:
-    file.write("#pragma once\n#include <cassert>\n#include <GLFW/glfw3.h>\n#include <stdexcept>\n namespace sly::gl {" + enum_code + switch_glfw_key + switch_key_glfw + '}\n')
+    file.write("#pragma once\n#include <cassert>\n#include <GLFW/glfw3.h>\n#include <stdexcept>\n\n namespace sly::gl {" + enum_code + switch_glfw_key + switch_key_glfw + '}\n')
 
 print("Custom enum and switch case code for GLFW keys generated successfully!")
 

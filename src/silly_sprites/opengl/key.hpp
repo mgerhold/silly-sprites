@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <cassert>
 #include <stdexcept>
+
 namespace sly::gl {
     enum class Key {
         Space,
@@ -125,7 +126,8 @@ namespace sly::gl {
         RightSuper,
         Menu,
     };
-    [[nodiscard]] constexpr Key glfw_to_key(int glfw) {
+
+    [[nodiscard]] constexpr Key glfw_to_key(int const glfw) {
         switch (glfw) {
             case GLFW_KEY_SPACE:
                 return Key::Space;
@@ -372,7 +374,8 @@ namespace sly::gl {
                 throw std::runtime_error("invalid glfw key define");
         }
     }
-    [[nodiscard]] constexpr int key_to_glfw(Key key) {
+
+    [[nodiscard]] constexpr int key_to_glfw(Key const key) {
         switch (key) {
             case Key::Space:
                 return GLFW_KEY_SPACE;

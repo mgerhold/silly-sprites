@@ -12,8 +12,8 @@ key_macros = re.findall(r"#define\s+GLFW_KEY_(\w+)\s+(\d+)", glfw_header)
 
 # Generate the C++ enum and switch case code
 enum_code = "enum class Key {"
-switch_glfw_key = "[[nodiscard]] constexpr Key glfw_to_key(int glfw) {switch (glfw) {"
-switch_key_glfw = "[[nodiscard]] constexpr int key_to_glfw(Key key) {switch (key) {"
+switch_glfw_key = "\n\n[[nodiscard]] constexpr Key glfw_to_key(int const glfw) {switch (glfw) {"
+switch_key_glfw = "\n\n[[nodiscard]] constexpr int key_to_glfw(Key const key) {switch (key) {"
 
 def to_pascal(word):
     return word.lower().replace("_", " ").title().replace(" ", "")
@@ -36,7 +36,7 @@ path_ = "../src/silly_sprites/opengl/key.hpp"
 
 # Write the code to a C++ header file
 with open(path_, "w") as file:
-    file.write("#pragma once\n#include <cassert>\n#include <GLFW/glfw3.h>\n#include <stdexcept>\n namespace sly::gl {" + enum_code + switch_glfw_key + switch_key_glfw + '}\n')
+    file.write("#pragma once\n#include <cassert>\n#include <GLFW/glfw3.h>\n#include <stdexcept>\n\n namespace sly::gl {" + enum_code + switch_glfw_key + switch_key_glfw + '}\n')
 
 print("Custom enum and switch case code for GLFW keys generated successfully!")
 
