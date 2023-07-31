@@ -42,45 +42,29 @@ namespace sly::gl {
         return mouse_position;
     }
 
-    [[nodiscard]] bool Input::is_key_down(Key key) {
+    [[nodiscard]] bool Input::is_key_down(Key const key) {
         return current_keys[static_cast<int>(key)];
     }
-    [[nodiscard]] bool Input::is_key_up(Key key) {
+    [[nodiscard]] bool Input::is_key_up(Key const key) {
         return not current_keys[static_cast<int>(key)];;
     }
-
-    [[nodiscard]] bool Input::is_key_pressed(Key key) {
+    [[nodiscard]] bool Input::is_key_pressed(Key const key) {
             return not last_keys[static_cast<int>(key)] and current_keys[static_cast<int>(key)];
     }
-    [[nodiscard]] bool Input::is_key_released(Key key) {
+    [[nodiscard]] bool Input::is_key_released(Key const key) {
             return last_keys[static_cast<int>(key)] and not current_keys[static_cast<int>(key)];
     }
 
-    [[nodiscard]] bool Input::is_key_hold(Key key) {
-            return last_keys[static_cast<int>(key)] and current_keys[static_cast<int>(key)];
-    }
-    [[nodiscard]] bool Input::is_key_raised(Key key) {
-        return not last_keys[static_cast<int>(key)] and not current_keys[static_cast<int>(key)];
-    }
-
-    [[nodiscard]] bool Input::is_mouse_down(Mouse mouse) {
+    [[nodiscard]] bool Input::is_mouse_down(Mouse const mouse) {
         return current_mouse[static_cast<int>(mouse)];
     }
-    [[nodiscard]] bool Input::is_mouse_up(Mouse mouse) {
+    [[nodiscard]] bool Input::is_mouse_up(Mouse const mouse) {
         return not current_mouse[static_cast<int>(mouse)];
     }
-
-    [[nodiscard]] bool Input::is_mouse_pressed(Mouse mouse) {
+    [[nodiscard]] bool Input::is_mouse_pressed(Mouse const mouse) {
             return not last_mouse[static_cast<int>(mouse)] and current_mouse[static_cast<int>(mouse)];
     }
-    [[nodiscard]] bool Input::is_mouse_released(Mouse mouse) {
+    [[nodiscard]] bool Input::is_mouse_released(Mouse const mouse) {
             return last_mouse[static_cast<int>(mouse)] and not current_mouse[static_cast<int>(mouse)];
-    }
-
-    [[nodiscard]] bool Input::is_mouse_hold(Mouse mouse) {
-            return last_mouse[static_cast<int>(mouse)] and current_mouse[static_cast<int>(mouse)];
-    }
-    [[nodiscard]] bool Input::is_mouse_raised(Mouse mouse) {
-        return not last_mouse[static_cast<int>(mouse)] and not current_mouse[static_cast<int>(mouse)];
     }
 }

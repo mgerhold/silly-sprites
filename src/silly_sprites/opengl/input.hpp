@@ -30,26 +30,14 @@ namespace sly::gl {
 
 		[[nodiscard]] static Vec2 get_mouse_position();
 
-		// single frame
 		[[nodiscard]] static bool is_key_down(Key key);
 		[[nodiscard]] static bool is_key_up(Key key);
-
-		// multi-frame
 		[[nodiscard]] static bool is_key_pressed(Key key);
 		[[nodiscard]] static bool is_key_released(Key key);
 
-		[[nodiscard]] static bool is_key_hold(Key key);
-		[[nodiscard]] static bool is_key_raised(Key key);
-
-		// single frame
 		[[nodiscard]] static bool is_mouse_down(Mouse key);
 		[[nodiscard]] static bool is_mouse_up(Mouse key);
-
-		// multi-frame
 		[[nodiscard]] static bool is_mouse_pressed(Mouse key);
 		[[nodiscard]] static bool is_mouse_released(Mouse key);
-
-		[[nodiscard]] static bool is_mouse_hold(Mouse key);
-		[[nodiscard]] static bool is_mouse_raised(Mouse key);
 	};
 }
