@@ -42,7 +42,7 @@ path_ = "../src/silly_sprites/opengl/mouse.hpp"
 
 # Write the code to a C++ header file
 with open(path_, "w") as file:
-    file.write("#pragma once\n namespace sly::gl {" + enum_code + switch_glfw_key + switch_key_glfw + '}\n')
+    file.write("#pragma once\n#include <cassert>\n#include <GLFW/glfw3.h>\n namespace sly::gl {" + enum_code + switch_glfw_key + switch_key_glfw + '}\n')
 
 print("Custom enum and switch case code for GLFW keys generated successfully!")
 
