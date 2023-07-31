@@ -46,6 +46,8 @@ inline void Person::set_age(int const age) {
 | global constants                   | -      |
 | global variables (don't use them!) | g_     |
 
+Names of `enum class`es shall be written in singular (e.g. `enum class Key` instead of `enum class Keys`).
+
 ## `auto`
 Use almost always `auto`.
 
