@@ -5,6 +5,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <iostream>
+#include <spdlog/fmt/ostr.h>
+#include <spdlog/spdlog.h>
 
 namespace sly {
 
@@ -83,3 +85,20 @@ namespace sly {
     }
 
 } // namespace sly
+
+using sly::operator<<; // this is needed because ADL doesn't work here (it's rather ugly, though)
+
+template<>
+struct fmt::formatter<sly::Vec2> : ostream_formatter { };
+
+template<>
+struct fmt::formatter<sly::Vec3> : ostream_formatter { };
+
+template<>
+struct fmt::formatter<sly::Quaternion> : ostream_formatter { };
+
+template<>
+struct fmt::formatter<sly::Mat3> : ostream_formatter { };
+
+template<>
+struct fmt::formatter<sly::Mat4> : ostream_formatter { };
