@@ -8,11 +8,14 @@
 namespace sly::gl {
 	class Input final {
 	private:
-		static inline std::array<bool, magic_enum::enum_count<Key>()> current_keys{  };
-		static inline std::array<bool, magic_enum::enum_count<Key>()> last_keys{  };
+		static constexpr auto num_key = magic_enum::enum_count<Key>(); 
+		static constexpr auto num_mouse = magic_enum::enum_count<Mouse>();
 
-		static inline std::array<bool, magic_enum::enum_count<Mouse>()> current_mouse{  };
-		static inline std::array<bool, magic_enum::enum_count<Mouse>()> last_mouse{  };
+		static inline std::array<bool, num_key> current_keys{  };
+		static inline std::array<bool, num_key> last_keys{  };
+
+		static inline std::array<bool, num_mouse> current_mouse{  };
+		static inline std::array<bool, num_mouse> last_mouse{  };
 
 		using mouse_pos_ty = std::pair<double, double>;
 		static inline mouse_pos_ty mouse_position{ }; 
