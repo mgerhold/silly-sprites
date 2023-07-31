@@ -1,36 +1,36 @@
 #pragma once
 namespace sly::gl {
     enum class Mouse {
-        Key1,
-        Key2,
-        Key3,
-        Key4,
-        Key5,
-        Key6,
-        Key7,
-        Key8,
-        KeyLeft = Key1,
-        KeyRight = Key2,
-        KeyMiddle = Key3,
+        Button1,
+        Button2,
+        Button3,
+        Button4,
+        Button5,
+        Button6,
+        Button7,
+        Button8,
+        Left = Button1,
+        Right = Button2,
+        Middle = Button3,
     };
     [[nodiscard]] constexpr Mouse glfw_to_mouse(int glfw) {
         switch (glfw) {
             case GLFW_MOUSE_BUTTON_1:
-                return Mouse::Key1;
+                return Mouse::Button1;
             case GLFW_MOUSE_BUTTON_2:
-                return Mouse::Key2;
+                return Mouse::Button2;
             case GLFW_MOUSE_BUTTON_3:
-                return Mouse::Key3;
+                return Mouse::Button3;
             case GLFW_MOUSE_BUTTON_4:
-                return Mouse::Key4;
+                return Mouse::Button4;
             case GLFW_MOUSE_BUTTON_5:
-                return Mouse::Key5;
+                return Mouse::Button5;
             case GLFW_MOUSE_BUTTON_6:
-                return Mouse::Key6;
+                return Mouse::Button6;
             case GLFW_MOUSE_BUTTON_7:
-                return Mouse::Key7;
+                return Mouse::Button7;
             case GLFW_MOUSE_BUTTON_8:
-                return Mouse::Key8;
+                return Mouse::Button8;
             default:
                 assert(false);
                 throw std::runtime_error("invalid glfw mouse define");
@@ -38,21 +38,21 @@ namespace sly::gl {
     }
     [[nodiscard]] constexpr int mouse_to_glfw(Mouse key) {
         switch (key) {
-            case Mouse::Key1:
+            case Mouse::Button1:
                 return GLFW_MOUSE_BUTTON_1;
-            case Mouse::Key2:
+            case Mouse::Button2:
                 return GLFW_MOUSE_BUTTON_2;
-            case Mouse::Key3:
+            case Mouse::Button3:
                 return GLFW_MOUSE_BUTTON_3;
-            case Mouse::Key4:
+            case Mouse::Button4:
                 return GLFW_MOUSE_BUTTON_4;
-            case Mouse::Key5:
+            case Mouse::Button5:
                 return GLFW_MOUSE_BUTTON_5;
-            case Mouse::Key6:
+            case Mouse::Button6:
                 return GLFW_MOUSE_BUTTON_6;
-            case Mouse::Key7:
+            case Mouse::Button7:
                 return GLFW_MOUSE_BUTTON_7;
-            case Mouse::Key8:
+            case Mouse::Button8:
                 return GLFW_MOUSE_BUTTON_8;
             default:
                 assert(false);

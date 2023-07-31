@@ -21,15 +21,18 @@ def to_pascal(word):
 
 for key_name, key_code in key_macros:
     lower_key_name = to_pascal(key_name)
-    enum_code += f"Key{lower_key_name},"
-    switch_glfw_key += f"case GLFW_MOUSE_BUTTON_{key_name}: return Mouse::Key{lower_key_name};"
-    switch_key_glfw += f"case Mouse::Key{lower_key_name}: return GLFW_MOUSE_BUTTON_{key_name};"
+    name_prefix = ""
+    if lower_key_name[0].isdigit():
+        name_prefix = "Button"
+    enum_code += f"{name_prefix}{lower_key_name},"
+    switch_glfw_key += f"case GLFW_MOUSE_BUTTON_{key_name}: return Mouse::{name_prefix}{lower_key_name};"
+    switch_key_glfw += f"case Mouse::{name_prefix}{lower_key_name}: return GLFW_MOUSE_BUTTON_{key_name};"
 
 for key_name, key_code in key_alias:
     if (key_name == "LAST"):
         continue
     lower_key_name = to_pascal(key_name)
-    enum_code += f"Key{lower_key_name} = Key{key_code},"
+    enum_code += f"{lower_key_name} = Button{key_code},"
 
 enum_code += "};"
 switch_glfw_key += "default: assert(false); throw std::runtime_error(\"invalid glfw mouse define\");}}"
