@@ -15,9 +15,9 @@ namespace sly::gl {
 		static inline std::array<bool, magic_enum::enum_count<Mouse>()> last_mouse{  };
 
 		static inline std::vector<std::vector<Key>> close_input {{ 
-			{ Key::KeyLeftAlt, Key::KeyF4 },
-			{ Key::KeyLeftControl, Key::KeyLeftAlt, Key::KeyF4 },
-			{ Key::KeyLeftShift, Key::KeyLeftAlt, Key::KeyF4 },
+			{ Key::LeftAlt, Key::F4 },
+			{ Key::LeftControl, Key::LeftAlt, Key::F4 },
+			{ Key::LeftShift, Key::LeftAlt, Key::F4 },
 		}};
 
 		using mouse_pos_ty = std::pair<double, double>;

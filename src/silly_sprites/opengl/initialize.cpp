@@ -6,7 +6,6 @@
 namespace sly::gl {
 
     void initialize(int const width, int const height) {
-
         auto window = Window::create(width, height);
 
         if (not window.has_value()) {
@@ -14,7 +13,7 @@ namespace sly::gl {
             return;
         }
 
-        auto result = Input::add_close_input({ Key::KeyEscape, Key::KeyA });
+        auto result = Input::add_close_input({ Key::Escape, Key::A });
         spdlog::info("result {}", result);
         while (not window->should_close()) {
             window->swap_buffers();
