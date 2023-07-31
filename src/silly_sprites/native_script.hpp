@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entity.hpp"
+#include "entity.hpp"
 #include <functional>
 
 namespace sly {
