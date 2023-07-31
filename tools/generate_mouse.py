@@ -35,7 +35,7 @@ enum_code += "};"
 switch_glfw_key += "default: assert(false); throw std::runtime_error(\"invalid glfw mouse define\");}}"
 switch_key_glfw += "default: assert(false);  throw std::runtime_error(\"invalid mouse enum\"); }}"
 
-path_ = "../silly_sprites/opengl/mouse.hpp"
+path_ = "../src/silly_sprites/opengl/mouse.hpp"
 
 # Write the code to a C++ header file
 with open(path_, "w") as file:

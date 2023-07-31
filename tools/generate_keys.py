@@ -28,7 +28,7 @@ enum_code += "};"
 switch_glfw_key += "default: assert(false); throw std::runtime_error(\"invalid glfw key define\"); }}"
 switch_key_glfw += "default: assert(false); throw std::runtime_error(\"invalid key enum\"); }}"
 
-path_ = "../silly_sprites/opengl/keys.hpp"
+path_ = "../src/silly_sprites/opengl/keys.hpp"
 
 # Write the code to a C++ header file
 with open(path_, "w") as file:
