@@ -1,5 +1,5 @@
 #include "gl_initialize.hpp"
-#include "input.h"
+#include "input.hpp"
 #include "window.hpp"
 #include <magic_enum_wrapper.hpp>
 

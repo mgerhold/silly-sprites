@@ -1,4 +1,4 @@
-#include "input.h"
+#include "input.hpp"
 
 namespace sly::gl {
     void Input::update_keys(Window const& window) {
