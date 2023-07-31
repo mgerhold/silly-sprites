@@ -23,7 +23,13 @@ namespace sly::gl {
         }
     }
     void Input::update_mouse_position(Window const& window) {
-        glfwGetCursorPos(window.get(), &mouse_position.first, &mouse_position.second);
+        double x,y;
+        glfwGetCursorPos(window.get(), &x, &y);
+        mouse_position = {
+            static_cast<float>(x),
+            static_cast<float>(y)
+        };
+
     }
 
     void Input::update(Window const& window) {
@@ -32,7 +38,7 @@ namespace sly::gl {
         update_mouse_position(window);
     }
 
-    [[nodiscard]] Input::mouse_pos_ty Input::get_mouse_position() {
+    [[nodiscard]] Input::Vec2 Input::get_mouse_position() {
         return mouse_position;
     }
 

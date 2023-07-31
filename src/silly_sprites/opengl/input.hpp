@@ -4,6 +4,7 @@
 #include "mouse.hpp"
 #include <array>
 #include <magic_enum.hpp>
+#include <glm/glm.hpp>
 
 namespace sly::gl {
 	class Input final {
@@ -17,8 +18,8 @@ namespace sly::gl {
 		static inline std::array<bool, num_mouse> current_mouse{  };
 		static inline std::array<bool, num_mouse> last_mouse{  };
 
-		using mouse_pos_ty = std::pair<double, double>;
-		static inline mouse_pos_ty mouse_position{ }; 
+		using Vec2 = glm::vec2;
+		static inline Vec2 mouse_position{ }; 
 
 		static void update_keys(Window const& window);
 		static void update_mouse(Window const& window);
@@ -27,7 +28,7 @@ namespace sly::gl {
 	public:
 		static void update(Window const& window);
 
-		[[nodiscard]] static mouse_pos_ty get_mouse_position();
+		[[nodiscard]] static Vec2 get_mouse_position();
 
 		// single frame
 		[[nodiscard]] static bool is_key_down(Key key);
