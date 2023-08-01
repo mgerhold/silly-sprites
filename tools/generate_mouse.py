@@ -4,9 +4,9 @@ from subprocess import call
 
 # Fetch the GLFW key code header from the GLFW repository:
 # https://github.com/glfw/glfw/blob/master/include/GLFW/glfw3.h
-if len(sys.argv) < 3:
+if len(sys.argv) != 3:
     sys.exit(1)
-_,in_file, out_file = sys.argv
+_, in_file, out_file = sys.argv
 with open(in_file, "r") as file:
     glfw_header = file.read()
 
