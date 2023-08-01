@@ -1,5 +1,4 @@
 #include "input.hpp"
-#include "../types.hpp"
 
 namespace sly::gl {
     void Input::update_keys(Window const& window) {
@@ -39,7 +38,7 @@ namespace sly::gl {
         update_mouse_position(window);
     }
 
-    [[nodiscard]] Input::Vec2 Input::get_mouse_position() {
+    [[nodiscard]] Vec2 Input::get_mouse_position() {
         return s_mouse_position;
     }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "../types.hpp"
 #include "key.hpp"
 #include "mouse.hpp"
 #include "window.hpp"
@@ -18,7 +19,6 @@ namespace sly::gl {
         static inline std::array<bool, num_mouse> s_current_mouse{};
         static inline std::array<bool, num_mouse> s_last_mouse{};
 
-        using Vec2 = glm::vec2;
         static inline Vec2 s_mouse_position{};
 
         static void update_keys(Window const& window);
