@@ -1,7 +1,7 @@
 #pragma once
 
 #define GLFW_INCLUDE_NONE
-#include "gl_error.hpp"
+#include "error.hpp"
 #include "glfw_context.hpp"
 #include <GLFW/glfw3.h>
 #include <memory>
@@ -12,6 +12,7 @@ namespace sly::gl {
 
     class Window final {
     private:
+        friend class Input;
         GlfwContext m_context;
 
         using Deleter = void (*)(GLFWwindow*);
