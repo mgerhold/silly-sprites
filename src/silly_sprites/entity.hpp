@@ -40,7 +40,7 @@ namespace sly {
             return m_registry->get<Components...>(m_identifier);
         }
 
-        friend std::ostream& operator<<(std::ostream& ostream, const Entity& entity) {
+        friend std::ostream& operator<<(std::ostream& ostream, Entity const& entity) {
             return ostream << to_underlying(entity.m_identifier);
         }
     };
