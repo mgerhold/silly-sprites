@@ -1,5 +1,5 @@
 #pragma once
-#include "../types.hpp"
+#include "types.hpp"
 #include "key.hpp"
 #include "mouse.hpp"
 #include "window.hpp"
