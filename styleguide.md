@@ -94,3 +94,17 @@ Don't use raw `new` and `delete`.
 
 ## Pointers
 No owning raw pointers.
+
+## Miscellaneous
+
+Use `#pragma once` instead of "classic" header guards. Place an empty line between `#pragma once` and the following
+code.
+
+```cpp
+#pragma once
+
+#include <iostream>
+#include <vector>
+
+// ...
+```
