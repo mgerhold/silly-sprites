@@ -40,6 +40,19 @@ namespace sly {
             return m_registry->get<Components...>(m_entity);
         }
 
+        template<typename Component>
+        void add_component(Component&& component) {
+            m_registry->emplace<Component>(m_entity, std::forward<Component>(component));
+        }
+
+        template<typename FirstComponent, typename... OtherComponents>
+        void add_components(FirstComponent&& first_component, OtherComponents&&... other_components) {
+            if constexpr (sizeof...(OtherComponents) > 0) {
+                add_components(std::forward<OtherComponents>(other_components)...);
+            }
+            add_component(std::forward<FirstComponent>(first_component));
+        }
+
         explicit operator Entity() const {
             return m_entity;
         }

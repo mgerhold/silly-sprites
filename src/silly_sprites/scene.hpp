@@ -40,25 +40,13 @@ namespace sly {
             );
         }
 
-        template<typename FirstComponent, typename... OtherComponents>
-        GameObject instantiate(FirstComponent&& first_component, OtherComponents&&... other_components) {
-            if constexpr (sizeof...(other_components) == 0) {
-                const auto game_object = instantiate();
-                m_registry.emplace<FirstComponent>(
-                        static_cast<GameObject::Entity>(game_object), std::forward<FirstComponent>(first_component)
-                );
-                return GameObject{ static_cast<GameObject::Entity>(game_object), &m_registry };
-            } else {
-                auto const game_object = instantiate(std::forward<OtherComponents>(other_components)...);
-                m_registry.emplace<FirstComponent>(
-                        static_cast<GameObject::Entity>(game_object), std::forward<FirstComponent>(first_component)
-                );
-                return GameObject{ static_cast<GameObject::Entity>(game_object), &m_registry };
+        template<typename... Components>
+        GameObject instantiate(Components&&... components) {
+            auto game_object = GameObject{ m_registry.create(), &m_registry };
+            if constexpr (sizeof...(Components) > 0) {
+                game_object.add_components(std::forward<Components>(components)...);
             }
-        }
-
-        GameObject instantiate() {
-            return GameObject{ m_registry.create(), &m_registry };
+            return game_object;
         }
 
         void update(double const delta_time) {
