@@ -7,8 +7,6 @@ add_library(sillysprites
         application.cpp
         stopwatch.cpp
         stopwatch.hpp
-        scene.cpp
-        scene.hpp
         include/gl_initialize.hpp
         opengl/initialize.cpp
         opengl/error.hpp
@@ -19,9 +17,10 @@ add_library(sillysprites
         types.hpp
         opengl/input.hpp
         opengl/input.cpp
-        game_object.hpp
+        game_object_and_scene.hpp
         native_script.hpp
         transform.hpp
+        time.hpp
 )
 
 include(${CMAKE_SOURCE_DIR}/cmake/CPM.cmake)
