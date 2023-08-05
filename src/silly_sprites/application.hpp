@@ -1,11 +1,14 @@
 #pragma once
 
-#include "scene.hpp"
 #include "stopwatch.hpp"
+#include "time.hpp"
+#include <memory>
 #include <variant>
 #include <vector>
 
 namespace sly {
+
+    class Scene;
 
     namespace refresh_rate {
         struct Unlimited { };
@@ -27,23 +30,22 @@ namespace sly {
     private:
         ApplicationSettings m_settings;
         StopWatch m_stopwatch;
-        std::vector<Scene> m_scenes;
+        std::vector<std::unique_ptr<Scene>> m_scenes;
 
     public:
-        explicit Application(ApplicationSettings settings) : m_settings{ settings } {
-            m_scenes.emplace_back();
-        }
+        explicit Application(ApplicationSettings settings);
 
-        virtual ~Application() = default;
+        virtual ~Application();
 
         void run();
 
     private:
         static constexpr auto s_fixed_update_interval = 1.0 / 60.0;
 
-        void fixed_update();
-        void update(double delta_time);
+        void fixed_update(Time time);
+        void update(Time time);
         void render() const;
+        void process_queued_scene_tasks();
     };
 
 } // namespace sly
