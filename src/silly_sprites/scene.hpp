@@ -17,46 +17,45 @@ namespace sly {
 
     public:
         Scene() {
-            add_entity(
+            instantiate(
                     Transform{
                             Vec3{ 1.0f, 2.0f, 3.0f },
                             90.0f,
                             Vec2{ 4.0f, 5.0f },
             },
                     NativeScript{
-                            [](Entity entity, double const delta_time) {
+                            [](GameObject game_object, double const delta_time) {
                                 // get the transform
-                                auto& transform = entity.get_component<Transform>();
+                                auto& transform = game_object.get_component<Transform>();
 
-                                // move the entity along the x-axis
+                                // move the game object along the x-axis
                                 transform.position.x += static_cast<float>(delta_time) * 2.0f;
 
                                 // print the current position
                                 spdlog::info("NativeScript::update({}), position = {}", delta_time, transform.position);
                             },
-                            [](Entity entity) { spdlog::info("NativeScript::fixed_update()"); } }
+                            []([[maybe_unused]] GameObject game_object) {
+                                spdlog::info("NativeScript::fixed_update()");
+                            } }
             );
         }
 
-        template<typename FirstComponent, typename... OtherComponents>
-        entt::entity add_entity(FirstComponent&& first_component, OtherComponents&&... other_components) {
-            if constexpr (sizeof...(other_components) == 0) {
-                auto const entity = m_registry.create();
-                m_registry.emplace<FirstComponent>(entity, std::forward<FirstComponent>(first_component));
-                return entity;
-            } else {
-                auto const entity = add_entity(std::forward<OtherComponents>(other_components)...);
-                m_registry.emplace<FirstComponent>(entity, std::forward<FirstComponent>(first_component));
-                return entity;
+        template<typename... Components>
+        GameObject instantiate(Components&&... components) {
+            auto game_object = GameObject{ m_registry.create(), &m_registry };
+            if constexpr (sizeof...(Components) > 0) {
+                game_object.add_components(std::forward<Components>(components)...);
             }
+            return game_object;
         }
 
         void update(double const delta_time) {
             auto view = m_registry.view<NativeScript>();
             for (auto [entity, native_script] : view.each()) {
+                const auto game_object = GameObject{ entity, &m_registry };
                 if (native_script.update) {
-                    spdlog::info("updating entity {}", static_cast<std::underlying_type_t<decltype(entity)>>(entity));
-                    native_script.update(Entity{ entity, &m_registry }, delta_time);
+                    spdlog::info("updating entity {}", game_object);
+                    native_script.update(game_object, delta_time);
                 }
             }
         }
@@ -64,11 +63,10 @@ namespace sly {
         void fixed_update() {
             auto view = m_registry.view<NativeScript>();
             for (auto [entity, native_script] : view.each()) {
+                const auto game_object = GameObject{ entity, &m_registry };
                 if (native_script.fixed_update) {
-                    spdlog::info(
-                            "fixed updating entity {}", static_cast<std::underlying_type_t<decltype(entity)>>(entity)
-                    );
-                    native_script.fixed_update(Entity{ entity, &m_registry });
+                    spdlog::info("fixed updating entity {}", game_object);
+                    native_script.fixed_update(game_object);
                 }
             }
         }

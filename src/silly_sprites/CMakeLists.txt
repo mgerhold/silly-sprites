@@ -19,7 +19,7 @@ add_library(sillysprites
         types.hpp
         opengl/input.hpp
         opengl/input.cpp
-        entity.hpp
+        game_object.hpp
         native_script.hpp
         transform.hpp
 )

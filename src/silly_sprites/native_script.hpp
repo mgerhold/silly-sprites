@@ -1,13 +1,13 @@
 #pragma once
 
-#include "entity.hpp"
+#include "game_object.hpp"
 #include <functional>
 
 namespace sly {
 
     struct NativeScript final {
-        using UpdateFunction = void (*)(Entity, double);
-        using FixedUpdateFunction = void (*)(Entity);
+        using UpdateFunction = void (*)(GameObject, double);
+        using FixedUpdateFunction = void (*)(GameObject);
 
         UpdateFunction update;
         FixedUpdateFunction fixed_update;
