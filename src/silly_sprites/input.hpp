@@ -2,10 +2,13 @@
 #include "key.hpp"
 #include "magic_enum_wrapper.hpp"
 #include "mouse.hpp"
-#include "opengl/window.hpp"
 #include "types.hpp"
 #include <array>
 #include <glm/glm.hpp>
+
+namespace sly::gl {
+    class Window;
+}
 
 namespace sly {
     class Input final {

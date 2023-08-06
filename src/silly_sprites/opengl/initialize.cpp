@@ -1,6 +1,7 @@
 #include "gl_initialize.hpp"
 #include "input.hpp"
 #include "magic_enum_wrapper.hpp"
+#include "window.hpp"
 
 namespace sly::gl {
 
