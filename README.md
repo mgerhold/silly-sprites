@@ -1,7 +1,6 @@
 # Silly Sprites
 
 ## How to Build
-
 This project uses CMake. To build the project, run the following commands in the root directory of the repository.
 
 ```bash
@@ -10,7 +9,6 @@ cmake --build build
 ```
 
 ### Dependencies
-
 Dependencies are managed with CPM as part of the CMake project. You need internet access to build the project.
 
 The project uses the following dependencies:
