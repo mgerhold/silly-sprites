@@ -7,7 +7,6 @@ Use the subset of C++20 that is supported by all toolchains (especially Emscript
 Use the provided .clang-format file.
 
 ## Classes and Structs
-
 Use the `struct` keyword for data types that mainly serve as "data containers". They may provide constructors and
 operator overloads, though. Don't use access specifiers (`public`, `private`, `protected`) for such types (i.e. make
 everything implicitly public).
