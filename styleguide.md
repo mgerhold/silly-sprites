@@ -6,6 +6,64 @@ Use the subset of C++20 that is supported by all toolchains (especially Emscript
 ## Code Formatting
 Use the provided .clang-format file.
 
+## Classes and Structs
+
+Use the `struct` keyword for data types that mainly serve as "data containers". They may provide constructors and
+operator overloads, though. Don't use access specifiers (`public`, `private`, `protected`) for such types (i.e. make
+everything implicitly public).
+
+```cpp
+struct Person {
+    std::string name;
+    int age;
+    
+    Person(std::string name, int age) : name{ std::move(name) }, age{ age } { }
+    
+    [[nodiscard]] friend bool operator==(const Person& lhs, const Person& rhs) {
+        return lhs.name == rhs.name and lhs.age == rhs.age;
+    }
+};
+```
+
+Use the `class` keyword for "more complex" types (whatever that means exactly). Put data members on top, then special
+member functions and overloaded operators and then other member functions. In each section, start with public members (
+except for private constructors).
+
+In some cases, you cannot follow these rules (e.g. for type aliases or nested type declarations). Just put those in a
+position that works ¯\_(ツ)_/¯
+
+Always use access specifiers, even if the first class members are private.
+
+```cpp
+template<typename T>
+class Wrapper final {
+private: // unnecessary, but make it explicitly private
+    using Pointer = T*; // must be declared before use
+    
+    Pointer m_pointer; // data members first
+    
+public:
+    explicit Wrapper(T&& object) : m_pointer{ new T{ std::forward<T>(object) } } { }
+    
+    Wrapper(const Wrapper&) = delete;
+    Wrapper(Wrapper&&) = delete;
+    
+    Wrapper& operator=(const Wrapper&) = delete;
+    Wrapper& operator=(Wrapper&&) = delete;
+    
+    ~Wrapper() {
+        delete m_pointer;
+    }
+};
+```
+
+Constructors shall be marked `explicit` if they only take one parameter (except for copy and move constructors).
+Constructors *may* be marked `explicit` if they take more than one parameter.
+
+Either mark the class as `final` or provide a virtual destructor.
+Decide for yourself, which member functions you want to define inside the class and which you want to define in a
+separate `*.cpp` file.
+
 ## `const`
 Use `east const`. `constexpr` all the things. `const` all the things you didn't `constexpr` (also function parameters, but not in a pure declaration).
 
