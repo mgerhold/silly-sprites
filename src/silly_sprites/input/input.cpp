@@ -1,7 +1,7 @@
 #include "input.hpp"
 
-namespace sly::gl {
-    void Input::update_keys(Window const& window) {
+namespace sly {
+    void Input::update_keys(gl::Window const& window) {
 
         std::swap(s_current_keys, s_last_keys);
         s_current_keys.fill(false);
@@ -14,7 +14,7 @@ namespace sly::gl {
             }
         }
     }
-    void Input::update_mouse(Window const& window) {
+    void Input::update_mouse(gl::Window const& window) {
         std::swap(s_current_mouse, s_last_mouse);
         s_current_mouse.fill(false);
 
@@ -26,13 +26,13 @@ namespace sly::gl {
             }
         }
     }
-    void Input::update_mouse_position(Window const& window) {
+    void Input::update_mouse_position(gl::Window const& window) {
         double x, y;
         glfwGetCursorPos(window.get(), &x, &y);
         s_mouse_position = { static_cast<float>(x), static_cast<float>(y) };
     }
 
-    void Input::update(Window const& window) {
+    void Input::update(gl::Window const& window) {
         update_keys(window);
         update_mouse(window);
         update_mouse_position(window);
@@ -68,4 +68,4 @@ namespace sly::gl {
         return s_last_mouse[static_cast<int>(mouse)] and not s_current_mouse[static_cast<int>(mouse)];
     }
 
-} // namespace sly::gl
+} // namespace sly

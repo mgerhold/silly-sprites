@@ -38,11 +38,11 @@ switch_key_glfw += 'default: assert(false); throw std::runtime_error("invalid ke
 
 # Write the code to a C++ header file
 with open(out_file, "w") as file:
-    file.write("#pragma once\n#include <cassert>\n#include <GLFW/glfw3.h>\n#include <stdexcept>\n\n namespace sly::gl {" + enum_code + switch_glfw_key + switch_key_glfw + '}\n')
+    file.write("#pragma once\n#include <cassert>\n#include <GLFW/glfw3.h>\n#include <stdexcept>\n\n namespace sly {" + enum_code + switch_glfw_key + switch_key_glfw + '}\n')
 
 print("Custom enum and switch case code for GLFW keys generated successfully!")
 
-lc = ["clang-format","-i", path_] 
+lc = ["clang-format","-i", out_file] 
 retcode=call(lc)
 
 print("formatted")

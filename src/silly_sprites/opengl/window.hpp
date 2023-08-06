@@ -8,6 +8,10 @@
 #include <spdlog/spdlog.h>
 #include <tl/expected.hpp>
 
+namespace sly {
+    class Input;
+}
+
 namespace sly::gl {
 
     class Window final {

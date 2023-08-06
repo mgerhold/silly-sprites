@@ -3,7 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace sly::gl {
+namespace sly {
     enum class Key {
         Space,
         Apostrophe,
@@ -622,4 +622,4 @@ namespace sly::gl {
                 throw std::runtime_error("invalid key enum");
         }
     }
-} // namespace sly::gl
+} // namespace sly

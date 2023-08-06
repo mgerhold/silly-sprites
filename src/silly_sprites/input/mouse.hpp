@@ -3,7 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace sly::gl {
+namespace sly {
     enum class MouseButton {
         Button1,
         Button2,
@@ -65,4 +65,4 @@ namespace sly::gl {
                 throw std::runtime_error("invalid mouse enum");
         }
     }
-} // namespace sly::gl
+} // namespace sly
