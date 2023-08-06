@@ -15,8 +15,8 @@ add_library(sillysprites
         opengl/glfw_context.cpp
         opengl/glfw_context.hpp
         types.hpp
-        opengl/input.hpp
-        opengl/input.cpp
+        input.hpp
+        input.cpp
         game_object_and_scene.hpp
         native_script.hpp
         transform.hpp

@@ -1,13 +1,16 @@
 #pragma once
-#include "types.hpp"
 #include "key.hpp"
+#include "magic_enum_wrapper.hpp"
 #include "mouse.hpp"
-#include "window.hpp"
+#include "types.hpp"
 #include <array>
 #include <glm/glm.hpp>
-#include <magic_enum.hpp>
 
 namespace sly::gl {
+    class Window;
+}
+
+namespace sly {
     class Input final {
     private:
         static constexpr auto num_key = magic_enum::enum_count<Key>();
@@ -21,12 +24,12 @@ namespace sly::gl {
 
         static inline Vec2 s_mouse_position{};
 
-        static void update_keys(Window const& window);
-        static void update_mouse(Window const& window);
-        static void update_mouse_position(Window const& window);
+        static void update_keys(gl::Window const& window);
+        static void update_mouse(gl::Window const& window);
+        static void update_mouse_position(gl::Window const& window);
 
     public:
-        static void update(Window const& window);
+        static void update(gl::Window const& window);
 
         [[nodiscard]] static Vec2 get_mouse_position();
 
@@ -40,4 +43,4 @@ namespace sly::gl {
         [[nodiscard]] static bool is_mouse_pressed(MouseButton key);
         [[nodiscard]] static bool is_mouse_released(MouseButton key);
     };
-} // namespace sly::gl
+} // namespace sly
