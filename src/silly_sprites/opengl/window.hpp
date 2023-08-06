@@ -16,7 +16,7 @@ namespace sly::gl {
 
     class Window final {
     private:
-        friend class Input;
+        friend class ::sly::Input;
         GlfwContext m_context;
 
         using Deleter = void (*)(GLFWwindow*);

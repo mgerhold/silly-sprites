@@ -1,4 +1,5 @@
 #include "input.hpp"
+#include "../opengl/window.hpp"
 
 namespace sly {
     void Input::update_keys(gl::Window const& window) {

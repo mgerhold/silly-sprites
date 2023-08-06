@@ -1,13 +1,17 @@
 #pragma once
-#include "types.hpp"
+
 #include "key.hpp"
+#include "magic_enum_wrapper.hpp"
 #include "mouse.hpp"
-#include "../opengl/window.hpp"
+#include "types.hpp"
 #include <array>
 #include <glm/glm.hpp>
-#include <magic_enum.hpp>
 
 namespace sly {
+    namespace gl {
+        class Window;
+    }
+
     class Input final {
     private:
         static constexpr auto num_key = magic_enum::enum_count<Key>();
