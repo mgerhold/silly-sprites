@@ -10,8 +10,6 @@ add_library(sillysprites
         application.cpp
         stopwatch.cpp
         stopwatch.hpp
-        include/gl_initialize.hpp
-        opengl/initialize.cpp
         opengl/error.hpp
         opengl/window.hpp
         opengl/window.cpp
