@@ -1,11 +1,11 @@
 #pragma once
 #include "key.hpp"
+#include "magic_enum_wrapper.hpp"
 #include "mouse.hpp"
 #include "opengl/window.hpp"
 #include "types.hpp"
 #include <array>
 #include <glm/glm.hpp>
-#include <magic_enum.hpp>
 
 namespace sly {
     class Input final {
