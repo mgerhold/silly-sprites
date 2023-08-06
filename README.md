@@ -1,10 +1,17 @@
 # Silly Sprites
 
-## Build System
-CMake
+## How to Build
 
-## Dependencies
-Dependencies are managed with CPM as part of the CMake project.
+This project uses CMake. To build the project, run the following commands in the root directory of the repository.
+
+```bash
+cmake -B build
+cmake --build build
+```
+
+### Dependencies
+
+Dependencies are managed with CPM as part of the CMake project. You need internet access to build the project.
 
 The project uses the following dependencies:
 * tl::optional
