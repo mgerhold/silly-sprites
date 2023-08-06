@@ -1,8 +1,8 @@
 #pragma once
-#include "types.hpp"
 #include "key.hpp"
 #include "mouse.hpp"
 #include "opengl/window.hpp"
+#include "types.hpp"
 #include <array>
 #include <glm/glm.hpp>
 #include <magic_enum.hpp>
