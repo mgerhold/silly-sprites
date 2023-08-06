@@ -2,7 +2,7 @@
 #include "types.hpp"
 #include "key.hpp"
 #include "mouse.hpp"
-#include "../opengl/window.hpp"
+#include "opengl/window.hpp"
 #include <array>
 #include <glm/glm.hpp>
 #include <magic_enum.hpp>

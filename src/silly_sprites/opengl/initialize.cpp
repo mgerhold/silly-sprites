@@ -1,5 +1,5 @@
 #include "gl_initialize.hpp"
-#include "../input/input.hpp"
+#include "input.hpp"
 #include <magic_enum_wrapper.hpp>
 
 namespace sly::gl {
