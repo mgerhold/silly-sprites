@@ -78,7 +78,8 @@ auto count = std::size_t{ 42 };
 Functions without side effects must use the `[[nodiscard]]` attribute.
 
 ## `noexcept`
-Don't use `noexcept`.
+
+Don't use `noexcept` except for move constructors and move assignment operators.
 
 ## Error Handling
 Exceptions maybe used for error handling when needed. Otherwise, prefer `tl::optional` and `tl::expected`.
