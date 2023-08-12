@@ -163,8 +163,8 @@ namespace sly {
                                 spdlog::info("tick");
                                 game_object.m_scene->instantiate(
                                         NativeScript{
-                                                [](GameObject const game_object, Time const time) {},
-                                                [](GameObject const game_object, Time const time) {},
+                                                [](GameObject, Time) {},
+                                                [](GameObject, Time) {},
                                         },
                                         EntityMarker{}, PlaceholderComponent{}
                                 );
