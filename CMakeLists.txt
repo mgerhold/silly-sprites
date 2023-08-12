@@ -22,6 +22,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(cmake/lto.cmake)
 try_enable_link_time_optimizations()
 
+include(${CMAKE_SOURCE_DIR}/dependencies.cmake)
+setup_dependencies()
+
 add_subdirectory(doc)
 add_subdirectory(src bin)
 add_subdirectory(test)
