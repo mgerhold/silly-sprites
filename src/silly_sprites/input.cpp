@@ -44,29 +44,29 @@ namespace sly {
     }
 
     [[nodiscard]] bool Input::is_key_down(Key const key) {
-        return s_current_keys[static_cast<int>(key)];
+        return s_current_keys[static_cast<usize>(key)];
     }
     [[nodiscard]] bool Input::is_key_up(Key const key) {
-        return not s_current_keys[static_cast<int>(key)];
+        return not s_current_keys[static_cast<usize>(key)];
     }
     [[nodiscard]] bool Input::is_key_pressed(Key const key) {
-        return not s_last_keys[static_cast<int>(key)] and s_current_keys[static_cast<int>(key)];
+        return not s_last_keys[static_cast<usize>(key)] and s_current_keys[static_cast<usize>(key)];
     }
     [[nodiscard]] bool Input::is_key_released(Key const key) {
-        return s_last_keys[static_cast<int>(key)] and not s_current_keys[static_cast<int>(key)];
+        return s_last_keys[static_cast<usize>(key)] and not s_current_keys[static_cast<usize>(key)];
     }
 
     [[nodiscard]] bool Input::is_mouse_down(MouseButton const mouse) {
-        return s_current_mouse[static_cast<int>(mouse)];
+        return s_current_mouse[static_cast<usize>(mouse)];
     }
     [[nodiscard]] bool Input::is_mouse_up(MouseButton const mouse) {
-        return not s_current_mouse[static_cast<int>(mouse)];
+        return not s_current_mouse[static_cast<usize>(mouse)];
     }
     [[nodiscard]] bool Input::is_mouse_pressed(MouseButton const mouse) {
-        return not s_last_mouse[static_cast<int>(mouse)] and s_current_mouse[static_cast<int>(mouse)];
+        return not s_last_mouse[static_cast<usize>(mouse)] and s_current_mouse[static_cast<usize>(mouse)];
     }
     [[nodiscard]] bool Input::is_mouse_released(MouseButton const mouse) {
-        return s_last_mouse[static_cast<int>(mouse)] and not s_current_mouse[static_cast<int>(mouse)];
+        return s_last_mouse[static_cast<usize>(mouse)] and not s_current_mouse[static_cast<usize>(mouse)];
     }
 
 } // namespace sly
