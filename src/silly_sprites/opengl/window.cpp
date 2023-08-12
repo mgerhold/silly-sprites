@@ -43,8 +43,8 @@ namespace sly::gl {
             return tl::unexpected{ GlError::FailedToInitializeGlad };
         }
 
-        auto const callback{ [](GLFWwindow* const window, int const width, int const height) {
-            glViewport(0, 0, width, height);
+        auto const callback{ [](GLFWwindow*, int const new_width, int const new_height) {
+            glViewport(0, 0, new_width, new_height);
         } };
 
         callback(window, width, height);
