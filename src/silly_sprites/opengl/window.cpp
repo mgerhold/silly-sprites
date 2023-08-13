@@ -8,6 +8,10 @@ namespace sly::gl {
             glfwDestroyWindow(window);
             spdlog::info("window destroyed");
         }
+
+        void on_framebuffer_size_changed([[maybe_unused]] GLFWwindow* const window, int const width, int const height) {
+            glViewport(0, 0, width, height);
+        }
     } // namespace
 
     Window::Window(GlfwContext context, GLFWwindow* window)
@@ -43,12 +47,8 @@ namespace sly::gl {
             return tl::unexpected{ GlError::FailedToInitializeGlad };
         }
 
-        auto const callback{ [](GLFWwindow*, int const new_width, int const new_height) {
-            glViewport(0, 0, new_width, new_height);
-        } };
-
-        callback(window, width, height);
-        glfwSetFramebufferSizeCallback(window, callback);
+        on_framebuffer_size_changed(window, width, height);
+        glfwSetFramebufferSizeCallback(window, on_framebuffer_size_changed);
 
         spdlog::info("window initialized");
         return Window{ *std::move(context), window };
