@@ -1,5 +1,3 @@
-add_library(enable_warnings INTERFACE)
-
 function(set_warnings target_name warnings_as_errors)
     # The following warning lists have been taken from:
     # https://github.com/cpp-best-practices/cmake_template/blob/main/cmake/CompilerWarnings.cmake
