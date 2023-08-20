@@ -1,5 +1,9 @@
 #pragma once
 
+#include "types.hpp"
+#include <filesystem>
+#include <string>
+#include <tl/optional.hpp>
 #include <type_traits>
 
 namespace sly {
@@ -15,5 +19,13 @@ namespace sly {
     [[nodiscard]] Underlying to_underlying(Enum enum_value) {
         return static_cast<Underlying>(enum_value);
     }
+
+    [[nodiscard]] tl::optional<std::string> read_file(std::filesystem::path const& path);
+
+    template<usize>
+    inline constexpr auto dependent_false = false;
+
+    template<typename>
+    inline constexpr auto type_dependent_false = false;
 
 } // namespace sly

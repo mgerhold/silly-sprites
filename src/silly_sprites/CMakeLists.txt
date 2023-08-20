@@ -24,6 +24,7 @@ add_library(sillysprites
         native_script.hpp
         transform.hpp
         time.hpp
+        utils.cpp
 )
 
 setup_dependencies()
