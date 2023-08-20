@@ -1,9 +1,14 @@
 #include "application.hpp"
 #include "game_object_and_scene.hpp"
+#include "script/engine.hpp"
+#include <string>
 
 namespace sly {
 
-    Application::Application(ApplicationSettings settings) : m_settings{ settings } {
+    Application::Application(ApplicationSettings settings)
+        : m_settings{ settings },
+          m_script_engine{ std::make_unique<script::Engine>() } {
+        m_script_engine->create_module("MyModule", "src/silly_sprites/test.as");
         m_scenes.push_back(std::make_unique<Scene>());
     }
 
@@ -56,7 +61,7 @@ namespace sly {
 
     void Application::update(Time const time) {
         for (auto& scene : m_scenes) {
-            scene->update(time);
+            scene->update(*this, time);
         }
     }
 

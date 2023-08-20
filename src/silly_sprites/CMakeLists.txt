@@ -32,6 +32,8 @@ add_library(sillysprites
         script/module.cpp
         script/module.hpp
         script/class_info.hpp
+        script.hpp
+        app_context.hpp
         script/class_info.cpp
         script/object.hpp
         script/function.hpp
@@ -54,6 +56,12 @@ target_link_system_libraries(sillysprites
         PRIVATE Microsoft.GSL::GSL
         PRIVATE glad
         PRIVATE magic_enum::magic_enum
+        PRIVATE angelscript
+        PRIVATE angelscript_scriptstdstring
+        PRIVATE angelscript_scriptbuilder
+        PRIVATE angelscript_datetime
+        PRIVATE angelscript_math
+        PRIVATE angelscript_array
 )
 
 target_include_directories(sillysprites

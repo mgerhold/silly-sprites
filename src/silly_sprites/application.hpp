@@ -1,5 +1,6 @@
 #pragma once
 
+#include "app_context.hpp"
 #include "stopwatch.hpp"
 #include "time.hpp"
 #include <memory>
@@ -7,6 +8,10 @@
 #include <vector>
 
 namespace sly {
+
+    namespace script {
+        class Engine;
+    }
 
     class Scene;
 
@@ -26,18 +31,27 @@ namespace sly {
         ApplicationSettings() : refresh_rate{ refresh_rate::Unlimited{} } { }
     };
 
-    class Application {
+    class Application : public AppContext {
     private:
         ApplicationSettings m_settings;
         StopWatch m_stopwatch;
         std::vector<std::unique_ptr<Scene>> m_scenes;
+        std::unique_ptr<script::Engine> m_script_engine;
 
     public:
         explicit Application(ApplicationSettings settings);
 
-        virtual ~Application();
+        ~Application() override;
 
         void run();
+
+        [[nodiscard]] script::Engine& script_engine() override {
+            return *m_script_engine;
+        }
+
+        [[nodiscard]] script::Engine const& script_engine() const override {
+            return *m_script_engine;
+        }
 
     private:
         static constexpr auto s_fixed_update_interval = 1.0 / 60.0;
