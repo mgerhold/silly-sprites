@@ -39,8 +39,6 @@ add_library(sillysprites
         script/function.hpp
 )
 
-setup_dependencies()
-
 target_link_libraries(sillysprites
         PRIVATE project_options
 )
