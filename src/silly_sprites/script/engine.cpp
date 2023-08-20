@@ -35,7 +35,7 @@ namespace {
         if (engine->SetDefaultNamespace(namespace_.data()) < 0) {
             throw sly::script::EngineError{ sly::script::EngineError::Type::FailedToSetDefaultNamespace };
         }
-        register_global_functions(engine, declarations...);
+        register_global_functions(engine, std::forward<decltype(declarations)>(declarations)...);
         if (engine->SetDefaultNamespace(previous_namespace.c_str()) < 0) {
             throw sly::script::EngineError{ sly::script::EngineError::Type::FailedToSetDefaultNamespace };
         }
