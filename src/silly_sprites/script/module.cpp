@@ -1,7 +1,7 @@
 #include "module.hpp"
 
 #include <angelscript.h>
-#include <stdexcept>
+#include <utility>
 
 namespace sly::script {
     Module::Module(Module&& other) noexcept : m_module{ std::exchange(other.m_module, nullptr) } { }
