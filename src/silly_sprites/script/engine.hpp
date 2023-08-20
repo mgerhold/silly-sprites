@@ -48,7 +48,7 @@ namespace sly::script {
     public:
         explicit EngineError(Type type) : m_type{ type } { }
 
-        [[nodiscard]] char const* what() const override;
+        [[nodiscard]] char const* what() const noexcept override;
     };
 
 

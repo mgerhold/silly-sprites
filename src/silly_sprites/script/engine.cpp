@@ -62,7 +62,7 @@ namespace {
 
 namespace sly::script {
 
-    [[nodiscard]] char const* EngineError::what() const {
+    [[nodiscard]] char const* EngineError::what() const noexcept {
         return magic_enum::enum_name(m_type).data();
     }
 
