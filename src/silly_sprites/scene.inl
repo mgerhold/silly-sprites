@@ -165,58 +165,5 @@ namespace sly {
     Scene::Scene() {
         instantiate(Script{ "Player", tl::nullopt });
         instantiate(Script{ "Player", tl::nullopt });
-        /*instantiate(
-                Transform{
-                        Vec3{ 1.0f, 2.0f, 3.0f },
-                        90.0f,
-                        Vec2{ 4.0f, 5.0f },
-        },
-                NativeScript{
-                        [](GameObject game_object, Time const time) {
-                            // get the transform
-                            auto& transform = game_object.get_component<Transform>();
-
-                            // move the game object along the x-axis
-                            transform.position.x += static_cast<float>(time.delta) * 2.0f;
-
-                            auto const last_frame_time = static_cast<u64>(time.elapsed - time.delta);
-                            auto const current_frame_time = static_cast<u64>(time.elapsed);
-                            if (last_frame_time != current_frame_time) {
-                                spdlog::info("tick");
-                                game_object.m_scene->instantiate(
-                                        NativeScript{
-                                                [](GameObject, Time) {},
-                                                [](GameObject, Time) {},
-                                        },
-                                        EntityMarker{}, PlaceholderComponent{}
-                                );
-
-                                auto game_objects_with_placeholder =
-                                        game_object.m_scene
-                                                ->template find_game_objects_with_components<PlaceholderComponent>();
-                                for (const auto with_placeholder : game_objects_with_placeholder) {
-                                    spdlog::info("this entity has the placeholder component: {}", with_placeholder);
-                                }
-
-                                if (current_frame_time % 2 == 0) {
-                                    for (auto with_placeholder : game_objects_with_placeholder) {
-                                        with_placeholder.template remove_component<PlaceholderComponent>();
-                                    }
-                                }
-
-                                if (current_frame_time % 5 == 0) {
-                                    auto game_objects_to_delete =
-                                            game_object.m_scene
-                                                    ->template find_game_objects_with_components<EntityMarker>();
-                                    for (const auto to_delete : game_objects_to_delete) {
-                                        spdlog::info("should delete entity {}", to_delete);
-                                        to_delete.m_scene->destroy(to_delete);
-                                    }
-                                }
-                            }
-                        },
-                        []([[maybe_unused]] GameObject game_object, [[maybe_unused]] Time const time) {},
-                }
-        );*/
     }
 } // namespace sly
