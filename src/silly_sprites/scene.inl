@@ -100,8 +100,28 @@ namespace sly {
             }
         }
 
-        void update(Time const time) {
+        void update_scripts(AppContext& app_context, [[maybe_unused]] Time const time) {
+            auto& script_engine = app_context.script_engine();
+            m_registry.view<Script>().each([&]([[maybe_unused]] auto entity, Script& script) {
+                if (not script.instance.has_value()) {
+                    spdlog::info("spawning object of type '{}'", script.class_name);
+                    script.instance = script_engine.create_object(script.class_name);
+                    auto const awake_method = script_engine.get_class_method(script.class_name, "void awake()");
+                    if (awake_method.has_value()) {
+                        script_engine.call_method(*script.instance, *awake_method);
+                    }
+                } else {
+                    auto const update_method = script_engine.get_class_method(script.class_name, "void update()");
+                    if (update_method.has_value()) {
+                        script_engine.call_method(*script.instance, *update_method);
+                    }
+                }
+            });
+        }
+
+        void update(AppContext& app_context, Time const time) {
             update_native_scripts(time);
+            update_scripts(app_context, time);
         }
 
         void fixed_update_native_scripts(Time const time) {
@@ -143,7 +163,9 @@ namespace sly {
     };
 
     Scene::Scene() {
-        instantiate(
+        instantiate(Script{ "Player", tl::nullopt });
+        instantiate(Script{ "Player", tl::nullopt });
+        /*instantiate(
                 Transform{
                         Vec3{ 1.0f, 2.0f, 3.0f },
                         90.0f,
@@ -195,6 +217,6 @@ namespace sly {
                         },
                         []([[maybe_unused]] GameObject game_object, [[maybe_unused]] Time const time) {},
                 }
-        );
+        );*/
     }
 } // namespace sly
