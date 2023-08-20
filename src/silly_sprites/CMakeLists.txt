@@ -24,7 +24,17 @@ add_library(sillysprites
         native_script.hpp
         transform.hpp
         time.hpp
+        script/engine.cpp
+        script/engine.hpp
+        script/builtins.hpp
+        script/builtins.cpp
         utils.cpp
+        script/module.cpp
+        script/module.hpp
+        script/class_info.hpp
+        script/class_info.cpp
+        script/object.hpp
+        script/function.hpp
 )
 
 setup_dependencies()
