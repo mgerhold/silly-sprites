@@ -1,7 +1,8 @@
 include("${CMAKE_SOURCE_DIR}/cmake/CPM.cmake")
+include("${CMAKE_SOURCE_DIR}/cmake/system_link.cmake")
+include("${CMAKE_SOURCE_DIR}/cmake/angelscript_addons.cmake")
 
 function(setup_dependencies)
-
     CPMAddPackage(
             NAME NLOHMANN_JSON
             GITHUB_REPOSITORY nlohmann/json
@@ -73,5 +74,12 @@ function(setup_dependencies)
             "GLFW_BUILD_EXAMPLES OFF"
             "GLFW_BULID_DOCS OFF"
     )
+    CPMAddPackage(
+            NAME ANGELSCRIPT
+            GITHUB_REPOSITORY codecat/angelscript-mirror
+            GIT_TAG 957eac4
+            SOURCE_SUBDIR sdk/angelscript/projects/cmake
+    )
 
+    setup_angelscript_addon_dependencies()
 endfunction()
