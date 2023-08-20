@@ -21,9 +21,9 @@ namespace {
         std::string_view declaration;
         Function function;
 
-        FunctionDeclaration(std::string_view const declaration, Function&& function)
-            : declaration{ declaration },
-              function{ std::forward<Function>(function) } { }
+        FunctionDeclaration(std::string_view const declaration_, Function&& function_)
+            : declaration{ declaration_ },
+              function{ std::forward<Function>(function_) } { }
     };
 
     void register_global_functions(
