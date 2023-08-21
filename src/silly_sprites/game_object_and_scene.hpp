@@ -1,6 +1,9 @@
 #pragma once
 
+#include "app_context.hpp"
 #include "native_script.hpp"
+#include "script.hpp"
+#include "script/engine.hpp"
 #include "transform.hpp"
 #include "utils.hpp"
 #include <entt/entt.hpp>

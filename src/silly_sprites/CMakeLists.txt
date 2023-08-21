@@ -24,9 +24,20 @@ add_library(sillysprites
         native_script.hpp
         transform.hpp
         time.hpp
+        script/engine.cpp
+        script/engine.hpp
+        script/builtins.hpp
+        script/builtins.cpp
+        utils.cpp
+        script/module.cpp
+        script/module.hpp
+        script/class_info.hpp
+        script.hpp
+        app_context.hpp
+        script/class_info.cpp
+        script/object.hpp
+        script/function.hpp
 )
-
-setup_dependencies()
 
 target_link_libraries(sillysprites
         PRIVATE project_options
@@ -43,6 +54,12 @@ target_link_system_libraries(sillysprites
         PRIVATE Microsoft.GSL::GSL
         PRIVATE glad
         PRIVATE magic_enum::magic_enum
+        PRIVATE angelscript
+        PRIVATE angelscript_scriptstdstring
+        PRIVATE angelscript_scriptbuilder
+        PRIVATE angelscript_datetime
+        PRIVATE angelscript_math
+        PRIVATE angelscript_array
 )
 
 target_include_directories(sillysprites
