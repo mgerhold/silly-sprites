@@ -82,3 +82,4 @@ TabWidth: 4
 UseTab: Never
 QualifierAlignment: Right
 InsertNewlineAtEOF: true
+InsertTrailingCommas: Wrapped
