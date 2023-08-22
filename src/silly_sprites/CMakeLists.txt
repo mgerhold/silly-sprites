@@ -35,6 +35,8 @@ add_library(sillysprites
         script/class_info.cpp
         script/object.hpp
         script/function.hpp
+        opengl/shader_program.hpp
+        opengl/shader_program.cpp
         script/type_info.hpp
 )
 
