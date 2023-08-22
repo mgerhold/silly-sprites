@@ -2,6 +2,7 @@
 
 #include "../silly_sprites/input.hpp"
 #include "../silly_sprites/opengl/window.hpp"
+#include "../silly_sprites/stopwatch.hpp"
 #include "magic_enum_wrapper.hpp"
 #include <glad/gl.h>
 
@@ -22,32 +23,18 @@ static char const* const example_fragment_shader{ R"(
         void main()
         {
             FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-        }     
+         }    
     )" };
 
-int main() {
-    auto window = sly::gl::Window::create(800, 600);
+unsigned int vao;
+unsigned int shader_program;
 
-    if (not window.has_value()) {
-        spdlog::critical(magic_enum::enum_name(window.error()));
-        return 0;
-    }
-
-    // wrap this in some kind of rendering class
-    glClearColor(0.5f, 0.0f, 1.0f, 1.0f);
-
-    while (not window->should_close()) {
-        // wrap this in some kind of rendering class
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        window->swap_buffers();
-        glfwPollEvents();
-        sly::Input::update(window.value());
-    }
-}
-
-unsigned int set_points() {
+void set_points() {
     float points[]{ -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f };
+
+
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
 
     unsigned int vbo;
     glGenBuffers(1, &vbo);
@@ -77,7 +64,7 @@ unsigned int set_points() {
         spdlog::critical("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED -> {}\n", message);
     }
 
-    unsigned int shader_program{ glCreateProgram() };
+    shader_program = { glCreateProgram() };
     glAttachShader(shader_program, vertex_shader);
     glAttachShader(shader_program, fragment_shader);
     glLinkProgram(shader_program);
@@ -89,9 +76,40 @@ unsigned int set_points() {
         spdlog::critical("ERROR::PROGRAMM::LINK_FAILED -> {}\n", message);
     }
 
-    glUseProgram(shader_program);
-
     glDeleteShader(vertex_shader);
     glDeleteShader(fragment_shader);
 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), static_cast<void*>(0));
+    glEnableVertexAttribArray(0);
 }
+
+int main() {
+    auto window = sly::gl::Window::create(800, 600);
+
+    if (not window.has_value()) {
+        spdlog::critical(magic_enum::enum_name(window.error()));
+        return 0;
+    }
+
+    // wrap this in some kind of rendering class
+    glClearColor(0.5f, 0.0f, 1.0f, 1.0f);
+    set_points();
+
+    auto watch = sly::StopWatch{  };
+
+    while (not window->should_close()) {
+        spdlog::info("elapsed time: {}", 1.0/watch.reset());
+        // wrap this in some kind of rendering class
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glUseProgram(shader_program);
+        glBindVertexArray(vao);
+        glDrawArrays(GL_TRIANGLES,0,3);
+
+        window->swap_buffers();
+        glfwPollEvents();
+        sly::Input::update(window.value());
+    }
+}
+
+
