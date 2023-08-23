@@ -23,7 +23,7 @@ namespace sly::gl {
         {
             gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
         }
-    )" };
+        )" };
         static constexpr char const* fallback_fragment_source{ R"(
         #version 330 core
         out vec4 FragColor;
@@ -32,10 +32,11 @@ namespace sly::gl {
         {
             FragColor = vec4(255.0f, 0.0f, 255.0f, 1.0f);
         }    
-    )" };
+        )" };
 
         GLuint program_id;
 
+        [[nodiscard]] static constexpr std::string_view get_name_from_type(Type type);
         GLuint compile(Type type, std::string_view source, bool fallback = false);
         void link_program(GLuint program) const;
 

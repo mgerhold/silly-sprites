@@ -39,7 +39,7 @@ sly::gl::ShaderProgram set_points() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
 
-    sly::gl::ShaderProgram shader_program { sly::gl::ShaderProgram(example_vertex_shader, example_fragment_shader) };
+    sly::gl::ShaderProgram shader_program { sly::gl::ShaderProgram(example_vertex_shader, "not compliable", example_fragment_shader) };
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), static_cast<void*>(0));
     glEnableVertexAttribArray(0);

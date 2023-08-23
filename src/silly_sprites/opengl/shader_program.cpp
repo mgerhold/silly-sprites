@@ -2,6 +2,19 @@
 #include "utils.hpp"
 
 namespace sly::gl {
+    [[nodiscard]] constexpr std::string_view ShaderProgram::get_name_from_type(Type const type)  {
+            switch (type) {
+                case Type::Vertex:
+                    return "VERTEX";
+                case Type::Geometry:
+                    return "GEOMETRY";
+                case Type::Fragment:
+                    return "FRAGMENT";
+                default:
+                    return "INVALID";
+            }
+        }
+
     GLuint ShaderProgram::compile(Type const type, std::string_view source, bool fallback) {
         // compile
 
@@ -17,25 +30,24 @@ namespace sly::gl {
             GLchar message[512];
             glGetShaderInfoLog(id, 512, nullptr, message);
             spdlog::critical(
-                    "ERROR::SHADER::::COMPILATION_FAILED -> {}\n", /*(magic_enum::enum_name<Type>(type),*/ message
-            );
+                    "ERROR::SHADER::{}::COMPILATION_FAILED -> {}", get_name_from_type(type), message );
 
             if (not fallback) {
                 if (type != Type::Geometry) {
                     glDeleteShader(id);
-                    spdlog::error("ERROR::SHADER::::FALLBACK\n" /*, (magic_enum::enum_name<Type>(type)*/);
+                    spdlog::error("ERROR::SHADER::{}::FALLBACK", get_name_from_type(type));
                     if (type == Type::Vertex) {
                         return compile(type, fallback_vertex_source, true);
                     } else { // Type::Fragment
                         return compile(type, fallback_fragment_source, true);
                     }
                 } else {
-                    spdlog::critical("ERRPR::SHADER::::NO_FALLBACK\n" /*, (magic_enum::enum_name<Type>(type)*/);
+                    spdlog::critical("ERRPR::SHADER::{}::NO_FALLBACK", get_name_from_type(type));
                 }
             }
 
         } else {
-            spdlog::info("SUCCESS::SHADER::::COMPILATION\n" /*, (magic_enum::enum_name<Type>(type)*/);
+            spdlog::info("SUCCESS::SHADER::{}::COMPILATION", get_name_from_type(type));
         }
 
         return id;
