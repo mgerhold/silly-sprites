@@ -37,7 +37,7 @@ namespace sly::gl {
         GLuint program_id;
 
         [[nodiscard]] static constexpr std::string_view get_name_from_type(Type type);
-        GLuint compile(Type type, std::string_view source, bool fallback = false);
+        std::pair<GLuint, bool> compile(Type type, std::string_view source, bool fallback = false);
         void link_program(GLuint program) const;
 
     public:

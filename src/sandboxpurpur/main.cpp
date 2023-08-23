@@ -1,9 +1,9 @@
 #define GLFW_INCLUDE_NONE
 
 #include "../silly_sprites/input.hpp"
+#include "../silly_sprites/opengl/shader_program.hpp"
 #include "../silly_sprites/opengl/window.hpp"
 #include "../silly_sprites/stopwatch.hpp"
-#include "../silly_sprites/opengl/shader_program.hpp"
 #include "magic_enum_wrapper.hpp"
 #include <glad/gl.h>
 
@@ -39,9 +39,9 @@ sly::gl::ShaderProgram set_points() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
 
-    sly::gl::ShaderProgram shader_program { sly::gl::ShaderProgram(example_vertex_shader, "not compliable", example_fragment_shader) };
+    sly::gl::ShaderProgram shader_program{ example_vertex_shader, "not compliable", example_fragment_shader };
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), static_cast<void*>(0));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(0));
     glEnableVertexAttribArray(0);
 
     return shader_program;
@@ -57,25 +57,23 @@ int main() {
 
     // wrap this in some kind of rendering class
     glClearColor(0.5f, 0.0f, 1.0f, 1.0f);
-   
+
 
     sly::gl::ShaderProgram shader_program{ set_points() };
-    auto watch = sly::StopWatch{  };
+    auto watch = sly::StopWatch{};
 
 
     while (not window->should_close()) {
-        spdlog::info("elapsed time: {}", 1.0/watch.reset());
+        spdlog::info("elapsed time: {}", 1.0 / watch.reset());
         // wrap this in some kind of rendering class
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader_program.set_active();
         glBindVertexArray(vao);
-        glDrawArrays(GL_TRIANGLES,0,3);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         window->swap_buffers();
         glfwPollEvents();
         sly::Input::update(window.value());
     }
 }
-
-
