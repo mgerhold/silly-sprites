@@ -23,17 +23,19 @@ namespace sly::gl {
             if (not fallback) {
                 if (type != Type::Geometry) {
                     glDeleteShader(id);
-                    spdlog::error("ERROR::SHADER::::FALLBACK"/*, (magic_enum::enum_name<Type>(type)*/);
+                    spdlog::error("ERROR::SHADER::::FALLBACK\n" /*, (magic_enum::enum_name<Type>(type)*/);
                     if (type == Type::Vertex) {
                         return compile(type, fallback_vertex_source, true);
                     } else { // Type::Fragment
                         return compile(type, fallback_fragment_source, true);
                     }
+                } else {
+                    spdlog::critical("ERRPR::SHADER::::NO_FALLBACK\n" /*, (magic_enum::enum_name<Type>(type)*/);
                 }
             }
 
         } else {
-            spdlog::info("SUCCESS::SHADER::::COMPILATION\n"/*, (magic_enum::enum_name<Type>(type)*/);
+            spdlog::info("SUCCESS::SHADER::::COMPILATION\n" /*, (magic_enum::enum_name<Type>(type)*/);
         }
 
         return id;
