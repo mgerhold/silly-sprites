@@ -83,3 +83,4 @@ UseTab: Never
 QualifierAlignment: Right
 InsertNewlineAtEOF: true
 InsertTrailingCommas: Wrapped
+BinPackArguments: false
