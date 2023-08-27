@@ -37,7 +37,7 @@ namespace sly::gl {
         GLuint program_id;
 
         [[nodiscard]] static constexpr std::string_view get_name_from_type(Type type);
-        std::pair<GLuint, bool> compile(Type type, std::string_view source, bool fallback = false);
+        [[nodiscard]] std::pair<GLuint, bool> compile(Type type, std::string_view source, bool fallback = false);
         void link_program(GLuint program) const;
 
     public:
@@ -49,6 +49,6 @@ namespace sly::gl {
         ShaderProgram(std::string_view vertex_source, std::string_view fragment_source);
         ~ShaderProgram();
 
-        void set_active();
+        void use();
     };
 } // namespace sly::gl

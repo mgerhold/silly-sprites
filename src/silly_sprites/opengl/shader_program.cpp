@@ -15,7 +15,7 @@ namespace sly::gl {
         }
     }
 
-    std::pair<GLuint, bool> ShaderProgram::compile(Type const type, std::string_view source, bool fallback) {
+    [[nodiscard]] std::pair<GLuint, bool> ShaderProgram::compile(Type const type, std::string_view source, bool fallback) {
         // compile
 
         auto id{ glCreateShader(sly::to_underlying(type)) };
@@ -107,7 +107,7 @@ namespace sly::gl {
         glDeleteProgram(program_id);
     }
 
-    void ShaderProgram::set_active() {
+    void ShaderProgram::use() {
         glUseProgram(program_id);
     }
 

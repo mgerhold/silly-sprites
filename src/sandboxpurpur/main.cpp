@@ -68,7 +68,7 @@ int main() {
         // wrap this in some kind of rendering class
         glClear(GL_COLOR_BUFFER_BIT);
 
-        shader_program.set_active();
+        shader_program.use();
         glBindVertexArray(vao);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
