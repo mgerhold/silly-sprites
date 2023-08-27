@@ -31,7 +31,9 @@ static char const* const example_fragment_shader{ R"(
 
 unsigned int vao;
 
-sly::gl::ShaderProgram set_points() {
+void set_points() {
+
+
     float points[]{ -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f };
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -41,12 +43,9 @@ sly::gl::ShaderProgram set_points() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
 
-    sly::gl::ShaderProgram shader_program{ example_vertex_shader, "invalid", example_fragment_shader };
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(0));
     glEnableVertexAttribArray(0);
-
-    return shader_program;
 }
 
 int main() {
@@ -61,7 +60,8 @@ int main() {
     glClearColor(0.5f, 0.0f, 1.0f, 1.0f);
 
 
-    sly::gl::ShaderProgram shader_program{ set_points() };
+    sly::gl::ShaderProgram shader_program{ example_vertex_shader, "invalid", example_fragment_shader };
+    set_points();
     auto watch = sly::StopWatch{};
 
 
