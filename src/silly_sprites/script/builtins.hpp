@@ -16,7 +16,7 @@ namespace sly::script::builtins {
     struct ExecutionContext {
         GameObject* game_object;
 
-        ExecutionContext(GameObject* game_object) : game_object{ game_object } { }
+        ExecutionContext(GameObject* game_object_) : game_object{ game_object_ } { }
     };
 
     inline tl::optional<ExecutionContext> g_current_script_execution_context = tl::nullopt;

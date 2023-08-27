@@ -11,7 +11,7 @@ namespace sly {
         tl::optional<script::Object> instance{ tl::nullopt };
 
     public:
-        explicit Script(std::string class_name) : class_name{ std::move(class_name) } { }
+        explicit Script(std::string class_name_) : class_name{ std::move(class_name_) } { }
     };
 
 } // namespace sly
