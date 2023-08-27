@@ -38,6 +38,8 @@ add_library(sillysprites
         opengl/shader_program.hpp
         opengl/shader_program.cpp
         script/type_info.hpp
+        opengl/buffer_object.hpp
+        opengl/buffer_object.cpp
 )
 
 target_link_libraries(sillysprites

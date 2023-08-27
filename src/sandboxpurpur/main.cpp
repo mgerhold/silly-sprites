@@ -1,9 +1,11 @@
 #define GLFW_INCLUDE_NONE
 
 #include "../silly_sprites/input.hpp"
+#include "../silly_sprites/opengl/buffer_object.hpp"
 #include "../silly_sprites/opengl/shader_program.hpp"
 #include "../silly_sprites/opengl/window.hpp"
 #include "../silly_sprites/stopwatch.hpp"
+#include "../silly_sprites/types.hpp"
 #include "magic_enum_wrapper.hpp"
 #include <glad/gl.h>
 
@@ -27,44 +29,79 @@ static char const* const example_fragment_shader{ R"(
         }   
     )" };
 
-unsigned int vao;
-unsigned int vbo;
-unsigned int ebo;
+static inline std::vector<float> const points{
+    0.0f,   0.5f,  0.0f, // top
+    -0.25f, 0.0f,  0.0f, // mid left
+    0.25f,  0.0f,  0.0f, // mit right
+    -0.5f,  -0.5f, 0.0f, // bottom left
+    0.0f,   -0.5f, 0.0f, // bottom mid
+    0.5f,   -0.5f, 0.0f, // bottom right
+};
 
-void set_points() {
+static inline std::vector<unsigned int> const indices{
+    0, 1, 2, // top
+    1, 3, 4, // bottom left
+    2, 4, 5, // bottom right
+};
 
-    // clang-format off
-    std::vector<float> points{
-         0.0f,   0.5f, 0.0f, // top
-        -0.25f,  0.0f, 0.0f, // mid left
-         0.25f,  0.0f, 0.0f, // mit right
-        -0.5f,  -0.5f, 0.0f, // bottom left
-         0.0f,  -0.5f, 0.0f, // bottom mid
-         0.5f,  -0.5f, 0.0f, // bottom right
-    };
-    // clang-format on
+void move_points_down(sly::gl::BufferObject& buffer) {
+    auto points{ buffer.get_points() };
 
-    std::vector<unsigned int> indices{
-        0, 1, 2, // top
-        1, 3, 4, // bottom left
-        2, 4, 5, // bottom right
-    };
+    for (sly::usize i = 0; i < points.size(); ++i) {
+        if ((i % 3) - 1 == 0) {
+            points.at(i) -= 0.01f;
+        }
+    }
 
+    buffer.set_points(points);
+}
+void move_points_up(sly::gl::BufferObject& buffer) {
+    auto points{ buffer.get_points() };
 
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
+    for (sly::usize i = 0; i < points.size(); ++i) {
+        if ((i % 3) - 1 == 0) {
+            points.at(i) += 0.01f;
+        }
+    }
 
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * points.size(), points.data(), GL_STATIC_DRAW);
+    buffer.set_points(points);
+}
+void move_points_left(sly::gl::BufferObject& buffer) {
+    auto points{ buffer.get_points() };
 
-    glGenBuffers(1, &ebo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), indices.data(), GL_STATIC_DRAW);
+    for (sly::usize i = 0; i < points.size(); ++i) {
+        if (i % 3 == 0) {
+            points.at(i) -= 0.01f;
+        }
+    }
 
+    buffer.set_points(points);
+}
+void move_points_right(sly::gl::BufferObject& buffer) {
+    auto points{ buffer.get_points() };
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(0));
-    glEnableVertexAttribArray(0);
+    for (sly::usize i = 0; i < points.size(); ++i) {
+        if (i % 3 == 0) {
+            points.at(i) += 0.01f;
+        }
+    }
+
+    buffer.set_points(points);
+}
+
+void move_points(sly::gl::BufferObject& buffer) {
+    if (sly::Input::is_key_down(sly::Key::Right)) {
+        move_points_right(buffer);
+    }
+    if (sly::Input::is_key_down(sly::Key::Left)) {
+        move_points_left(buffer);
+    }
+    if (sly::Input::is_key_down(sly::Key::Up)) {
+        move_points_up(buffer);
+    }
+    if (sly::Input::is_key_down(sly::Key::Down)) {
+        move_points_down(buffer);
+    }
 }
 
 int main() {
@@ -80,25 +117,26 @@ int main() {
 
 
     sly::gl::ShaderProgram shader_program{ example_vertex_shader, "invalid", example_fragment_shader };
-    set_points();
+    // set_points();
+    sly::gl::BufferObject buffer_object{ points, indices };
     auto watch = sly::StopWatch{};
 
 
     while (not window->should_close()) {
-        spdlog::info("fps: {}", 1.0 / watch.reset());
+        // spdlog::info("fps: {}", 1.0 / watch.reset());
         // wrap this in some kind of rendering class
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader_program.use();
-        glBindVertexArray(vao);
-        glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
+
+        buffer_object.bind();
+        buffer_object.draw();
+        buffer_object.unbind();
 
         window->swap_buffers();
         glfwPollEvents();
         sly::Input::update(window.value());
+
+        move_points(buffer_object);
     }
-    glDeleteBuffers(1, &vbo);
-    glDeleteBuffers(1, &ebo);
-    glDeleteBuffers(1, &vao);
 }
