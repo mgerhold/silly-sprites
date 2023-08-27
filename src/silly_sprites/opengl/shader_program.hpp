@@ -6,7 +6,7 @@
 #include <string_view>
 
 namespace sly::gl {
-    class ShaderProgram {
+    class ShaderProgram final {
     public:
         enum class Type : GLenum {
             Vertex = GL_VERTEX_SHADER,
