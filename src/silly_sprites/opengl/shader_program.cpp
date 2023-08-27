@@ -36,7 +36,7 @@ namespace sly::gl {
         }
     }
 
-    [[nodiscard]] std::pair<GLuint, bool> ShaderProgram::compile(Type const type, std::string_view const source, bool const fallback) {
+    [[nodiscard]] ShaderProgram::Shader ShaderProgram::compile(Type const type, std::string_view const source, bool const fallback) {
         // compile
 
         auto id{ glCreateShader(sly::to_underlying(type)) };
@@ -70,17 +70,32 @@ namespace sly::gl {
             spdlog::info("SUCCESS::SHADER::{}::COMPILATION", get_name_from_type(type));
         }
 
-        return { id, success };
+        if (success){
+            return { id };
+        } else {
+            glDeleteShader(id);
+            return { };
+        }
     }
 
-    void ShaderProgram::link_program(GLuint program) const {
-        glLinkProgram(program);
+    void ShaderProgram::attach_shader(Type const type, Shader const shader) const {
+        if (not shader.has_value()) {
+            spdlog::error("shader {} not add to program", get_name_from_type(type));
+            return;
+        }
+
+        glAttachShader(m_program_id, shader.value());
+        glDeleteShader(shader.value());
+    }
+
+    void ShaderProgram::link_program() const {
+        glLinkProgram(m_program_id);
 
         GLint success;
-        glGetProgramiv(program, GL_LINK_STATUS, &success);
+        glGetProgramiv(m_program_id, GL_LINK_STATUS, &success);
         if (not success) {
             GLchar message[512];
-            glGetProgramInfoLog(program, 512, NULL, message);
+            glGetProgramInfoLog(m_program_id, 512, NULL, message);
             spdlog::critical("ERROR::PROGRAMM::LINK_FAILED -> {}\n", message);
         }
     }
@@ -90,38 +105,30 @@ namespace sly::gl {
             std::string_view const geometry_source,
             std::string_view const fragment_source
     ) {
-        auto const [vertex_id, _]{ compile(Type::Vertex, vertex_source) };
-        auto const [geometry_id, success]{ compile(Type::Geometry, geometry_source) };
-        auto const [fragment_id, __]{ compile(Type::Fragment, fragment_source) };
-
         m_program_id = { glCreateProgram() };
-        glAttachShader(m_program_id, vertex_id);
-        glAttachShader(m_program_id, fragment_id);
-        if (success) {
-            glAttachShader(m_program_id, geometry_id);
-        } else {
-            spdlog::error("geometry shader not add to program");
-        }
+        
+        auto const vertex_shader = compile(Type::Vertex, vertex_source);
+        auto const geometry_shader = compile(Type::Geometry, geometry_source);
+        auto const fragment_shader = compile(Type::Fragment, fragment_source);
 
-        link_program(m_program_id);
+        attach_shader(Type::Vertex, vertex_shader);
+        attach_shader(Type::Geometry, geometry_shader);
+        attach_shader(Type::Fragment, fragment_shader);
 
-        glDeleteShader(vertex_id);
-        glDeleteShader(geometry_id);
-        glDeleteShader(fragment_id);
+        link_program();
     }
 
     ShaderProgram::ShaderProgram(std::string_view const vertex_source, std::string_view const fragment_source) {
-        auto const [vertex_id, _]{ compile(Type::Vertex, vertex_source) };
-        auto const [fragment_id, __]{ compile(Type::Fragment, fragment_source) };
-
+        
         m_program_id = { glCreateProgram() };
-        glAttachShader(m_program_id, vertex_id);
-        glAttachShader(m_program_id, fragment_id);
+        
+        auto const vertex_shader = compile(Type::Vertex, vertex_source);
+        auto const fragment_shader = compile(Type::Fragment, fragment_source);
 
-        link_program(m_program_id);
+        attach_shader(Type::Vertex, vertex_shader);
+        attach_shader(Type::Fragment, fragment_shader);
 
-        glDeleteShader(vertex_id);
-        glDeleteShader(fragment_id);
+        link_program();
     }
 
     ShaderProgram::~ShaderProgram() {

@@ -2,6 +2,7 @@
 
 #include "../types.hpp"
 #include "magic_enum_wrapper.hpp"
+#include <tl/optional.hpp>
 #include <glad/gl.h>
 #include <string_view>
 
@@ -15,11 +16,13 @@ namespace sly::gl {
         };
 
     private:
+        using Shader = tl::optional<GLuint>;
         GLuint m_program_id;
 
         [[nodiscard]] static constexpr std::string_view get_name_from_type(Type type);
-        [[nodiscard]] std::pair<GLuint, bool> compile(Type type, std::string_view source, bool fallback = false);
-        void link_program(GLuint program) const;
+        [[nodiscard]] Shader compile(Type type, std::string_view source, bool fallback = false);
+        void attach_shader(Type type, Shader shader) const;
+        void link_program() const;
 
     public:
         ShaderProgram(
