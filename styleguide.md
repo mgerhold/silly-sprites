@@ -128,7 +128,7 @@ Initialization must always use `=`.
 auto person = Person{ "Claus Kleber", 65 };
 auto predicate = true; // bool
 auto age = 42; // int
-auto count = std::size_t{ 42 };
+auto count = usize{ 42 };
 ```
 
 ## `[[nodiscard]]`
