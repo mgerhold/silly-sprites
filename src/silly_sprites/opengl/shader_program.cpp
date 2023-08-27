@@ -2,6 +2,27 @@
 #include "utils.hpp"
 
 namespace sly::gl {
+    static constexpr char const* fallback_vertex_source{ R"(
+            #version 330 core
+            layout (location = 0) in vec3 aPos;
+
+            void main()
+            {
+                gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+            }
+        )"
+    };
+    static constexpr char const* fallback_fragment_source{ R"(
+            #version 330 core
+            out vec4 FragColor;
+            
+            void main()
+            {
+                FragColor = vec4(255.0f, 0.0f, 255.0f, 1.0f);
+            }    
+        )" 
+    };
+
     [[nodiscard]] constexpr std::string_view ShaderProgram::get_name_from_type(Type const type) {
         switch (type) {
             case Type::Vertex:

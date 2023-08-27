@@ -15,25 +15,6 @@ namespace sly::gl {
         };
 
     private:
-        static constexpr char const* fallback_vertex_source{ R"(
-        #version 330 core
-        layout (location = 0) in vec3 aPos;
-
-        void main()
-        {
-            gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-        }
-        )" };
-        static constexpr char const* fallback_fragment_source{ R"(
-        #version 330 core
-        out vec4 FragColor;
-        
-        void main()
-        {
-            FragColor = vec4(255.0f, 0.0f, 255.0f, 1.0f);
-        }    
-        )" };
-
         GLuint program_id;
 
         [[nodiscard]] static constexpr std::string_view get_name_from_type(Type type);
