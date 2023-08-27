@@ -40,11 +40,11 @@ namespace sly::gl {
     }
 
     void BufferObject::data_vertex_buffer() const {
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * static_cast<unsigned long long>(m_points.size()), m_points.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(float) * m_points.size()), m_points.data(), GL_STATIC_DRAW);
     }
 
     void BufferObject::data_element_buffer() const {
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * static_cast<unsigned long long>(m_indices.size()), m_indices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(unsigned int) * m_indices.size()), m_indices.data(), GL_STATIC_DRAW);
     }
 
     BufferObject::BufferObject(Points points, Indices indices) : m_points{ points }, m_indices{ indices } {
