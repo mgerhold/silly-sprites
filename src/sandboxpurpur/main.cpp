@@ -64,7 +64,7 @@ int main() {
 
 
     while (not window->should_close()) {
-        spdlog::info("elapsed time: {}", 1.0 / watch.reset());
+        spdlog::info("fps: {}", 1.0 / watch.reset());
         // wrap this in some kind of rendering class
         glClear(GL_COLOR_BUFFER_BIT);
 
