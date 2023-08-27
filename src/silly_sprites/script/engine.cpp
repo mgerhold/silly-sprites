@@ -81,6 +81,7 @@ namespace sly::script {
         RegisterScriptMath(m_engine);
         RegisterScriptDateTime(m_engine);
 
+        register_builtin_types();
         register_builtin_functions();
 
         m_context = m_engine->CreateContext();
@@ -118,18 +119,21 @@ namespace sly::script {
     }
 
     Object Engine::create_object([[maybe_unused]] std::string_view const type_declaration) {
-        auto const type_info = get_type_info(type_declaration);
+        auto type_info = get_type_info(type_declaration);
         if (not type_info.has_value()) {
             throw EngineError{ EngineError::Type::FailedToRetrieveTypeInfoOfInvalidType };
         }
 
-        auto const object_address = m_engine->CreateScriptObject(*type_info);
-        (*type_info)->Release();
+        auto const object_address = m_engine->CreateScriptObject(type_info->m_type_info);
         if (object_address == nullptr) {
             throw EngineError{ EngineError::Type::FailedToCreateObject };
         }
 
-        return Object{ object_address };
+        return Object{ object_address, std::move(*type_info) };
+    }
+
+    void Engine::destroy_object(Object const object) {
+        m_engine->ReleaseScriptObject(object.m_object, object.m_type.m_type_info);
     }
 
     [[nodiscard]] tl::optional<Function>
@@ -139,7 +143,7 @@ namespace sly::script {
             return tl::nullopt;
         }
 
-        auto const method = (*type_info)->GetMethodByDecl(method_declaration.data());
+        auto const method = type_info->m_type_info->GetMethodByDecl(method_declaration.data());
         if (method == nullptr) {
             return tl::nullopt;
         }
@@ -149,25 +153,42 @@ namespace sly::script {
 
     void Engine::register_builtin_functions() {
         using namespace std::string_view_literals;
+        using namespace sly::script;
         register_global_functions(
-                m_engine, FunctionDeclaration{ "void print(const string &in text)"sv, &print },
-                FunctionDeclaration{ "void println(const string &in text)"sv, &println },
-                FunctionDeclaration{ "void eprint(const string &in text)"sv, &eprint },
-                FunctionDeclaration{ "void eprintln(const string &in text)"sv, &eprintln }
+                m_engine,
+                FunctionDeclaration{ "void print(const string &in text)"sv, &builtins::print },
+                FunctionDeclaration{ "void println(const string &in text)"sv, &builtins::println },
+                FunctionDeclaration{ "void eprint(const string &in text)"sv, &builtins::eprint },
+                FunctionDeclaration{ "void eprintln(const string &in text)"sv, &builtins::eprintln },
+                FunctionDeclaration{ "void destroy()"sv, &builtins::destroy }
         );
 
         register_global_functions(
-                m_engine, "Log"sv, FunctionDeclaration{ "void trace(const string &in text)"sv, &logging::trace },
-                FunctionDeclaration{ "void debug(const string &in text)"sv, &logging::debug },
-                FunctionDeclaration{ "void info(const string &in text)"sv, &logging::info },
-                FunctionDeclaration{ "void warning(const string &in text)"sv, &logging::warning },
-                FunctionDeclaration{ "void warn(const string &in text)"sv, &logging::warning },
-                FunctionDeclaration{ "void error(const string &in text)"sv, &logging::error },
-                FunctionDeclaration{ "void critical(const string &in text)"sv, &logging::critical }
+                m_engine,
+                "Log"sv,
+                FunctionDeclaration{ "void trace(const string &in text)"sv, &builtins::logging::trace },
+                FunctionDeclaration{ "void debug(const string &in text)"sv, &builtins::logging::debug },
+                FunctionDeclaration{ "void info(const string &in text)"sv, &builtins::logging::info },
+                FunctionDeclaration{ "void warning(const string &in text)"sv, &builtins::logging::warning },
+                FunctionDeclaration{ "void warn(const string &in text)"sv, &builtins::logging::warning },
+                FunctionDeclaration{ "void error(const string &in text)"sv, &builtins::logging::error },
+                FunctionDeclaration{ "void critical(const string &in text)"sv, &builtins::logging::critical }
         );
     }
 
-    [[nodiscard]] tl::optional<asITypeInfo*> Engine::get_type_info(std::string_view const declaration) const {
+    void Engine::register_builtin_types() {
+        if (m_engine->RegisterObjectType("Time", sizeof(Time), asOBJ_VALUE | asOBJ_POD | asGetTypeTraits<Time>()) < 0) {
+            throw EngineError{ EngineError::Type::FailedToRegisterBuiltinType };
+        }
+        if (m_engine->RegisterObjectProperty("Time", "double elapsed", asOFFSET(Time, elapsed)) < 0) {
+            throw EngineError{ EngineError::Type::FailedToRegisterObjectProperty };
+        }
+        if (m_engine->RegisterObjectProperty("Time", "double delta", asOFFSET(Time, delta)) < 0) {
+            throw EngineError{ EngineError::Type::FailedToRegisterObjectProperty };
+        }
+    }
+
+    [[nodiscard]] tl::optional<TypeInfo> Engine::get_type_info(std::string_view const declaration) const {
         if (not m_module.has_value()) {
             throw EngineError{ EngineError::Type::UnableToFindTypeInfoOnMissingModule };
         }
@@ -175,7 +196,7 @@ namespace sly::script {
         if (type_info == nullptr) {
             return tl::nullopt;
         }
-        return type_info;
+        return TypeInfo{ type_info };
     }
 
 } // namespace sly::script

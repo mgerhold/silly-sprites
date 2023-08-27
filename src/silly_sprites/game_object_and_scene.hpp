@@ -52,6 +52,8 @@ namespace sly {
             (add_component(std::forward<Components>(components)), ...);
         }
 
+        void destroy();
+
         explicit operator Entity() const {
             return m_entity;
         }
@@ -100,6 +102,10 @@ namespace sly {
     template<typename Component>
     void GameObject::remove_component() {
         m_scene->template remove_component<Component>(*this);
+    }
+
+    inline void GameObject::destroy() {
+        m_scene->destroy(*this);
     }
 
 } // namespace sly

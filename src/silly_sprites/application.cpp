@@ -9,7 +9,7 @@ namespace sly {
         : m_settings{ settings },
           m_script_engine{ std::make_unique<script::Engine>() } {
         m_script_engine->create_module("MyModule", "src/silly_sprites/test.as");
-        m_scenes.push_back(std::make_unique<Scene>());
+        m_scenes.push_back(std::make_unique<Scene>(this));
     }
 
     Application::~Application() = default;
@@ -61,7 +61,7 @@ namespace sly {
 
     void Application::update(Time const time) {
         for (auto& scene : m_scenes) {
-            scene->update(*this, time);
+            scene->update(time);
         }
     }
 

@@ -1,12 +1,10 @@
 namespace sly {
     class Scene final {
     private:
+        AppContext* m_app_context;
         entt::registry m_registry;
         std::vector<GameObject::Entity> m_entities_to_destroy;
         std::vector<std::function<void()>> m_component_deleters;
-
-        struct EntityMarker { };
-        struct PlaceholderComponent { };
 
         template<typename EnttViewIterator>
         class ViewWrapper {
@@ -67,7 +65,12 @@ namespace sly {
         };
 
     public:
-        Scene();
+        Scene(AppContext* app_context);
+        Scene(Scene const&) = delete;
+        Scene(Scene&&) = delete;
+        Scene& operator=(Scene const&) = delete;
+        Scene& operator=(Scene&&) = delete;
+        ~Scene();
 
         template<typename... Components>
         GameObject instantiate(Components&&... components) {
@@ -100,9 +103,15 @@ namespace sly {
             }
         }
 
-        void update_scripts(AppContext& app_context, [[maybe_unused]] Time const time) {
-            auto& script_engine = app_context.script_engine();
-            m_registry.view<Script>().each([&]([[maybe_unused]] auto entity, Script& script) {
+        void update_scripts(Time const time) {
+            using script::builtins::ExecutionContext;
+            using script::builtins::g_current_script_execution_context;
+
+            auto& script_engine = m_app_context->script_engine();
+            m_registry.view<Script>().each([&](auto entity, Script& script) {
+                auto game_object = GameObject{ entity, this };
+                assert(not g_current_script_execution_context.has_value());
+                g_current_script_execution_context = ExecutionContext{ &game_object };
                 if (not script.instance.has_value()) {
                     spdlog::info("spawning object of type '{}'", script.class_name);
                     script.instance = script_engine.create_object(script.class_name);
@@ -111,17 +120,18 @@ namespace sly {
                         script_engine.call_method(*script.instance, *awake_method);
                     }
                 } else {
-                    auto const update_method = script_engine.get_class_method(script.class_name, "void update()");
+                    auto const update_method = script_engine.get_class_method(script.class_name, "void update(Time)");
                     if (update_method.has_value()) {
-                        script_engine.call_method(*script.instance, *update_method);
+                        script_engine.call_method(*script.instance, *update_method, time);
                     }
                 }
+                g_current_script_execution_context = tl::nullopt;
             });
         }
 
-        void update(AppContext& app_context, Time const time) {
+        void update(Time const time) {
             update_native_scripts(time);
-            update_scripts(app_context, time);
+            update_scripts(time);
         }
 
         void fixed_update_native_scripts(Time const time) {
@@ -159,11 +169,25 @@ namespace sly {
             return ViewWrapper{ view.begin(), view.end(), this };
         }
 
+    private:
+        void on_script_destroyed(GameObject::Registry&, GameObject::Entity entity) {
+            auto game_object = GameObject{ entity, this };
+            auto script = game_object.get_component<Script>();
+            assert(script.instance.has_value());
+            spdlog::info("destroying script object for class '{}'", script.class_name);
+            m_app_context->script_engine().destroy_object(*script.instance);
+        }
+
         friend class GameObject;
     };
 
-    Scene::Scene() {
-        instantiate(Script{ "Player", tl::nullopt });
-        instantiate(Script{ "Player", tl::nullopt });
+    inline Scene::Scene(AppContext* const app_context) : m_app_context{ app_context } {
+        m_registry.on_destroy<Script>().connect<&Scene::on_script_destroyed>(*this);
+        instantiate(Script{ "Player" });
+        instantiate(Script{ "Player" });
+    }
+
+    inline Scene::~Scene() {
+        m_registry.on_destroy<Script>().disconnect<&Scene::on_script_destroyed>(*this);
     }
 } // namespace sly
