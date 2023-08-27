@@ -41,10 +41,16 @@ namespace sly::gl {
 
     void BufferObject::data_vertex_buffer() const {
         glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(float) * m_points.size()), m_points.data(), GL_STATIC_DRAW);
+        /*
+            ugly cast because of ubuntu.
+            you can see the error here: https://github.com/mgerhold/silly-sprites/actions/runs/5992560779/job/16252072736
+            maybe you have a better idea.
+        */
     }
 
     void BufferObject::data_element_buffer() const {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(sizeof(unsigned int) * m_indices.size()), m_indices.data(), GL_STATIC_DRAW);
+        // ugly cast again
     }
 
     BufferObject::BufferObject(Points points, Indices indices) : m_points{ points }, m_indices{ indices } {
