@@ -2,9 +2,9 @@
 
 #include "../types.hpp"
 #include "magic_enum_wrapper.hpp"
-#include <tl/optional.hpp>
 #include <glad/gl.h>
 #include <string_view>
+#include <tl/optional.hpp>
 
 namespace sly::gl {
     class ShaderProgram final {

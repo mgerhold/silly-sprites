@@ -16,8 +16,7 @@ static char const* const example_vertex_shader{ R"(
         {
             gl_Position = vec4(aPos.x + 0.3f, aPos.y + 0.4f, aPos.z, 1.0);
         }
-    )"
-};
+    )" };
 static char const* const example_fragment_shader{ R"(
         #version 330 core
         out vec4 FragColor;
@@ -26,8 +25,7 @@ static char const* const example_fragment_shader{ R"(
         {
             FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
         }   
-    )"
-};
+    )" };
 
 unsigned int vao;
 

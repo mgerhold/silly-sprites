@@ -10,8 +10,7 @@ namespace sly::gl {
             {
                 gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
             }
-        )"
-    };
+        )" };
     static constexpr char const* fallback_fragment_source{ R"(
             #version 330 core
             out vec4 FragColor;
@@ -20,8 +19,7 @@ namespace sly::gl {
             {
                 FragColor = vec4(255.0f, 0.0f, 255.0f, 1.0f);
             }    
-        )" 
-    };
+        )" };
 
     [[nodiscard]] constexpr std::string_view ShaderProgram::get_name_from_type(Type const type) {
         switch (type) {
@@ -36,7 +34,8 @@ namespace sly::gl {
         }
     }
 
-    [[nodiscard]] ShaderProgram::Shader ShaderProgram::compile(Type const type, std::string_view const source, bool const fallback) {
+    [[nodiscard]] ShaderProgram::Shader
+    ShaderProgram::compile(Type const type, std::string_view const source, bool const fallback) {
         // compile
 
         auto id{ glCreateShader(sly::to_underlying(type)) };
@@ -70,11 +69,11 @@ namespace sly::gl {
             spdlog::info("SUCCESS::SHADER::{}::COMPILATION", get_name_from_type(type));
         }
 
-        if (success){
+        if (success) {
             return { id };
         } else {
             glDeleteShader(id);
-            return { };
+            return {};
         }
     }
 
@@ -106,7 +105,7 @@ namespace sly::gl {
             std::string_view const fragment_source
     ) {
         m_program_id = { glCreateProgram() };
-        
+
         auto const vertex_shader = compile(Type::Vertex, vertex_source);
         auto const geometry_shader = compile(Type::Geometry, geometry_source);
         auto const fragment_shader = compile(Type::Fragment, fragment_source);
@@ -119,9 +118,9 @@ namespace sly::gl {
     }
 
     ShaderProgram::ShaderProgram(std::string_view const vertex_source, std::string_view const fragment_source) {
-        
+
         m_program_id = { glCreateProgram() };
-        
+
         auto const vertex_shader = compile(Type::Vertex, vertex_source);
         auto const fragment_shader = compile(Type::Fragment, fragment_source);
 
