@@ -81,7 +81,7 @@ namespace sly::gl {
     }
 
     void BufferObject::set_points(Points points) {
-        m_points = points;
+        m_points = std::move(points);
         bind_vertex_buffer();
         data_vertex_buffer();
     }
@@ -91,7 +91,7 @@ namespace sly::gl {
     }
 
     void BufferObject::set_indices(Indices indices) {
-        m_indices = indices;
+        m_indices = std::move(indices);
         bind_element_buffer();
         data_element_buffer();
     }
