@@ -75,7 +75,7 @@ namespace sly::gl {
         glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
     }
 
-    BufferObject::Points BufferObject::get_points() const {
+    [[nodiscard]] BufferObject::Points BufferObject::get_points() const {
         return m_points;
     }
 
@@ -85,7 +85,7 @@ namespace sly::gl {
         data_vertex_buffer();
     }
 
-    BufferObject::Indices BufferObject::get_indices() const {
+    [[nodiscard]] BufferObject::Indices BufferObject::get_indices() const {
         return m_indices;
     }
 
