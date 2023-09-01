@@ -15,7 +15,6 @@ namespace sly::gl {
         Points m_points;
         Indices m_indices;
 
-        void init();
         void generate_and_bind_vertex_array();
         void generate_and_bind_vertex_buffer();
         void generate_and_bind_element_buffer();

@@ -3,12 +3,7 @@
 
 namespace sly::gl {
     void BufferObject::init() {
-        generate_and_bind_vertex_array();
-        generate_and_bind_vertex_buffer();
-        generate_and_bind_element_buffer();
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-        glEnableVertexAttribArray(0);
     }
 
     void BufferObject::generate_and_bind_vertex_array() {
@@ -59,12 +54,17 @@ namespace sly::gl {
     }
 
     BufferObject::BufferObject(Points points, Indices indices) : m_points{ points }, m_indices{ indices } {
-        init();
+        generate_and_bind_vertex_array();
+        generate_and_bind_vertex_buffer();
+        generate_and_bind_element_buffer();
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+        glEnableVertexAttribArray(0);
     }
 
     BufferObject::~BufferObject() {
-        glDeleteBuffers(1, &m_vbo);
         glDeleteBuffers(1, &m_ebo);
+        glDeleteBuffers(1, &m_vbo);
         glDeleteVertexArrays(1, &m_vao);
     }
 
