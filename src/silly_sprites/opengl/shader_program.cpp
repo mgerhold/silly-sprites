@@ -29,9 +29,8 @@ namespace sly::gl {
                 return "GEOMETRY";
             case Type::Fragment:
                 return "FRAGMENT";
-            default:
-                return "INVALID";
         }
+        return "INVALID";
     }
 
     [[nodiscard]] ShaderProgram::Shader
