@@ -16,9 +16,9 @@ namespace sly::gl {
         Indices m_indices;
 
         void init();
-        void generate_vertex_array();
-        void generate_vertex_buffer();
-        void generate_element_buffer();
+        void generate_and_bind_vertex_array();
+        void generate_and_bind_vertex_buffer();
+        void generate_and_bind_element_buffer();
         void bind_vertex_array() const;
         void bind_vertex_buffer() const;
         void bind_element_buffer() const;

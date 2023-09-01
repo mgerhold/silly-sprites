@@ -2,26 +2,26 @@
 
 namespace sly::gl {
     void BufferObject::init() {
-        generate_vertex_array();
-        generate_vertex_buffer();
-        generate_element_buffer();
+        generate_and_bind_vertex_array();
+        generate_and_bind_vertex_buffer();
+        generate_and_bind_element_buffer();
 
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
         glEnableVertexAttribArray(0);
     }
 
-    void BufferObject::generate_vertex_array() {
+    void BufferObject::generate_and_bind_vertex_array() {
         glGenVertexArrays(1, &m_vao);
         bind_vertex_array();
     }
 
-    void BufferObject::generate_vertex_buffer() {
+    void BufferObject::generate_and_bind_vertex_buffer() {
         glGenBuffers(1, &m_vbo);
         bind_vertex_buffer();
         data_vertex_buffer();
     }
 
-    void BufferObject::generate_element_buffer() {
+    void BufferObject::generate_and_bind_element_buffer() {
         glGenBuffers(1, &m_ebo);
         bind_element_buffer();
         data_element_buffer();
