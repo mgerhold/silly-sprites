@@ -70,11 +70,10 @@ namespace sly::gl {
         }
 
         if (success) {
-            return { id };
-        } else {
-            glDeleteShader(id);
-            return {};
+            return id;
         }
+        glDeleteShader(id);
+        return tl::nullopt;
     }
 
     void ShaderProgram::attach_shader(Type const type, Shader const shader) const {
