@@ -52,7 +52,7 @@ namespace sly::gl {
     void BufferObject::data_element_buffer() const {
         glBufferData(
                 GL_ELEMENT_ARRAY_BUFFER,
-                gsl::narrow_cast<GLsizeiptr>(sizeof(unsigned int) * m_indices.size()),
+                gsl::narrow_cast<GLsizeiptr>(sizeof(GLuint) * m_indices.size()),
                 m_indices.data(),
                 GL_STATIC_DRAW
         );
