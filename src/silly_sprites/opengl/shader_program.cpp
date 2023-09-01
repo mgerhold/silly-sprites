@@ -1,5 +1,6 @@
 #include "shader_program.hpp"
 #include "utils.hpp"
+#include "gsl/gsl"
 
 namespace sly::gl {
     static constexpr auto fallback_vertex_source = R"(
@@ -47,8 +48,8 @@ namespace sly::gl {
         glGetShaderiv(id, GL_COMPILE_STATUS, &success);
         if (not success) {
             auto message = std::array<GLchar, 512>{};
-            glGetShaderInfoLog(id, message.size(), nullptr, message.data());
-            spdlog::critical("ERROR::SHADER::{}::COMPILATION_FAILED -> {}", get_name_from_type(type), message);
+            glGetShaderInfoLog(id, gsl::narrow_cast<GLsizei>(message.size()), nullptr, message.data());
+            spdlog::critical("ERROR::SHADER::{}::COMPILATION_FAILED -> {}", get_name_from_type(type), message.data());
 
             if (not fallback) {
                 if (type != Type::Geometry) {
@@ -93,8 +94,8 @@ namespace sly::gl {
         glGetProgramiv(m_program_name, GL_LINK_STATUS, &success);
         if (not success) {
             auto message = std::array<GLchar, 512>{};
-            glGetProgramInfoLog(m_program_name, message.size(), NULL, message.data());
-            spdlog::critical("ERROR::PROGRAMM::LINK_FAILED -> {}\n", message);
+            glGetProgramInfoLog(m_program_name, gsl::narrow_cast<GLsizei>(message.size()), NULL, message.data());
+            spdlog::critical("ERROR::PROGRAMM::LINK_FAILED -> {}\n", message.data());
         }
     }
 
