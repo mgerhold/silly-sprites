@@ -37,8 +37,8 @@ namespace sly::gl {
     ShaderProgram::compile(Type const type, std::string_view const source, bool const fallback) {
         // compile
 
-        auto id{ glCreateShader(sly::to_underlying(type)) };
-        auto const* c_str = source.data();
+        auto id = glCreateShader(sly::to_underlying(type));
+        auto const c_str = source.data();
         glShaderSource(id, 1, &c_str, nullptr);
         glCompileShader(id);
 
@@ -46,8 +46,8 @@ namespace sly::gl {
         GLint success;
         glGetShaderiv(id, GL_COMPILE_STATUS, &success);
         if (not success) {
-            GLchar message[512];
-            glGetShaderInfoLog(id, 512, nullptr, message);
+            auto message = std::array<GLchar, 512>{};
+            glGetShaderInfoLog(id, message.size(), nullptr, message.data());
             spdlog::critical("ERROR::SHADER::{}::COMPILATION_FAILED -> {}", get_name_from_type(type), message);
 
             if (not fallback) {
@@ -56,7 +56,8 @@ namespace sly::gl {
                     spdlog::error("ERROR::SHADER::{}::FALLBACK", get_name_from_type(type));
                     if (type == Type::Vertex) {
                         return compile(type, fallback_vertex_source, true);
-                    } else { // Type::Fragment
+                    } else {
+                        assert(type == Type::Fragment);
                         return compile(type, fallback_fragment_source, true);
                     }
                 } else {
@@ -92,8 +93,8 @@ namespace sly::gl {
         GLint success;
         glGetProgramiv(m_program_name, GL_LINK_STATUS, &success);
         if (not success) {
-            GLchar message[512];
-            glGetProgramInfoLog(m_program_name, 512, NULL, message);
+            auto message = std::array<GLchar, 512>{};
+            glGetProgramInfoLog(m_program_name, message.size(), NULL, message.data());
             spdlog::critical("ERROR::PROGRAMM::LINK_FAILED -> {}\n", message);
         }
     }
