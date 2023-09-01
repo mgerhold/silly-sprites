@@ -8,7 +8,7 @@ namespace sly::gl {
     class BufferObject final {
     private:
         using Points = std::vector<float>;
-        using Indices = std::vector<unsigned int>; // no output when in use usize so i stick to unsigned int
+        using Indices = std::vector<GLuint>;
 
         GLuint m_vao, m_vbo, m_ebo;
 
