@@ -17,7 +17,7 @@ namespace sly::gl {
 
     private:
         using Shader = tl::optional<GLuint>;
-        GLuint m_program_id;
+        GLuint m_program_name;
 
         [[nodiscard]] static constexpr std::string_view get_name_from_type(Type type);
         [[nodiscard]] Shader compile(Type type, std::string_view source, bool fallback = false);
