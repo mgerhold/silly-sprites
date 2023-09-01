@@ -2,10 +2,6 @@
 #include "gsl/gsl"
 
 namespace sly::gl {
-    void BufferObject::init() {
-
-    }
-
     void BufferObject::generate_and_bind_vertex_array() {
         glGenVertexArrays(1, &m_vao);
         bind_vertex_array();
@@ -77,7 +73,7 @@ namespace sly::gl {
     }
 
     void BufferObject::draw() const {
-        glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, gsl::narrow_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, nullptr);
     }
 
     [[nodiscard]] BufferObject::Points BufferObject::get_points() const {
