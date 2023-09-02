@@ -1,8 +1,11 @@
 #pragma once
 
+#include "builtins.hpp"
 #include "function.hpp"
 #include "module.hpp"
 #include "object.hpp"
+#include "time.hpp"
+#include "type_info.hpp"
 #include "types.hpp"
 #include "utils.hpp"
 #include <angelscript.h>
@@ -24,6 +27,10 @@ namespace sly::script {
             FailedToCreateScriptEngine,
             FailedToRegisterMessageCallback,
             FailedToRegisterBuiltinFunction,
+            FailedToRegisterBuiltinType,
+            FailedToRegisterBehavior,
+            FailedToRegisterObjectProperty,
+            FailedToRegisterMethod,
             FailedToCreateNewModule,
             FailedToReadSourceFile,
             CompilationError,
@@ -53,8 +60,11 @@ namespace sly::script {
 
 
     class Engine final {
-    private:
+    public:
+        // todo: make private (great) again
         asIScriptEngine* m_engine;
+
+    private:
         tl::optional<Module> m_module{ tl::nullopt };
         asIScriptContext* m_context;
 
@@ -74,6 +84,7 @@ namespace sly::script {
         [[nodiscard]] ClassInfoRange classes() const;
 
         Object create_object(std::string_view type_declaration);
+        void destroy_object(Object object);
         [[nodiscard]] tl::optional<Function>
         get_class_method(std::string_view class_name, std::string_view method_declaration) const;
 
@@ -91,7 +102,9 @@ namespace sly::script {
                             throw EngineError{ EngineError::Type::FailedToReadSourceFile };
                         }
                         if (builder.AddSectionFromMemory(
-                                    filenames, source->c_str(), gsl::narrow_cast<unsigned int>(source->length())
+                                    filenames,
+                                    source->c_str(),
+                                    gsl::narrow_cast<unsigned int>(source->length())
                             )
                             < 0) {
                             throw EngineError{ EngineError::Type::CompilationError };
@@ -232,6 +245,14 @@ namespace sly::script {
                 if (m_context->SetArgAddress(index, first_argument) < 0) {
                     throw EngineError{ EngineError::Type::UnableToPassArgument };
                 }
+            }
+            // builtin-types
+            else if constexpr (std::same_as<std::remove_cvref_t<decltype(first_argument)>, Time>) {
+                // copy value because it may have been deduced as "Time const&" (universal reference)
+                auto copy = first_argument;
+                if (m_context->SetArgObject(index, &copy) < 0) {
+                    throw EngineError{ EngineError::Type::UnableToPassArgument };
+                }
             } else {
                 static_assert(dependent_false<index>);
             }
@@ -266,6 +287,8 @@ namespace sly::script {
         }
 
         void register_builtin_functions();
+
+        void register_builtin_types();
 
         [[nodiscard]] int get_type_id_by_declaration(std::string_view const declaration) {
             auto const type_id = m_engine->GetTypeIdByDecl(declaration.data());
@@ -306,7 +329,7 @@ namespace sly::script {
             }
         }
 
-        [[nodiscard]] tl::optional<asITypeInfo*> get_type_info(std::string_view declaration) const;
+        [[nodiscard]] tl::optional<TypeInfo> get_type_info(std::string_view declaration) const;
     };
 
 } // namespace sly::script

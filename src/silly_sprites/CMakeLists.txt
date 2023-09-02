@@ -37,6 +37,7 @@ add_library(sillysprites
         script/class_info.cpp
         script/object.hpp
         script/function.hpp
+        script/type_info.hpp
 )
 
 target_link_libraries(sillysprites

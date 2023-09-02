@@ -7,8 +7,11 @@
 namespace sly {
 
     struct Script {
-        std::string class_name{ "Player" };
-        tl::optional<script::Object> instance;
+        std::string class_name;
+        tl::optional<script::Object> instance{ tl::nullopt };
+
+    public:
+        explicit Script(std::string class_name_) : class_name{ std::move(class_name_) } { }
     };
 
 } // namespace sly
