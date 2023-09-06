@@ -1,6 +1,7 @@
 #include "shader_program.hpp"
-#include "utils.hpp"
+#include "error.hpp"
 #include "gsl/gsl"
+#include "utils.hpp"
 
 namespace sly::gl {
     static constexpr auto fallback_vertex_source = R"(
@@ -34,57 +35,85 @@ namespace sly::gl {
         return "INVALID";
     }
 
-    [[nodiscard]] ShaderProgram::Shader
-    ShaderProgram::compile(Type const type, std::string_view const source, bool const fallback) {
+    [[nodiscard]] GLint ShaderProgram::compile(Type const type, std::string_view const source) {
         // compile
 
-        auto id = glCreateShader(sly::to_underlying(type));
-        auto const c_str = source.data();
-        glShaderSource(id, 1, &c_str, nullptr);
-        glCompileShader(id);
+        auto error_message = [&](GLint id) -> std::string {
+            auto message = std::string{};
+            auto len = GLint{};
+            glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len);
+            message.resize(len - 2);
+            glGetShaderInfoLog(id, len-1, nullptr, message.data());
+            return message;
+        };
+        auto compile_single = [&](GLint& id, char const* source) -> GLint {
+            id = glCreateShader(sly::to_underlying(type));
+            glShaderSource(id, 1, &source, nullptr);
+            glCompileShader(id);
+            auto success = GLint{};
+            glGetShaderiv(id, GL_COMPILE_STATUS, &success);
+            return success;
+        };
 
-        // check
-        GLint success;
-        glGetShaderiv(id, GL_COMPILE_STATUS, &success);
+        auto id = GLint{};
+        auto success = compile_single(id, source.data());
+
         if (not success) {
-            auto message = std::array<GLchar, 512>{};
-            glGetShaderInfoLog(id, gsl::narrow_cast<GLsizei>(message.size()), nullptr, message.data());
-            spdlog::critical("ERROR::SHADER::{}::COMPILATION_FAILED -> {}", get_name_from_type(type), message.data());
 
-            if (not fallback) {
-                if (type != Type::Geometry) {
-                    glDeleteShader(id);
-                    spdlog::error("ERROR::SHADER::{}::FALLBACK", get_name_from_type(type));
-                    if (type == Type::Vertex) {
-                        return compile(type, fallback_vertex_source, true);
-                    } else {
-                        assert(type == Type::Fragment);
-                        return compile(type, fallback_fragment_source, true);
+            auto message = error_message(id);
+            spdlog::critical("ERROR::SHADER::{}::COMPILATION_FAILED\nerror: {}", get_name_from_type(type), message);
+            glDeleteShader(id);
+
+            spdlog::info("SHADER::{}::TRY_FALLBACK_COMPILATION", get_name_from_type(type));
+            switch (type) {
+                case Type::Vertex:
+                    success = compile_single(id, fallback_vertex_source);
+                    if (not success) {
+                        auto message2 = error_message(id);
+                        spdlog::critical(
+                                "ERROR::SHADER::{}::COMPILATION_FAILED\nerror: {}",
+                                get_name_from_type(type),
+                                message2
+                        );
+                        glDeleteShader(id);
+                        throw GLError(
+                                GLErrorType::FailedToCompileVertexShader,
+                                fmt::format("first error: {}\nsecond error: {}", message, message2)
+                        );
                     }
-                } else {
-                    spdlog::critical("ERRPR::SHADER::{}::NO_FALLBACK", get_name_from_type(type));
-                }
+                    break;
+
+                case Type::Geometry:
+                    spdlog::critical("ERROR::SHADER::{}::NO_FALLBACK", get_name_from_type(type));
+                    throw GLError(GLErrorType::FailedToCompileGeometryShader, message);
+                    break;
+
+                case Type::Fragment:
+                    success = compile_single(id, fallback_fragment_source);
+                    if (not success) {
+                        auto message2 = error_message(id);
+                        spdlog::critical(
+                                "ERROR::SHADER::{}::COMPILATION_FAILED\nerror: {}",
+                                get_name_from_type(type),
+                                message2
+                        );
+                        glDeleteShader(id);
+                        throw GLError(
+                                GLErrorType::FailedToCompileVertexShader,
+                                fmt::format("first error: {}\nsecond error: {}", message, message2)
+                        );
+                    }
+                    break;
             }
-
-        } else {
-            spdlog::info("SUCCESS::SHADER::{}::COMPILATION", get_name_from_type(type));
         }
 
-        if (success) {
-            return id;
-        }
-        glDeleteShader(id);
-        return tl::nullopt;
+        spdlog::info("SUCCESS::SHADER::{}::COMPILATION", get_name_from_type(type));
+        return id;
     }
 
-    void ShaderProgram::attach_shader(Type const type, Shader const shader) const {
-        if (not shader.has_value()) {
-            spdlog::error("shader {} not add to program", get_name_from_type(type));
-            return;
-        }
-
-        glAttachShader(m_program_name, shader.value());
-        glDeleteShader(shader.value());
+    void ShaderProgram::attach_shader(GLint const shader) const {
+        glAttachShader(m_program_name, shader);
+        glDeleteShader(shader);
     }
 
     void ShaderProgram::link_program() const {
@@ -93,9 +122,14 @@ namespace sly::gl {
         GLint success;
         glGetProgramiv(m_program_name, GL_LINK_STATUS, &success);
         if (not success) {
-            auto message = std::array<GLchar, 512>{};
-            glGetProgramInfoLog(m_program_name, gsl::narrow_cast<GLsizei>(message.size()), NULL, message.data());
+            auto message = std::string{};
+            GLint len;
+            glGetProgramiv(m_program_name, GL_INFO_LOG_LENGTH, &len);
+            message.resize(len);
+            glGetProgramInfoLog(m_program_name, len, nullptr, message.data());
             spdlog::critical("ERROR::PROGRAMM::LINK_FAILED -> {}\n", message.data());
+            glDeleteProgram(m_program_name);
+            throw GLError(GLErrorType::FailedToLinkShaderProgram, message);
         }
     }
 
@@ -104,31 +138,30 @@ namespace sly::gl {
             std::string_view const geometry_source,
             std::string_view const fragment_source
     ) {
-        m_program_name = { glCreateProgram() };
+        try {
+            m_program_name = { glCreateProgram() };
 
-        auto const vertex_shader = compile(Type::Vertex, vertex_source);
-        auto const geometry_shader = compile(Type::Geometry, geometry_source);
-        auto const fragment_shader = compile(Type::Fragment, fragment_source);
 
-        attach_shader(Type::Vertex, vertex_shader);
-        attach_shader(Type::Geometry, geometry_shader);
-        attach_shader(Type::Fragment, fragment_shader);
+            auto const vertex_shader = compile(Type::Vertex, vertex_source);
+            attach_shader(vertex_shader);
 
-        link_program();
+            if (not geometry_source.empty()) {
+                auto const geometry_shader = compile(Type::Geometry, geometry_source);
+                attach_shader(geometry_shader);
+            }
+
+            auto const fragment_shader = compile(Type::Fragment, fragment_source);
+            attach_shader(fragment_shader);
+
+            link_program();
+
+        } catch (GLError const& error) {
+            spdlog::info(error.what());
+        }
     }
 
-    ShaderProgram::ShaderProgram(std::string_view const vertex_source, std::string_view const fragment_source) {
-
-        m_program_name = { glCreateProgram() };
-
-        auto const vertex_shader = compile(Type::Vertex, vertex_source);
-        auto const fragment_shader = compile(Type::Fragment, fragment_source);
-
-        attach_shader(Type::Vertex, vertex_shader);
-        attach_shader(Type::Fragment, fragment_shader);
-
-        link_program();
-    }
+    ShaderProgram::ShaderProgram(std::string_view const vertex_source, std::string_view const fragment_source)
+        : ShaderProgram(vertex_source, "", fragment_source) { }
 
     ShaderProgram::~ShaderProgram() {
         glDeleteProgram(m_program_name);

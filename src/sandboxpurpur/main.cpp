@@ -116,7 +116,7 @@ int main() {
     glClearColor(0.5f, 0.0f, 1.0f, 1.0f);
 
 
-    sly::gl::ShaderProgram shader_program{ example_vertex_shader, "invalid", example_fragment_shader };
+    sly::gl::ShaderProgram shader_program{ example_vertex_shader, example_fragment_shader };
     // set_points();
     sly::gl::BufferObject buffer_object{ points, indices };
     auto watch = sly::StopWatch{};
