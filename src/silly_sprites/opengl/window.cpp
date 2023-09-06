@@ -22,11 +22,11 @@ namespace sly::gl {
         return m_window.get();
     }
 
-    [[nodiscard]] tl::expected<Window, GLErrorType> Window::create(int const width, int const height) {
+    [[nodiscard]] Window Window::create(int const width, int const height) {
         auto context = GlfwContext::create();
         if (not context.has_value()) {
             spdlog::critical("Unable to create GLFW context");
-            return tl::unexpected{ GLErrorType::UnableToCreateGlfwContext };
+            throw GLError{ GLErrorType::UnableToCreateGlfwContext };
         }
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -36,7 +36,7 @@ namespace sly::gl {
         GLFWwindow* const window = glfwCreateWindow(width, height, "coder2k bester Mann", nullptr, nullptr);
         if (window == nullptr) {
             spdlog::critical("Failed to create GLFW window");
-            return tl::unexpected{ GLErrorType::FailedToCreateWindow };
+            throw GLError{ GLErrorType::FailedToCreateWindow };
         }
         glfwMakeContextCurrent(window);
         glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
@@ -44,11 +44,11 @@ namespace sly::gl {
 
         if (not gladLoadGL(glfwGetProcAddress)) {
             spdlog::critical("Failed to initialize Glad");
-            return tl::unexpected{ GLErrorType::FailedToInitializeGlad };
+            throw GLError{ GLErrorType::FailedToInitializeGlad };
         }
 
-        on_framebuffer_size_changed(window, width, height);
-        glfwSetFramebufferSizeCallback(window, on_framebuffer_size_changed);
+        gl::on_framebuffer_size_changed(window, width, height);  // addressing the gl namespace becuase otherwise the function is ambiguous
+        glfwSetFramebufferSizeCallback(window, gl::on_framebuffer_size_changed);
 
         spdlog::info("window initialized");
         return Window{ *std::move(context), window };

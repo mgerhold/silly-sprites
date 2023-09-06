@@ -99,11 +99,6 @@ void move_points(sly::gl::BufferObject& buffer) {
 int main() {
     auto window = sly::gl::Window::create(800, 600);
 
-    if (not window.has_value()) {
-        spdlog::critical(magic_enum::enum_name(window.error()));
-        return 0;
-    }
-
     // wrap this in some kind of rendering class
     glClearColor(0.5f, 0.0f, 1.0f, 1.0f);
 
@@ -114,7 +109,7 @@ int main() {
     auto watch = sly::StopWatch{};
 
 
-    while (not window->should_close()) {
+    while (not window.should_close()) {
         // spdlog::info("fps: {}", 1.0 / watch.reset());
         // wrap this in some kind of rendering class
         glClear(GL_COLOR_BUFFER_BIT);
@@ -125,9 +120,9 @@ int main() {
         buffer_object.draw();
         buffer_object.unbind();
 
-        window->swap_buffers();
+        window.swap_buffers();
         glfwPollEvents();
-        sly::Input::update(window.value());
+        sly::Input::update(window);
 
         move_points(buffer_object);
     }
