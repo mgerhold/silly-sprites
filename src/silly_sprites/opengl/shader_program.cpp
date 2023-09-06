@@ -125,8 +125,8 @@ namespace sly::gl {
             auto message = std::string{};
             GLint len;
             glGetProgramiv(m_program_name, GL_INFO_LOG_LENGTH, &len);
-            message.resize(gsl::narrow<usize>(len-2));
-            glGetProgramInfoLog(m_program_name, len-1, nullptr, message.data());
+            message.resize(gsl::narrow<usize>(len - 2));
+            glGetProgramInfoLog(m_program_name, len - 1, nullptr, message.data());
             spdlog::critical("ERROR::PROGRAMM::LINK_FAILED -> {}\n", message.data());
             glDeleteProgram(m_program_name);
             throw GLError(GLErrorType::FailedToLinkShaderProgram, message);
@@ -137,7 +137,8 @@ namespace sly::gl {
             std::string_view const vertex_source,
             std::string_view const geometry_source,
             std::string_view const fragment_source
-    ) {
+    )
+        : m_program_name{ 0 } {
         m_program_name = { glCreateProgram() };
 
 

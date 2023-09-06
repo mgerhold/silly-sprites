@@ -50,7 +50,10 @@ namespace sly::gl {
     }
 
     BufferObject::BufferObject(Points const& points, Indices const& indices, GLuint location)
-        : m_index_count{ indices.size() } {
+        : m_vao{ 0 },
+          m_vbo{ 0 },
+          m_ebo{ 0 },
+          m_index_count{ indices.size() } {
         generate_and_bind_vertex_array();
         generate_and_bind_vertex_buffer(points);
         generate_and_bind_element_buffer(indices);
