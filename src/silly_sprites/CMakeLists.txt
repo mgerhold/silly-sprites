@@ -11,6 +11,7 @@ add_library(sillysprites
         stopwatch.cpp
         stopwatch.hpp
         opengl/error.hpp
+        opengl/error.cpp
         opengl/window.hpp
         opengl/window.cpp
         opengl/glfw_context.cpp

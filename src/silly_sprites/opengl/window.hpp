@@ -26,7 +26,7 @@ namespace sly::gl {
         [[nodiscard]] GLFWwindow* get() const;
 
     public:
-        [[nodiscard]] static tl::expected<Window, GlError> create(int width, int height);
+        [[nodiscard]] static tl::expected<Window, GLErrorType> create(int width, int height);
 
         [[nodiscard]] bool should_close() const;
         void swap_buffers();

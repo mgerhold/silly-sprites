@@ -33,7 +33,7 @@ namespace sly::gl {
             return *this;
         }
 
-        [[nodiscard]] static tl::expected<GlfwContext, GlError> create();
+        [[nodiscard]] static tl::expected<GlfwContext, GLErrorType> create();
     };
 
 } // namespace sly::gl
