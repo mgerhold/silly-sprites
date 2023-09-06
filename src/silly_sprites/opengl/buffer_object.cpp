@@ -63,15 +63,15 @@ namespace sly::gl {
     }
 
     BufferObject::BufferObject(BufferObject&& other) noexcept
-        : m_ebo{ std::exchange(other.m_ebo, 0) },
+        : m_vao{ std::exchange(other.m_vao, 0) },
           m_vbo{ std::exchange(other.m_vbo, 0) },
-          m_vao{ std::exchange(other.m_vao, 0) },
+          m_ebo{ std::exchange(other.m_ebo, 0) },
           m_index_count{ std::exchange(other.m_index_count, 0) } { }
 
     BufferObject& BufferObject::operator=(BufferObject&& other) noexcept {
-        std::swap(m_ebo, other.m_ebo);
-        std::swap(m_vbo, other.m_vbo);
         std::swap(m_vao, other.m_vao);
+        std::swap(m_vbo, other.m_vbo);
+        std::swap(m_ebo, other.m_ebo);
         std::swap(m_index_count, other.m_index_count);
         return *this;
     }
