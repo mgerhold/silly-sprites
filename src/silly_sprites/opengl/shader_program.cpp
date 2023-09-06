@@ -43,7 +43,7 @@ namespace sly::gl {
             auto len = GLint{};
             glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len);
             message.resize(len - 2);
-            glGetShaderInfoLog(id, len-1, nullptr, message.data());
+            glGetShaderInfoLog(id, len - 1, nullptr, message.data());
             return message;
         };
         auto compile_single = [&](GLint& id, char const* source) -> GLint {
@@ -138,26 +138,21 @@ namespace sly::gl {
             std::string_view const geometry_source,
             std::string_view const fragment_source
     ) {
-        try {
-            m_program_name = { glCreateProgram() };
+        m_program_name = { glCreateProgram() };
 
 
-            auto const vertex_shader = compile(Type::Vertex, vertex_source);
-            attach_shader(vertex_shader);
+        auto const vertex_shader = compile(Type::Vertex, vertex_source);
+        attach_shader(vertex_shader);
 
-            if (not geometry_source.empty()) {
-                auto const geometry_shader = compile(Type::Geometry, geometry_source);
-                attach_shader(geometry_shader);
-            }
-
-            auto const fragment_shader = compile(Type::Fragment, fragment_source);
-            attach_shader(fragment_shader);
-
-            link_program();
-
-        } catch (GLError const& error) {
-            spdlog::info(error.what());
+        if (not geometry_source.empty()) {
+            auto const geometry_shader = compile(Type::Geometry, geometry_source);
+            attach_shader(geometry_shader);
         }
+
+        auto const fragment_shader = compile(Type::Fragment, fragment_source);
+        attach_shader(fragment_shader);
+
+        link_program();
     }
 
     ShaderProgram::ShaderProgram(std::string_view const vertex_source, std::string_view const fragment_source)
