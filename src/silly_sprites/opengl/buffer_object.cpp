@@ -7,16 +7,16 @@ namespace sly::gl {
         bind_vertex_array();
     }
 
-    void BufferObject::generate_and_bind_vertex_buffer() {
+    void BufferObject::generate_and_bind_vertex_buffer(Points const& points) {
         glGenBuffers(1, &m_vbo);
         bind_vertex_buffer();
-        data_vertex_buffer();
+        data_vertex_buffer(points);
     }
 
-    void BufferObject::generate_and_bind_element_buffer() {
+    void BufferObject::generate_and_bind_element_buffer(Indices const& indices) {
         glGenBuffers(1, &m_ebo);
         bind_element_buffer();
-        data_element_buffer();
+        data_element_buffer(indices);
     }
 
     void BufferObject::bind_vertex_array() const {
@@ -31,28 +31,28 @@ namespace sly::gl {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
     }
 
-    void BufferObject::data_vertex_buffer() const {
+    void BufferObject::data_vertex_buffer(Points const& points) const {
         glBufferData(
                 GL_ARRAY_BUFFER,
-                gsl::narrow_cast<GLsizeiptr>(sizeof(float) * m_points.size()),
-                m_points.data(),
+                gsl::narrow_cast<GLsizeiptr>(sizeof(float) * points.size()),
+                points.data(),
                 GL_STATIC_DRAW
         );
     }
 
-    void BufferObject::data_element_buffer() const {
+    void BufferObject::data_element_buffer(Indices const& indices) const {
         glBufferData(
                 GL_ELEMENT_ARRAY_BUFFER,
-                gsl::narrow_cast<GLsizeiptr>(sizeof(GLuint) * m_indices.size()),
-                m_indices.data(),
+                gsl::narrow_cast<GLsizeiptr>(sizeof(GLuint) * indices.size()),
+                indices.data(),
                 GL_STATIC_DRAW
         );
     }
 
-    BufferObject::BufferObject(Points points, Indices indices) : m_points{ points }, m_indices{ indices } {
+    BufferObject::BufferObject(Points const& points, Indices const& indices) : m_index_count{ indices.size() } {
         generate_and_bind_vertex_array();
-        generate_and_bind_vertex_buffer();
-        generate_and_bind_element_buffer();
+        generate_and_bind_vertex_buffer(points);
+        generate_and_bind_element_buffer(indices);
 
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
         glEnableVertexAttribArray(0);
@@ -73,19 +73,18 @@ namespace sly::gl {
     }
 
     void BufferObject::draw() const {
-        glDrawElements(GL_TRIANGLES, gsl::narrow_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, gsl::narrow_cast<GLsizei>(m_index_count), GL_UNSIGNED_INT, nullptr);
     }
 
-    void BufferObject::set_points(Points points) {
-        m_points = std::move(points);
+    void BufferObject::set_points(Points const& points) {
         bind_vertex_buffer();
-        data_vertex_buffer();
+        data_vertex_buffer(points);
     }
 
-    void BufferObject::set_indices(Indices indices) {
-        m_indices = std::move(indices);
+    void BufferObject::set_indices(Indices const& indices) {
+        m_index_count = indices.size();
         bind_element_buffer();
-        data_element_buffer();
+        data_element_buffer(indices);
     }
 
 } // namespace sly::gl
