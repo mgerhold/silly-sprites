@@ -19,8 +19,8 @@ namespace sly::gl {
         GLuint m_program_name;
 
         [[nodiscard]] static constexpr std::string_view get_name_from_type(Type type);
-        [[nodiscard]] GLint compile(Type type, std::string_view source);
-        void attach_shader(GLint shader) const;
+        [[nodiscard]] GLuint compile(Type type, std::string_view source);
+        void attach_shader(GLuint shader) const;
         void link_program() const;
 
     public:

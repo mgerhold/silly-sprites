@@ -35,27 +35,27 @@ namespace sly::gl {
         return "INVALID";
     }
 
-    [[nodiscard]] GLint ShaderProgram::compile(Type const type, std::string_view const source) {
+    [[nodiscard]] GLuint ShaderProgram::compile(Type const type, std::string_view const source) {
         // compile
 
-        auto error_message = [&](GLint id) -> std::string {
+        auto error_message = [&](GLuint id) -> std::string {
             auto message = std::string{};
             auto len = GLint{};
             glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len);
-            message.resize(len - 2);
+            message.resize(gsl::narrow_cast<usize>(len - 2));
             glGetShaderInfoLog(id, len - 1, nullptr, message.data());
             return message;
         };
-        auto compile_single = [&](GLint& id, char const* source) -> GLint {
+        auto compile_single = [&](GLuint& id, char const* single_source) -> GLint {
             id = glCreateShader(sly::to_underlying(type));
-            glShaderSource(id, 1, &source, nullptr);
+            glShaderSource(id, 1, &single_source, nullptr);
             glCompileShader(id);
             auto success = GLint{};
             glGetShaderiv(id, GL_COMPILE_STATUS, &success);
             return success;
         };
 
-        auto id = GLint{};
+        auto id = GLuint{};
         auto success = compile_single(id, source.data());
 
         if (not success) {
@@ -111,7 +111,7 @@ namespace sly::gl {
         return id;
     }
 
-    void ShaderProgram::attach_shader(GLint const shader) const {
+    void ShaderProgram::attach_shader(GLuint const shader) const {
         glAttachShader(m_program_name, shader);
         glDeleteShader(shader);
     }
@@ -125,8 +125,8 @@ namespace sly::gl {
             auto message = std::string{};
             GLint len;
             glGetProgramiv(m_program_name, GL_INFO_LOG_LENGTH, &len);
-            message.resize(len);
-            glGetProgramInfoLog(m_program_name, len, nullptr, message.data());
+            message.resize(gsl::narrow<usize>(len-2));
+            glGetProgramInfoLog(m_program_name, len-1, nullptr, message.data());
             spdlog::critical("ERROR::PROGRAMM::LINK_FAILED -> {}\n", message.data());
             glDeleteProgram(m_program_name);
             throw GLError(GLErrorType::FailedToLinkShaderProgram, message);
