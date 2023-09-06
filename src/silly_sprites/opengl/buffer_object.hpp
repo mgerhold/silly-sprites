@@ -33,10 +33,7 @@ namespace sly::gl {
 
         void draw() const;
 
-        [[nodiscard]] Points get_points() const;
         void set_points(Points points);
-
-        [[nodiscard]] Indices get_indices() const;
         void set_indices(Indices indices);
     };
 } // namespace sly::gl

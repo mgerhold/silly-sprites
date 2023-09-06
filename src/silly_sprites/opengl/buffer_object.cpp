@@ -76,18 +76,10 @@ namespace sly::gl {
         glDrawElements(GL_TRIANGLES, gsl::narrow_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, nullptr);
     }
 
-    [[nodiscard]] BufferObject::Points BufferObject::get_points() const {
-        return m_points;
-    }
-
     void BufferObject::set_points(Points points) {
         m_points = std::move(points);
         bind_vertex_buffer();
         data_vertex_buffer();
-    }
-
-    [[nodiscard]] BufferObject::Indices BufferObject::get_indices() const {
-        return m_indices;
     }
 
     void BufferObject::set_indices(Indices indices) {
@@ -95,4 +87,5 @@ namespace sly::gl {
         bind_element_buffer();
         data_element_buffer();
     }
+
 } // namespace sly::gl

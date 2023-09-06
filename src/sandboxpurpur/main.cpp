@@ -29,7 +29,7 @@ static char const* const example_fragment_shader{ R"(
         }   
     )" };
 
-static inline std::vector<float> const points{
+static inline std::vector<float> points{
     0.0f,   0.5f,  0.0f, // top
     -0.25f, 0.0f,  0.0f, // mid left
     0.25f,  0.0f,  0.0f, // mit right
@@ -45,8 +45,6 @@ static inline std::vector<unsigned int> const indices{
 };
 
 void move_points_down(sly::gl::BufferObject& buffer) {
-    auto points{ buffer.get_points() };
-
     for (sly::usize i = 0; i < points.size(); ++i) {
         if ((i % 3) - 1 == 0) {
             points.at(i) -= 0.01f;
@@ -56,8 +54,6 @@ void move_points_down(sly::gl::BufferObject& buffer) {
     buffer.set_points(points);
 }
 void move_points_up(sly::gl::BufferObject& buffer) {
-    auto points{ buffer.get_points() };
-
     for (sly::usize i = 0; i < points.size(); ++i) {
         if ((i % 3) - 1 == 0) {
             points.at(i) += 0.01f;
@@ -67,8 +63,6 @@ void move_points_up(sly::gl::BufferObject& buffer) {
     buffer.set_points(points);
 }
 void move_points_left(sly::gl::BufferObject& buffer) {
-    auto points{ buffer.get_points() };
-
     for (sly::usize i = 0; i < points.size(); ++i) {
         if (i % 3 == 0) {
             points.at(i) -= 0.01f;
@@ -78,8 +72,6 @@ void move_points_left(sly::gl::BufferObject& buffer) {
     buffer.set_points(points);
 }
 void move_points_right(sly::gl::BufferObject& buffer) {
-    auto points{ buffer.get_points() };
-
     for (sly::usize i = 0; i < points.size(); ++i) {
         if (i % 3 == 0) {
             points.at(i) += 0.01f;
