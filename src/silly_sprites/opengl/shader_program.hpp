@@ -30,6 +30,10 @@ namespace sly::gl {
                 std::string_view fragment_source
         );
         ShaderProgram(std::string_view vertex_source, std::string_view fragment_source);
+        ShaderProgram(ShaderProgram const&) = delete;
+        ShaderProgram(ShaderProgram&& other) noexcept;
+        ShaderProgram& operator=(ShaderProgram const&) = delete;
+        ShaderProgram& operator=(ShaderProgram&& other) noexcept;
         ~ShaderProgram();
 
         void use();

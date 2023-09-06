@@ -158,9 +158,18 @@ namespace sly::gl {
     ShaderProgram::ShaderProgram(std::string_view const vertex_source, std::string_view const fragment_source)
         : ShaderProgram(vertex_source, "", fragment_source) { }
 
+    ShaderProgram::ShaderProgram(ShaderProgram&& other) noexcept
+        : m_program_name{ std::exchange(other.m_program_name, 0) } { }
+
+    ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept {
+        std::swap(m_program_name, other.m_program_name);
+        return *this;
+    }
+
     ShaderProgram::~ShaderProgram() {
         glDeleteProgram(m_program_name);
     }
+
 
     void ShaderProgram::use() {
         glUseProgram(m_program_name);
