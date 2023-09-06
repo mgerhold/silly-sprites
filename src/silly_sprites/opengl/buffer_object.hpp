@@ -24,6 +24,10 @@ namespace sly::gl {
 
     public:
         BufferObject(Points const& points, Indices const& indices);
+        BufferObject(BufferObject const&) = delete;
+        BufferObject(BufferObject&& other) noexcept;
+        BufferObject& operator=(BufferObject const&) = delete;
+        BufferObject& operator=(BufferObject&& other) noexcept;
         ~BufferObject();
 
         void bind() const;
