@@ -49,13 +49,14 @@ namespace sly::gl {
         );
     }
 
-    BufferObject::BufferObject(Points const& points, Indices const& indices) : m_index_count{ indices.size() } {
+    BufferObject::BufferObject(Points const& points, Indices const& indices, GLuint location)
+        : m_index_count{ indices.size() } {
         generate_and_bind_vertex_array();
         generate_and_bind_vertex_buffer(points);
         generate_and_bind_element_buffer(indices);
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), nullptr);
+        glEnableVertexAttribArray(location);
     }
 
     BufferObject::BufferObject(BufferObject&& other) noexcept
@@ -70,7 +71,6 @@ namespace sly::gl {
         std::swap(m_vao, other.m_vao);
         std::swap(m_index_count, other.m_index_count);
         return *this;
-
     }
 
     BufferObject::~BufferObject() {

@@ -23,7 +23,7 @@ namespace sly::gl {
         void data_element_buffer(Indices const& indices) const;
 
     public:
-        BufferObject(Points const& points, Indices const& indices);
+        BufferObject(Points const& points, Indices const& indices, GLuint location);
         BufferObject(BufferObject const&) = delete;
         BufferObject(BufferObject&& other) noexcept;
         BufferObject& operator=(BufferObject const&) = delete;
