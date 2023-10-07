@@ -105,8 +105,9 @@ int main() {
 
     sly::gl::ShaderProgram shader_program{ example_vertex_shader, example_fragment_shader };
     sly::gl::BufferObject buffer_object{ };
-    buffer_object.set_points(points);
-    buffer_object.set_indices(indices);
+    buffer_object.set_initial_data(points, indices);
+    // buffer_object.set_points(points);
+    // buffer_object.set_indices(indices);
     auto watch = sly::StopWatch{};
 
 
