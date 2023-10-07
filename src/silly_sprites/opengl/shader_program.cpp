@@ -23,6 +23,49 @@ namespace sly::gl {
             }    
         )";
 
+    ShaderProgram::ShaderProgram(
+            std::string_view const vertex_source,
+            std::string_view const geometry_source,
+            std::string_view const fragment_source
+    )
+        : m_program_name{ 0 } {
+        m_program_name = { glCreateProgram() };
+
+
+        auto const vertex_shader = compile(Type::Vertex, vertex_source);
+        attach_shader(vertex_shader);
+
+        if (not geometry_source.empty()) {
+            auto const geometry_shader = compile(Type::Geometry, geometry_source);
+            attach_shader(geometry_shader);
+        }
+
+        auto const fragment_shader = compile(Type::Fragment, fragment_source);
+        attach_shader(fragment_shader);
+
+        link_program();
+    }
+
+    ShaderProgram::ShaderProgram(std::string_view const vertex_source, std::string_view const fragment_source)
+        : ShaderProgram(vertex_source, "", fragment_source) { }
+
+    ShaderProgram::ShaderProgram(ShaderProgram&& other) noexcept
+        : m_program_name{ std::exchange(other.m_program_name, 0) } { }
+
+    ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept {
+        std::swap(m_program_name, other.m_program_name);
+        return *this;
+    }
+
+    ShaderProgram::~ShaderProgram() {
+        glDeleteProgram(m_program_name);
+    }
+
+
+    void ShaderProgram::use() {
+        glUseProgram(m_program_name);
+    }
+
     [[nodiscard]] constexpr std::string_view ShaderProgram::get_name_from_type(Type const type) {
         switch (type) {
             case Type::Vertex:
@@ -131,49 +174,6 @@ namespace sly::gl {
             glDeleteProgram(m_program_name);
             throw GlError(GlErrorType::FailedToLinkShaderProgram, message);
         }
-    }
-
-    ShaderProgram::ShaderProgram(
-            std::string_view const vertex_source,
-            std::string_view const geometry_source,
-            std::string_view const fragment_source
-    )
-        : m_program_name{ 0 } {
-        m_program_name = { glCreateProgram() };
-
-
-        auto const vertex_shader = compile(Type::Vertex, vertex_source);
-        attach_shader(vertex_shader);
-
-        if (not geometry_source.empty()) {
-            auto const geometry_shader = compile(Type::Geometry, geometry_source);
-            attach_shader(geometry_shader);
-        }
-
-        auto const fragment_shader = compile(Type::Fragment, fragment_source);
-        attach_shader(fragment_shader);
-
-        link_program();
-    }
-
-    ShaderProgram::ShaderProgram(std::string_view const vertex_source, std::string_view const fragment_source)
-        : ShaderProgram(vertex_source, "", fragment_source) { }
-
-    ShaderProgram::ShaderProgram(ShaderProgram&& other) noexcept
-        : m_program_name{ std::exchange(other.m_program_name, 0) } { }
-
-    ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept {
-        std::swap(m_program_name, other.m_program_name);
-        return *this;
-    }
-
-    ShaderProgram::~ShaderProgram() {
-        glDeleteProgram(m_program_name);
-    }
-
-
-    void ShaderProgram::use() {
-        glUseProgram(m_program_name);
     }
 
 } // namespace sly::gl

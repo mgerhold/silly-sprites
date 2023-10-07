@@ -18,11 +18,6 @@ namespace sly::gl {
     private:
         GLuint m_program_name;
 
-        [[nodiscard]] static constexpr std::string_view get_name_from_type(Type type);
-        [[nodiscard]] GLuint compile(Type type, std::string_view source);
-        void attach_shader(GLuint shader) const;
-        void link_program() const;
-
     public:
         ShaderProgram(
                 std::string_view vertex_source,
@@ -37,5 +32,11 @@ namespace sly::gl {
         ~ShaderProgram();
 
         void use();
+
+    private:
+        [[nodiscard]] static constexpr std::string_view get_name_from_type(Type type);
+        [[nodiscard]] GLuint compile(Type type, std::string_view source);
+        void attach_shader(GLuint shader) const;
+        void link_program() const;
     };
 } // namespace sly::gl
