@@ -7,7 +7,7 @@
 namespace sly::gl {
     class BufferObject final {
     private:
-        using Points = std::vector<float>;
+        using Points = std::vector<GLfloat>;
         using Indices = std::vector<GLuint>;
 
         GLuint m_vao, m_vbo, m_ebo;
