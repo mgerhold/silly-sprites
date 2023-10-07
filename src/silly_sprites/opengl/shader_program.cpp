@@ -31,7 +31,9 @@ namespace sly::gl {
 
 
         auto const vertex_shader = compile(ShaderType::Vertex, vertex_source);
-        glAttachShader(m_program_name, vertex_shader.get_name());
+        if (vertex_shader.is_valid()) {
+            glAttachShader(m_program_name, vertex_shader.get_name());
+        }
 
 
         if (not geometry_source.empty()) {
@@ -43,7 +45,9 @@ namespace sly::gl {
 
 
         auto const fragment_shader = compile(ShaderType::Fragment, fragment_source);
-        glAttachShader(m_program_name, fragment_shader.get_name());
+        if (fragment_shader.is_valid()) {
+            glAttachShader(m_program_name, fragment_shader.get_name());
+        }
 
         link_program();
     }
