@@ -79,7 +79,7 @@ namespace sly::gl {
     }
 
     [[nodiscard]] GLuint ShaderProgram::compile(Type const type, std::string_view const source) {
-        auto error_message = [&](GLuint id) -> std::string {
+        auto const error_message = [&](GLuint id) -> std::string {
             auto len = GLint{};
             glGetShaderiv(
                     id,
@@ -90,7 +90,7 @@ namespace sly::gl {
             glGetShaderInfoLog(id, len - 1, nullptr, message.data());
             return message;
         };
-        auto compile_single = [&](GLuint& id, char const* single_source) -> GLint {
+        auto const compile_single = [&](GLuint& id, char const* single_source) -> GLint {
             id = glCreateShader(sly::to_underlying(type));
             glShaderSource(id, 1, &single_source, nullptr);
             glCompileShader(id);
