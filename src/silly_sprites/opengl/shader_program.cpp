@@ -33,12 +33,14 @@ namespace sly::gl {
         auto const vertex_shader = compile(ShaderType::Vertex, vertex_source);
         glAttachShader(m_program_name, vertex_shader.get_name());
 
-        
+
         if (not geometry_source.empty()) {
             auto const geometry_shader = compile(ShaderType::Geometry, geometry_source);
-            glAttachShader(m_program_name, geometry_shader.get_name());
+            if (geometry_shader.is_valid()) {
+                glAttachShader(m_program_name, geometry_shader.get_name());
+            }
         }
-        
+
 
         auto const fragment_shader = compile(ShaderType::Fragment, fragment_source);
         glAttachShader(m_program_name, fragment_shader.get_name());
@@ -82,7 +84,8 @@ namespace sly::gl {
                 throw GlError(GlErrorType::FailedToCompileVertexShader);
             }
             case ShaderType::Geometry:
-                throw GlError(GlErrorType::FailedToCompileGeometryShader);
+                spdlog::critical("No fallback for Geormetry shader available.");
+                return shader;
             case ShaderType::Fragment:
                 auto fallback_shader = Shader(type, fallback_fragment_source);
                 if (fallback_shader.is_valid()) {
@@ -111,13 +114,6 @@ namespace sly::gl {
         GLint success;
         glGetProgramiv(m_program_name, GL_LINK_STATUS, &success);
         if (not success) {
-            /*
-            auto message = std::string{};
-            GLint len;
-            glGetProgramiv(m_program_name, GL_INFO_LOG_LENGTH, &len);
-            message.resize(gsl::narrow<usize>(len - 2));
-            glGetProgramInfoLog(m_program_name, len - 1, nullptr, message.data());
-            */ 
             auto const message = error_message();
             spdlog::critical("ERROR::PROGRAMM::LINK_FAILED -> {}\n", message.data());
             glDeleteProgram(m_program_name);
