@@ -37,8 +37,6 @@ namespace sly::gl {
                     message
             );
         }
-
-        spdlog::info("shader ctor {}", m_name);
     }
 
     Shader::Shader(Shader&& other) noexcept
@@ -53,7 +51,6 @@ namespace sly::gl {
 
     Shader::~Shader() {
         glDeleteShader(m_name);
-        spdlog::info("shader dtor {}", m_name);
     }
 
     [[nodiscard]] bool Shader::is_valid() const {

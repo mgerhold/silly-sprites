@@ -25,7 +25,8 @@ namespace sly::gl {
         ShaderProgram& operator=(ShaderProgram&& other) noexcept;
         ~ShaderProgram();
 
-        void use();
+        void bind();
+        void unbind();
 
     private:
         [[nodiscard]] static Shader compile(ShaderType type, std::string_view source);
