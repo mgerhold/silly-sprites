@@ -27,7 +27,7 @@ namespace sly::gl {
             std::string_view const geometry_source,
             std::string_view const fragment_source
     ) {
-        m_program_name = { glCreateProgram() };
+        m_program_name = glCreateProgram();
 
 
         auto const vertex_shader = compile(ShaderType::Vertex, vertex_source);
