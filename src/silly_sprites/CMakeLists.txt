@@ -10,12 +10,6 @@ add_library(sillysprites
         application.cpp
         stopwatch.cpp
         stopwatch.hpp
-        opengl/error.hpp
-        opengl/error.cpp
-        opengl/window.hpp
-        opengl/window.cpp
-        opengl/glfw_context.cpp
-        opengl/glfw_context.hpp
         types.hpp
         input.hpp
         input.cpp
@@ -36,11 +30,21 @@ add_library(sillysprites
         script/class_info.cpp
         script/object.hpp
         script/function.hpp
-        opengl/shader_program.hpp
-        opengl/shader_program.cpp
         script/type_info.hpp
+        opengl/error.hpp
+        opengl/error.cpp
+        opengl/window.hpp
+        opengl/window.cpp
+        opengl/glfw_context.cpp
+        opengl/glfw_context.hpp
         opengl/buffer_object.hpp
         opengl/buffer_object.cpp
+        opengl/shader.hpp
+        opengl/shader.cpp
+        opengl/shader_type.hpp
+        opengl/shader_type.cpp
+        opengl/shader_program.hpp
+        opengl/shader_program.cpp
 )
 
 target_link_libraries(sillysprites

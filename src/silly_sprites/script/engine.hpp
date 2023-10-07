@@ -23,7 +23,7 @@ namespace sly::script {
 
     class EngineError : public std::exception {
     public:
-        enum class Type {
+        enum class ShaderType {
             FailedToCreateScriptEngine,
             FailedToRegisterMessageCallback,
             FailedToRegisterBuiltinFunction,
@@ -50,10 +50,10 @@ namespace sly::script {
         };
 
     private:
-        Type m_type;
+        ShaderType m_type;
 
     public:
-        explicit EngineError(Type type) : m_type{ type } { }
+        explicit EngineError(ShaderType type) : m_type{ type } { }
 
         [[nodiscard]] char const* what() const noexcept override;
     };
@@ -92,14 +92,14 @@ namespace sly::script {
             assert(m_engine != nullptr);
             auto builder = CScriptBuilder{};
             if (builder.StartNewModule(m_engine, name.data()) < 0) {
-                throw EngineError{ EngineError::Type::FailedToCreateNewModule };
+                throw EngineError{ EngineError::ShaderType::FailedToCreateNewModule };
             }
 
             (
                     [&]() {
                         auto source = read_file(filenames);
                         if (not source.has_value()) {
-                            throw EngineError{ EngineError::Type::FailedToReadSourceFile };
+                            throw EngineError{ EngineError::ShaderType::FailedToReadSourceFile };
                         }
                         if (builder.AddSectionFromMemory(
                                     filenames,
@@ -107,14 +107,14 @@ namespace sly::script {
                                     gsl::narrow_cast<unsigned int>(source->length())
                             )
                             < 0) {
-                            throw EngineError{ EngineError::Type::CompilationError };
+                            throw EngineError{ EngineError::ShaderType::CompilationError };
                         }
                     }(),
                     ...
             );
 
             if (builder.BuildModule() < 0) {
-                throw EngineError{ EngineError::Type::CompilationError };
+                throw EngineError{ EngineError::ShaderType::CompilationError };
             }
 
             auto const module = builder.GetModule();
@@ -130,12 +130,12 @@ namespace sly::script {
         template<typename Result = void>
         auto call_function(std::string_view const function_name, auto&&... arguments) {
             if (not m_module.has_value()) {
-                throw EngineError{ EngineError::Type::UnableToCallFunctionOnMissingModule };
+                throw EngineError{ EngineError::ShaderType::UnableToCallFunctionOnMissingModule };
             }
 
             auto const function = m_module->m_module->GetFunctionByName(function_name.data());
             if (function == nullptr) {
-                throw EngineError{ EngineError::Type::TryingToCallUndeclaredFunction };
+                throw EngineError{ EngineError::ShaderType::TryingToCallUndeclaredFunction };
             }
 
             return call<Result>(Function{ function }, tl::nullopt, std::forward<decltype(arguments)>(arguments)...);
@@ -152,7 +152,7 @@ namespace sly::script {
             auto const actual_return_type_id = function.m_function->GetReturnTypeId();
             auto const expected_return_type_id = get_type_id<Result>();
             if (actual_return_type_id != expected_return_type_id) {
-                throw EngineError{ EngineError::Type::FunctionReturnTypeMismatch };
+                throw EngineError{ EngineError::ShaderType::FunctionReturnTypeMismatch };
             }
 
             assert(m_context != nullptr);
@@ -167,7 +167,7 @@ namespace sly::script {
             }
 
             if (m_context->Execute() != asEXECUTION_FINISHED) {
-                throw EngineError{ EngineError::Type::ErrorWhileCallingFunction };
+                throw EngineError{ EngineError::ShaderType::ErrorWhileCallingFunction };
             }
 
             if constexpr (not std::same_as<Result, void>) {
@@ -183,39 +183,39 @@ namespace sly::script {
                 static_assert(sizeof(asBYTE) == sizeof(u8));
                 static_assert(sizeof(asBYTE) == sizeof(i8));
                 if (m_context->SetArgByte(index, first_argument) < 0) {
-                    throw EngineError{ EngineError::Type::UnableToPassArgument };
+                    throw EngineError{ EngineError::ShaderType::UnableToPassArgument };
                 }
             } else if constexpr (std::same_as<std::remove_cvref_t<decltype(first_argument)>, u16> or std::same_as<std::remove_cvref_t<decltype(first_argument)>, i16>) {
                 static_assert(sizeof(asWORD) == sizeof(u16));
                 static_assert(sizeof(asWORD) == sizeof(i16));
                 if (m_context->SetArgWord(index, first_argument) < 0) {
-                    throw EngineError{ EngineError::Type::UnableToPassArgument };
+                    throw EngineError{ EngineError::ShaderType::UnableToPassArgument };
                 }
             } else if constexpr (std::same_as<std::remove_cvref_t<decltype(first_argument)>, u32> or std::same_as<std::remove_cvref_t<decltype(first_argument)>, i32>) {
                 static_assert(sizeof(asDWORD) == sizeof(u32));
                 static_assert(sizeof(asDWORD) == sizeof(i32));
                 if (m_context->SetArgDWord(index, first_argument) < 0) {
-                    throw EngineError{ EngineError::Type::UnableToPassArgument };
+                    throw EngineError{ EngineError::ShaderType::UnableToPassArgument };
                 }
             } else if constexpr (std::same_as<std::remove_cvref_t<decltype(first_argument)>, u64> or std::same_as<std::remove_cvref_t<decltype(first_argument)>, i64>) {
                 static_assert(sizeof(asQWORD) == sizeof(u64));
                 static_assert(sizeof(asQWORD) == sizeof(i64));
                 if (m_context->SetArgQWord(index, first_argument) < 0) {
-                    throw EngineError{ EngineError::Type::UnableToPassArgument };
+                    throw EngineError{ EngineError::ShaderType::UnableToPassArgument };
                 }
             } else if constexpr (std::same_as<std::remove_cvref_t<decltype(first_argument)>, float>) {
                 if (m_context->SetArgFloat(index, first_argument) < 0) {
-                    throw EngineError{ EngineError::Type::UnableToPassArgument };
+                    throw EngineError{ EngineError::ShaderType::UnableToPassArgument };
                 }
             } else if constexpr (std::same_as<std::remove_cvref_t<decltype(first_argument)>, double>) {
                 if (m_context->SetArgDouble(index, first_argument) < 0) {
-                    throw EngineError{ EngineError::Type::UnableToPassArgument };
+                    throw EngineError{ EngineError::ShaderType::UnableToPassArgument };
                 }
             }
             // string
             else if constexpr (std::same_as<std::remove_cvref_t<decltype(first_argument)>, std::string>) {
                 if (m_context->SetArgObject(index, &first_argument) < 0) {
-                    throw EngineError{ EngineError::Type::UnableToPassArgument };
+                    throw EngineError{ EngineError::ShaderType::UnableToPassArgument };
                 }
             }
             // pointers
@@ -243,7 +243,7 @@ namespace sly::script {
                 static_assert(sizeof(asQWORD) == sizeof(u64));
                 static_assert(sizeof(asQWORD) == sizeof(i64));
                 if (m_context->SetArgAddress(index, first_argument) < 0) {
-                    throw EngineError{ EngineError::Type::UnableToPassArgument };
+                    throw EngineError{ EngineError::ShaderType::UnableToPassArgument };
                 }
             }
             // builtin-types
@@ -251,7 +251,7 @@ namespace sly::script {
                 // copy value because it may have been deduced as "Time const&" (universal reference)
                 auto copy = first_argument;
                 if (m_context->SetArgObject(index, &copy) < 0) {
-                    throw EngineError{ EngineError::Type::UnableToPassArgument };
+                    throw EngineError{ EngineError::ShaderType::UnableToPassArgument };
                 }
             } else {
                 static_assert(dependent_false<index>);
@@ -293,7 +293,7 @@ namespace sly::script {
         [[nodiscard]] int get_type_id_by_declaration(std::string_view const declaration) {
             auto const type_id = m_engine->GetTypeIdByDecl(declaration.data());
             if (type_id < 0) {
-                throw EngineError{ EngineError::Type::FailedToRetrieveTypeIdOfInvalidType };
+                throw EngineError{ EngineError::ShaderType::FailedToRetrieveTypeIdOfInvalidType };
             }
             return type_id;
         }

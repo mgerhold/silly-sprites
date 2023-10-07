@@ -2,21 +2,15 @@
 
 #include "../types.hpp"
 #include "magic_enum_wrapper.hpp"
-#include <glad/gl.h>
-#include <string_view>
+#include "shader_type.hpp"
+#include "shader.hpp"
 #include <tl/optional.hpp>
 
 namespace sly::gl {
     class ShaderProgram final {
     public:
-        enum class Type : GLenum {
-            Vertex = GL_VERTEX_SHADER,
-            Geometry = GL_GEOMETRY_SHADER,
-            Fragment = GL_FRAGMENT_SHADER,
-        };
-
     private:
-        GLuint m_program_name;
+        GLuint m_program_name = 0;
 
     public:
         ShaderProgram(
@@ -34,9 +28,7 @@ namespace sly::gl {
         void use();
 
     private:
-        [[nodiscard]] static constexpr std::string_view get_name_from_type(Type type);
-        [[nodiscard]] GLuint compile(Type type, std::string_view source);
-        void attach_shader(GLuint shader) const;
+        [[nodiscard]] Shader compile(ShaderType type, std::string_view source);
         void link_program() const;
     };
 } // namespace sly::gl

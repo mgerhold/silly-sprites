@@ -12,7 +12,7 @@
 namespace {
     void register_global_function(asIScriptEngine* const engine, std::string_view const declaration, auto function) {
         if (engine->RegisterGlobalFunction(declaration.data(), asFUNCTION(function), asCALL_CDECL) < 0) {
-            throw sly::script::EngineError{ sly::script::EngineError::Type::FailedToRegisterBuiltinFunction };
+            throw sly::script::EngineError{ sly::script::EngineError::ShaderType::FailedToRegisterBuiltinFunction };
         }
     }
 
@@ -33,11 +33,11 @@ namespace {
     ) {
         auto const previous_namespace = std::string{ engine->GetDefaultNamespace() }; // copy to avoid dangling pointer
         if (engine->SetDefaultNamespace(namespace_.data()) < 0) {
-            throw sly::script::EngineError{ sly::script::EngineError::Type::FailedToSetDefaultNamespace };
+            throw sly::script::EngineError{ sly::script::EngineError::ShaderType::FailedToSetDefaultNamespace };
         }
         register_global_functions(engine, std::forward<decltype(declarations)>(declarations)...);
         if (engine->SetDefaultNamespace(previous_namespace.c_str()) < 0) {
-            throw sly::script::EngineError{ sly::script::EngineError::Type::FailedToSetDefaultNamespace };
+            throw sly::script::EngineError{ sly::script::EngineError::ShaderType::FailedToSetDefaultNamespace };
         }
     }
 
@@ -70,11 +70,11 @@ namespace sly::script {
 
     Engine::Engine(Engine::MessageCallback message_callback) : m_engine{ asCreateScriptEngine() } {
         if (m_engine == nullptr) {
-            throw EngineError{ EngineError::Type::FailedToCreateScriptEngine };
+            throw EngineError{ EngineError::ShaderType::FailedToCreateScriptEngine };
         }
 
         if (m_engine->SetMessageCallback(asFUNCTION(message_callback), nullptr, asCALL_CDECL) < 0) {
-            throw EngineError{ EngineError::Type::FailedToRegisterMessageCallback };
+            throw EngineError{ EngineError::ShaderType::FailedToRegisterMessageCallback };
         }
 
         RegisterStdString(m_engine);
@@ -113,7 +113,7 @@ namespace sly::script {
 
     [[nodiscard]] ClassInfoRange Engine::classes() const {
         if (not m_module.has_value()) {
-            throw EngineError{ EngineError::Type::UnableToReflectOnMissingModule };
+            throw EngineError{ EngineError::ShaderType::UnableToReflectOnMissingModule };
         }
         return ClassInfoRange{ m_module.value().m_module };
     }
@@ -121,12 +121,12 @@ namespace sly::script {
     Object Engine::create_object([[maybe_unused]] std::string_view const type_declaration) {
         auto type_info = get_type_info(type_declaration);
         if (not type_info.has_value()) {
-            throw EngineError{ EngineError::Type::FailedToRetrieveTypeInfoOfInvalidType };
+            throw EngineError{ EngineError::ShaderType::FailedToRetrieveTypeInfoOfInvalidType };
         }
 
         auto const object_address = m_engine->CreateScriptObject(type_info->m_type_info);
         if (object_address == nullptr) {
-            throw EngineError{ EngineError::Type::FailedToCreateObject };
+            throw EngineError{ EngineError::ShaderType::FailedToCreateObject };
         }
 
         return Object{ object_address, std::move(*type_info) };
@@ -178,19 +178,19 @@ namespace sly::script {
 
     void Engine::register_builtin_types() {
         if (m_engine->RegisterObjectType("Time", sizeof(Time), asOBJ_VALUE | asOBJ_POD | asGetTypeTraits<Time>()) < 0) {
-            throw EngineError{ EngineError::Type::FailedToRegisterBuiltinType };
+            throw EngineError{ EngineError::ShaderType::FailedToRegisterBuiltinType };
         }
         if (m_engine->RegisterObjectProperty("Time", "double elapsed", asOFFSET(Time, elapsed)) < 0) {
-            throw EngineError{ EngineError::Type::FailedToRegisterObjectProperty };
+            throw EngineError{ EngineError::ShaderType::FailedToRegisterObjectProperty };
         }
         if (m_engine->RegisterObjectProperty("Time", "double delta", asOFFSET(Time, delta)) < 0) {
-            throw EngineError{ EngineError::Type::FailedToRegisterObjectProperty };
+            throw EngineError{ EngineError::ShaderType::FailedToRegisterObjectProperty };
         }
     }
 
     [[nodiscard]] tl::optional<TypeInfo> Engine::get_type_info(std::string_view const declaration) const {
         if (not m_module.has_value()) {
-            throw EngineError{ EngineError::Type::UnableToFindTypeInfoOnMissingModule };
+            throw EngineError{ EngineError::ShaderType::UnableToFindTypeInfoOnMissingModule };
         }
         auto const type_info = m_module->m_module->GetTypeInfoByDecl(declaration.data());
         if (type_info == nullptr) {

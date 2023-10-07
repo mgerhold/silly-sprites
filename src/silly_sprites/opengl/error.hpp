@@ -17,6 +17,7 @@ namespace sly::gl {
         FailedToCompileGeometryShader,
         FailedToCompileFragmentShader,
         FailedToLinkShaderProgram,
+        InvalidShaderType,
     };
 
     class GlError : public std::exception {
