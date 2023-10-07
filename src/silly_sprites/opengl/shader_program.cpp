@@ -76,8 +76,8 @@ namespace sly::gl {
                                 message2
                         );
                         glDeleteShader(id);
-                        throw GLError(
-                                GLErrorType::FailedToCompileVertexShader,
+                        throw GlError(
+                                GlErrorType::FailedToCompileVertexShader,
                                 fmt::format("first error: {}\nsecond error: {}", message, message2)
                         );
                     }
@@ -85,7 +85,7 @@ namespace sly::gl {
 
                 case Type::Geometry:
                     spdlog::critical("ERROR::SHADER::{}::NO_FALLBACK", get_name_from_type(type));
-                    throw GLError(GLErrorType::FailedToCompileGeometryShader, message);
+                    throw GlError(GlErrorType::FailedToCompileGeometryShader, message);
                     break;
 
                 case Type::Fragment:
@@ -98,8 +98,8 @@ namespace sly::gl {
                                 message2
                         );
                         glDeleteShader(id);
-                        throw GLError(
-                                GLErrorType::FailedToCompileVertexShader,
+                        throw GlError(
+                                GlErrorType::FailedToCompileVertexShader,
                                 fmt::format("first error: {}\nsecond error: {}", message, message2)
                         );
                     }
@@ -129,7 +129,7 @@ namespace sly::gl {
             glGetProgramInfoLog(m_program_name, len - 1, nullptr, message.data());
             spdlog::critical("ERROR::PROGRAMM::LINK_FAILED -> {}\n", message.data());
             glDeleteProgram(m_program_name);
-            throw GLError(GLErrorType::FailedToLinkShaderProgram, message);
+            throw GlError(GlErrorType::FailedToLinkShaderProgram, message);
         }
     }
 

@@ -8,7 +8,7 @@
 
 namespace sly::gl {
 
-    enum class GLErrorType {
+    enum class GlErrorType {
         FailedToInitializeGlfw,
         UnableToCreateGlfwContext,
         FailedToCreateWindow,
@@ -19,14 +19,14 @@ namespace sly::gl {
         FailedToLinkShaderProgram,
     };
 
-    class GLError : public std::exception {
+    class GlError : public std::exception {
     private:
-        GLErrorType m_type;
+        GlErrorType m_type;
         std::string m_message;
 
     public:
-        explicit GLError(GLErrorType type);
-        GLError(GLErrorType type, std::string message);
+        explicit GlError(GlErrorType type);
+        GlError(GlErrorType type, std::string message);
 
         [[nodiscard]] char const* what() const noexcept override;
     };

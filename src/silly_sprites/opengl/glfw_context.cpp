@@ -9,11 +9,11 @@ namespace sly::gl {
         }
     }
 
-    [[nodiscard]] tl::expected<GlfwContext, GLErrorType> GlfwContext::create() {
+    [[nodiscard]] tl::expected<GlfwContext, GlErrorType> GlfwContext::create() {
         glfwSetErrorCallback(error_callback);
         if (glfwInit() == GLFW_FALSE) {
             spdlog::critical("Failed to initialize GLFW");
-            return tl::unexpected{ GLErrorType::FailedToInitializeGlfw };
+            return tl::unexpected{ GlErrorType::FailedToInitializeGlfw };
         }
         spdlog::info("GLFW initialized");
         return GlfwContext{};

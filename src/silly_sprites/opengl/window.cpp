@@ -26,7 +26,7 @@ namespace sly::gl {
         auto context = GlfwContext::create();
         if (not context.has_value()) {
             spdlog::critical("Unable to create GLFW context");
-            throw GLError{ GLErrorType::UnableToCreateGlfwContext };
+            throw GlError{ GlErrorType::UnableToCreateGlfwContext };
         }
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -36,7 +36,7 @@ namespace sly::gl {
         GLFWwindow* const window = glfwCreateWindow(width, height, "coder2k bester Mann", nullptr, nullptr);
         if (window == nullptr) {
             spdlog::critical("Failed to create GLFW window");
-            throw GLError{ GLErrorType::FailedToCreateWindow };
+            throw GlError{ GlErrorType::FailedToCreateWindow };
         }
         glfwMakeContextCurrent(window);
         glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
@@ -44,7 +44,7 @@ namespace sly::gl {
 
         if (not gladLoadGL(glfwGetProcAddress)) {
             spdlog::critical("Failed to initialize Glad");
-            throw GLError{ GLErrorType::FailedToInitializeGlad };
+            throw GlError{ GlErrorType::FailedToInitializeGlad };
         }
 
         gl::on_framebuffer_size_changed(window, width, height);  // addressing the gl namespace becuase otherwise the function is ambiguous
