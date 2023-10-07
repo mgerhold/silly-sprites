@@ -14,19 +14,15 @@ namespace sly::gl {
         }
     } // namespace
 
-    Window::Window(GlfwContext context, GLFWwindow* window)
-        : m_context{ std::move(context) },
-          m_window{ window, destroy_glfw_window } { }
-
-    [[nodiscard]] GLFWwindow* Window::get() const {
-        return m_window.get();
-    }
-
-    [[nodiscard]] Window Window::create(int const width, int const height) {
-        auto context = GlfwContext::create();
-        if (not context.has_value()) {
-            spdlog::critical("Unable to create GLFW context");
-            throw GlError{ GlErrorType::UnableToCreateGlfwContext };
+    Window::Window(int const width, int const height) {
+    
+        { // new scope so that the variable context gets deleted
+            auto context = GlfwContext::create();
+            if (not context.has_value()) {
+                spdlog::critical("Unable to create GLFW context");
+                throw GlError{ GlErrorType::UnableToCreateGlfwContext };
+            }
+            m_context = std::move(context.value());
         }
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -38,6 +34,7 @@ namespace sly::gl {
             spdlog::critical("Failed to create GLFW window");
             throw GlError{ GlErrorType::FailedToCreateWindow };
         }
+        m_window = { window, destroy_glfw_window };
         glfwMakeContextCurrent(window);
         glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
         glfwSetInputMode(window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
@@ -47,11 +44,18 @@ namespace sly::gl {
             throw GlError{ GlErrorType::FailedToInitializeGlad };
         }
 
-        gl::on_framebuffer_size_changed(window, width, height);  // addressing the gl namespace becuase otherwise the function is ambiguous
+        gl::on_framebuffer_size_changed(
+                window,
+                width,
+                height
+        ); // addressing the gl namespace because otherwise the function is ambiguous
         glfwSetFramebufferSizeCallback(window, gl::on_framebuffer_size_changed);
 
         spdlog::info("window initialized");
-        return Window{ *std::move(context), window };
+    }
+
+    [[nodiscard]] GLFWwindow* Window::get() const {
+        return m_window.get();
     }
 
     bool Window::should_close() const {

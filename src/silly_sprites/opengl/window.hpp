@@ -22,11 +22,10 @@ namespace sly::gl {
         using Deleter = void (*)(GLFWwindow*);
         std::unique_ptr<GLFWwindow, Deleter> m_window;
 
-        Window(GlfwContext context, GLFWwindow* window);
         [[nodiscard]] GLFWwindow* get() const;
 
     public:
-        [[nodiscard]] static Window create(int width, int height);
+        Window(int const width, int const height);
 
         [[nodiscard]] bool should_close() const;
         void swap_buffers();
