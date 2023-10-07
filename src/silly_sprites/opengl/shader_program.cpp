@@ -80,10 +80,13 @@ namespace sly::gl {
 
     [[nodiscard]] GLuint ShaderProgram::compile(Type const type, std::string_view const source) {
         auto error_message = [&](GLuint id) -> std::string {
-            auto message = std::string{};
             auto len = GLint{};
-            glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len);
-            message.resize(gsl::narrow_cast<usize>(len - 2));
+            glGetShaderiv(
+                    id,
+                    GL_INFO_LOG_LENGTH,
+                    &len
+            ); // gets the length of the error message including the null terminator
+            auto message = std::string( len - 1 , ' ' ); // create a string with a suitable length
             glGetShaderInfoLog(id, len - 1, nullptr, message.data());
             return message;
         };
@@ -93,7 +96,7 @@ namespace sly::gl {
             glCompileShader(id);
             auto success = GLint{};
             glGetShaderiv(id, GL_COMPILE_STATUS, &success);
-            return success;
+            return success; // todo utils::trim
         };
 
         auto id = GLuint{};
