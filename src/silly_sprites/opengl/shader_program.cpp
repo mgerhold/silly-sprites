@@ -79,8 +79,6 @@ namespace sly::gl {
     }
 
     [[nodiscard]] GLuint ShaderProgram::compile(Type const type, std::string_view const source) {
-        // compile
-
         auto error_message = [&](GLuint id) -> std::string {
             auto message = std::string{};
             auto len = GLint{};
