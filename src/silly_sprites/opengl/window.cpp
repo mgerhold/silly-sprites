@@ -35,12 +35,12 @@ namespace sly::gl {
             throw GlError{ GlErrorType::FailedToInitializeGlad };
         }
 
-        gl::on_framebuffer_size_changed(
+        on_framebuffer_size_changed(
                 window,
                 width,
                 height
-        ); // addressing the gl namespace because otherwise the function is ambiguous
-        glfwSetFramebufferSizeCallback(window, gl::on_framebuffer_size_changed);
+        );
+        glfwSetFramebufferSizeCallback(window, on_framebuffer_size_changed);
 
         spdlog::info("window initialized");
     }
