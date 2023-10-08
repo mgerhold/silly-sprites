@@ -93,7 +93,13 @@ namespace sly::gl {
                 throw GlError(GlErrorType::FailedToCompileVertexShader);
             }
             case ShaderType::Geometry:
-                spdlog::critical("No fallback for Geormetry shader available.");
+                /*
+                    im not quite sure if i like this.
+                    idea is that this is an error but not a error worth it to throw an exception.
+                    but in this case i return a invalid shader and the caller has to ask the shader if it is valid.
+                    that is inconsistent. but i have no idea how so solve this in a better way.
+                */
+                spdlog::critical("No fallback for Geometry shader available.");
                 return shader;
             case ShaderType::Fragment:
                 auto fallback_shader = Shader(type, fallback_fragment_source);
