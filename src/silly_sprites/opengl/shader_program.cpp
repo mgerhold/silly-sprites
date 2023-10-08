@@ -1,6 +1,7 @@
 #include "shader_program.hpp"
 #include "error.hpp"
 #include "gsl/gsl"
+#include "utils.hpp"
 
 namespace sly::gl {
     static constexpr auto fallback_vertex_source = R"(
@@ -121,7 +122,7 @@ namespace sly::gl {
             ); // gets the length of the error message including the null terminator
             auto message = std::string(len - 1, ' '); // create a string with a suitable length
             glGetProgramInfoLog(m_program_name, len - 1, nullptr, message.data());
-            return message; // todo utils::trim
+            return trim(message);
         };
 
         glLinkProgram(m_program_name);

@@ -14,7 +14,7 @@ namespace sly::gl {
             ); // gets the length of the error message including the null terminator
             auto message = std::string(len - 1, ' '); // create a string with a suitable length
             glGetShaderInfoLog(id, len - 1, nullptr, message.data());
-            return message; // todo utils::trim
+            return trim(message);
         };
 
         m_name = glCreateShader(sly::to_underlying(type));
