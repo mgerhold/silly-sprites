@@ -97,7 +97,7 @@ void move_points(sly::gl::BufferObject& buffer) {
 }
 
 int main() {
-    auto window = sly::gl::Window::create(800, 600);
+    auto window = sly::gl::Window{ 800, 600 };
 
     // wrap this in some kind of rendering class
     glClearColor(0.5f, 0.0f, 1.0f, 1.0f);

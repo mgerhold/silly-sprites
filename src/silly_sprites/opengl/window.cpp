@@ -14,17 +14,8 @@ namespace sly::gl {
         }
     } // namespace
 
-    Window::Window(int const width, int const height) {
-    
-        { // new scope so that the variable context gets deleted
-            auto context = GlfwContext::create();
-            if (not context.has_value()) {
-                spdlog::critical("Unable to create GLFW context");
-                throw GlError{ GlErrorType::UnableToCreateGlfwContext };
-            }
-            m_context = std::move(context.value());
-        }
-
+    Window::Window(int const width, int const height) : m_window{ nullptr, destroy_glfw_window } {
+ 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
