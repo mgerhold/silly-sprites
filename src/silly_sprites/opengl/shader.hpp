@@ -4,7 +4,6 @@
 
 namespace sly::gl {
     class Shader final {
-    public:
     private:
         GLuint m_name = 0;
         bool m_valid = false;
@@ -19,7 +18,5 @@ namespace sly::gl {
 
         [[nodiscard]] bool is_valid() const;
         [[nodiscard]] GLuint get_name() const;
-
-    private:
     };
 } // namespace sly::gl
