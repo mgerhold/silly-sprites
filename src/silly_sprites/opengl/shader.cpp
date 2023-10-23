@@ -20,6 +20,10 @@ namespace sly::gl {
         };
 
         m_name = glCreateShader(sly::to_underlying(type));
+        if (m_name == 0) {
+            spdlog::critical("Failed to create Shader");
+            throw GlError(GlErrorType::FailedToCrateShader);
+        }
         char const* c_source = source.data();
         glShaderSource(m_name, 1, &c_source, nullptr);
         glCompileShader(m_name);
