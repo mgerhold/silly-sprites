@@ -16,7 +16,7 @@ namespace sly::gl {
                     // this causes a waring on linux because the sign could chance.
             auto message = std::string(static_cast<usize>(len - 1), ' '); // create a string with a suitable length
             glGetShaderInfoLog(id, len - 1, nullptr, message.data());
-            return trim(message);
+            return trim(std::move(message));
         };
 
         m_name = glCreateShader(sly::to_underlying(type));
