@@ -25,7 +25,7 @@ namespace sly::gl {
         [[nodiscard]] GLFWwindow* get() const;
 
     public:
-        Window(int const width, int const height);
+        Window(int width, int height);
 
         [[nodiscard]] bool should_close() const;
         void swap_buffers();
