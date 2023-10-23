@@ -8,7 +8,6 @@
 
 namespace sly::gl {
     class ShaderProgram final {
-    public:
     private:
         GLuint m_program_name = 0;
 
