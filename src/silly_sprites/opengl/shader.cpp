@@ -62,7 +62,7 @@ namespace sly::gl {
         return m_valid;
     }
 
-    [[nodiscard]] GLuint Shader::get_name() const {
+    [[nodiscard]] GLuint Shader::name() const {
         return m_name;
     }
 

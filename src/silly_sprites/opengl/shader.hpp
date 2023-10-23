@@ -17,6 +17,6 @@ namespace sly::gl {
         ~Shader();
 
         [[nodiscard]] bool is_valid() const;
-        [[nodiscard]] GLuint get_name() const;
+        [[nodiscard]] GLuint name() const;
     };
 } // namespace sly::gl
