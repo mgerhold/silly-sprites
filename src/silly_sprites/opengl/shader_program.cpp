@@ -29,6 +29,10 @@ namespace sly::gl {
             std::string_view const fragment_source
     ) {
         m_program_name = glCreateProgram();
+        if (m_program_name == 0) {
+            spdlog::critical("Failed to crate a Shader Program");
+            throw GlError(GlErrorType::FailedToCrateShaderProgram);
+        }
 
 
         auto const vertex_shader = compile(ShaderType::Vertex, vertex_source);
