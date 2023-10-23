@@ -42,7 +42,6 @@ add_library(sillysprites
         opengl/shader.hpp
         opengl/shader.cpp
         opengl/shader_type.hpp
-        opengl/shader_type.cpp
         opengl/shader_program.hpp
         opengl/shader_program.cpp
 )
