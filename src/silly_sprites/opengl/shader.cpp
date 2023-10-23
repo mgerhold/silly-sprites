@@ -48,7 +48,7 @@ namespace sly::gl {
         auto const name = glCreateShader(sly::to_underlying(type));
         if (name == 0) {
             spdlog::critical("Failed to create Shader");
-            return tl::unexpected{ GlError(GlErrorType::FailedToCreateShader) };
+            return tl::unexpected{ GlError{ GlErrorType::FailedToCreateShader } };
         }
         auto const sources = std::array{ source.data() };
         glShaderSource(name, gsl::narrow_cast<GLsizei>(sources.size()), sources.data(), nullptr);
