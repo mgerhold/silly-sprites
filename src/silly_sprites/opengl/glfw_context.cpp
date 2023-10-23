@@ -2,12 +2,13 @@
 
 namespace sly::gl {
 
-    GlfwContext::GlfwContext() : m_initialized{ true } {
+    GlfwContext::GlfwContext() {
         glfwSetErrorCallback(error_callback);
         if (glfwInit() == GLFW_FALSE) {
             spdlog::critical("Failed to initialize GLFW");
             throw GlError{ GlErrorType::FailedToInitializeGlfw };
         }
+        m_initialized = true;
         spdlog::info("GLFW initialized");
     }
 
