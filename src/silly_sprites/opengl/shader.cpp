@@ -15,7 +15,7 @@ namespace sly::gl {
             );      // gets the length of the error message including the null terminator
                     // cast because the gl function needs the signed int and the string ctor expects a unsigned int.
                     // this causes a waring on linux because the sign could chance.
-            auto message = std::string(static_cast<usize>(len - 1), ' '); // create a string with a suitable length
+            auto message = std::string(gsl::narrow_cast<usize>(len - 1), ' '); // create a string with a suitable length
             glGetShaderInfoLog(id, len - 1, nullptr, message.data());
             return trim(std::move(message));
         };
