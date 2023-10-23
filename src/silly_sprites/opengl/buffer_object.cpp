@@ -1,5 +1,6 @@
 #include "buffer_object.hpp"
 #include "gsl/gsl"
+#include <memory>
 
 namespace sly::gl {
 
@@ -33,6 +34,10 @@ namespace sly::gl {
           m_index_count{ std::exchange(other.m_index_count, 0) } { }
 
     BufferObject& BufferObject::operator=(BufferObject&& other) noexcept {
+        if (this == std::addressof(other)) {
+            return *this;
+        }
+
         std::swap(m_vertex_array_object, other.m_vertex_array_object);
         std::swap(m_vertex_buffer_object, other.m_vertex_buffer_object);
         std::swap(m_element_buffer_object, other.m_element_buffer_object);
