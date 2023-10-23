@@ -32,7 +32,7 @@ namespace sly::gl {
             spdlog::info("SUCCESS::SHADER::{}::COMPILATION", get_name_from_shader_type(type));
         } else {
             m_valid = false;
-            auto message = error_message(m_name);
+            auto const message = error_message(m_name);
             spdlog::critical(
                     "ERROR::SHADER::{}::COMPILATION_FAILED\nerror: {}",
                     get_name_from_shader_type(type),
