@@ -27,7 +27,7 @@ namespace sly::gl {
 
     public:
         explicit GlError(GlErrorType type);
-        GlError(GlErrorType type, std::string message);
+        GlError(GlErrorType type, std::string_view const message);
 
         [[nodiscard]] char const* what() const noexcept override;
     };
