@@ -65,6 +65,10 @@ namespace sly::gl {
 
 
     ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept {
+        if (this == std::addressof(other)) {
+            return *this;
+        }
+
         std::swap(m_program_name, other.m_program_name);
         return *this;
     }
