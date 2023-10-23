@@ -1,6 +1,7 @@
 #include "shader.hpp"
 #include "error.hpp"
 #include "utils.hpp"
+#include <gsl/gsl>
 
 namespace sly::gl {
 
@@ -24,8 +25,8 @@ namespace sly::gl {
             spdlog::critical("Failed to create Shader");
             throw GlError(GlErrorType::FailedToCrateShader);
         }
-        char const* c_source = source.data();
-        glShaderSource(m_name, 1, &c_source, nullptr);
+        auto const sources = std::array{ source.data() };
+        glShaderSource(m_name, gsl::narrow_cast<GLsizei>(sources.size()), sources.data(), nullptr);
         glCompileShader(m_name);
 
         auto result = GLint{};
