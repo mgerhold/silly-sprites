@@ -71,7 +71,7 @@ namespace sly::gl {
                 GL_ARRAY_BUFFER,
                 gsl::narrow_cast<GLsizeiptr>(points.size_bytes()),
                 points.data(),
-                GL_STATIC_DRAW
+                GL_DYNAMIC_DRAW
         );
     }
 
@@ -82,7 +82,7 @@ namespace sly::gl {
                 GL_ELEMENT_ARRAY_BUFFER,
                 gsl::narrow_cast<GLsizeiptr>(indices.size_bytes()),
                 indices.data(),
-                GL_STATIC_DRAW
+                GL_DYNAMIC_DRAW
         );
     }
 
