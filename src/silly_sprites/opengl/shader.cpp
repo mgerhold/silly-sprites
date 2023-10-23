@@ -46,6 +46,9 @@ namespace sly::gl {
           m_valid{ std::exchange(other.m_valid, false) } { }
 
     Shader& Shader::operator=(Shader&& other) noexcept {
+        if (this == std::addressof(other)) {
+            return *this;
+        }
         std::swap(m_name, other.m_name);
         std::swap(m_valid, other.m_valid);
         return *this;
