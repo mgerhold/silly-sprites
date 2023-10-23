@@ -30,6 +30,6 @@ namespace sly::gl {
 
         void set_points(Points const& points);
         void set_indices(Indices const& indices);
-        void set_initial_data(Points const& ponits, Indices const& indices);
+        void set_initial_data(Points const& points, Indices const& indices);
     };
 } // namespace sly::gl
