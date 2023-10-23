@@ -17,9 +17,7 @@ namespace sly::gl {
         ~GlfwContext();
 
         GlfwContext(GlfwContext const&) = delete;
-        GlfwContext(GlfwContext&& other) noexcept : m_initialized{ other.m_initialized } {
-            other.m_initialized = false;
-        }
+        GlfwContext(GlfwContext&& other) noexcept : m_initialized{ std::exchange(other.m_initialized, false) } { }
 
         GlfwContext& operator=(GlfwContext const&) = delete;
         GlfwContext& operator=(GlfwContext&& other) noexcept {
