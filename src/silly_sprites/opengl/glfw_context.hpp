@@ -21,7 +21,7 @@ namespace sly::gl {
 
         GlfwContext& operator=(GlfwContext const&) = delete;
         GlfwContext& operator=(GlfwContext&& other) noexcept {
-            if (this == &other) {
+            if (this == std::addressof(other)) {
                 return *this;
             }
 
