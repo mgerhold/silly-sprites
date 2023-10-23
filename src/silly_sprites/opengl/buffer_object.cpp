@@ -86,7 +86,7 @@ namespace sly::gl {
         );
     }
 
-    void BufferObject::set_initial_data(Points points, Indices indices) {
+    void BufferObject::set_data(Points points, Indices indices) {
         set_points(points);
         set_indices(indices);
     }
