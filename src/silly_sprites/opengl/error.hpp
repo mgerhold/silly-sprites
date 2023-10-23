@@ -13,13 +13,13 @@ namespace sly::gl {
         UnableToCreateGlfwContext,
         FailedToCreateWindow,
         FailedToInitializeGlad,
-        FailedToCompileVertexShader,
-        FailedToCompileGeometryShader,
-        FailedToCompileFragmentShader,
+        FailedToCompileShader,
         FailedToLinkShaderProgram,
         InvalidShaderType,
-        FailedToCrateShaderProgram,
-        FailedToCrateShader,
+        FailedToCreateShaderProgram,
+        FailedToCreateShader,
+        EmptyShaderSource,
+        NoShaderSource,
     };
 
     class GlError : public std::exception {

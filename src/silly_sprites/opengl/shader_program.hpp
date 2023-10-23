@@ -26,9 +26,5 @@ namespace sly::gl {
 
         void bind();
         void unbind();
-
-    private:
-        [[nodiscard]] static Shader compile(ShaderType type, std::string_view source);
-        void link_program() const;
     };
 } // namespace sly::gl
