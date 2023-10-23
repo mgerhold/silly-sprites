@@ -1,6 +1,7 @@
 #include "buffer_object.hpp"
 #include "gsl/gsl"
-#include <memory>
+// #include "utils.hpp"
+// #include <memory>
 
 namespace sly::gl {
 
@@ -64,28 +65,28 @@ namespace sly::gl {
         glDrawElements(GL_TRIANGLES, gsl::narrow_cast<GLsizei>(m_index_count), GL_UNSIGNED_INT, nullptr);
     }
 
-    void BufferObject::set_points(Points const& points) {
+    void BufferObject::set_points(Points points) {
         bind();
         glBufferData(
                 GL_ARRAY_BUFFER,
-                gsl::narrow_cast<GLsizeiptr>(sizeof(float) * points.size()),
+                gsl::narrow_cast<GLsizeiptr>(points.size_bytes()),
                 points.data(),
                 GL_STATIC_DRAW
         );
     }
 
-    void BufferObject::set_indices(Indices const& indices) {
+    void BufferObject::set_indices(Indices indices) {
         m_index_count = indices.size();
         bind();
         glBufferData(
                 GL_ELEMENT_ARRAY_BUFFER,
-                gsl::narrow_cast<GLsizeiptr>(sizeof(GLuint) * indices.size()),
+                gsl::narrow_cast<GLsizeiptr>(indices.size_bytes()),
                 indices.data(),
                 GL_STATIC_DRAW
         );
     }
 
-    void BufferObject::set_initial_data(Points const& points, Indices const& indices) {
+    void BufferObject::set_initial_data(Points points, Indices indices) {
         set_points(points);
         set_indices(indices);
     }
