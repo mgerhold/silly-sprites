@@ -73,7 +73,7 @@ namespace sly::gl {
         );
     }
 
-    void BufferObject::set_indices(Indices indices) {
+    void BufferObject::set_indices(Indices const indices) {
         m_index_count = indices.size();
         bind();
         glBufferData(
@@ -84,7 +84,7 @@ namespace sly::gl {
         );
     }
 
-    void BufferObject::set_data(Points points, Indices indices) {
+    void BufferObject::set_data(Points const points, Indices const indices) {
         set_points(points);
         set_indices(indices);
     }
