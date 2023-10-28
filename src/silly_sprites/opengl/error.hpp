@@ -29,7 +29,7 @@ namespace sly::gl {
 
     public:
         explicit GlError(GlErrorType type);
-        GlError(GlErrorType type, std::string_view const message);
+        GlError(GlErrorType type, std::string_view message);
 
         [[nodiscard]] char const* what() const noexcept override;
     };
