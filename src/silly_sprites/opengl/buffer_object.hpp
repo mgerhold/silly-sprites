@@ -2,7 +2,6 @@
 
 #include "../types.hpp"
 #include <glad/gl.h>
-// #include <vector>
 #include <span>
 
 namespace sly::gl {
