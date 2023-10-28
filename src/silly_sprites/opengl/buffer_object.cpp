@@ -1,7 +1,5 @@
 #include "buffer_object.hpp"
 #include "gsl/gsl"
-// #include "utils.hpp"
-// #include <memory>
 
 namespace sly::gl {
 
