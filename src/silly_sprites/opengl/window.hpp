@@ -23,8 +23,8 @@ namespace sly::gl {
         std::unique_ptr<GLFWwindow, Deleter> m_window;
 
         [[nodiscard]] GLFWwindow* get() const;
-        
-        [[nodiscard]] std::unique_ptr<GLFWwindow, Deleter> create(int const width, int const height);
+
+        [[nodiscard]] std::unique_ptr<GLFWwindow, Deleter> create(int width, int height);
 
     public:
         Window(int width, int height);
