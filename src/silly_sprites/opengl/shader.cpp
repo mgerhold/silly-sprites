@@ -21,7 +21,7 @@ namespace sly::gl {
         glDeleteShader(m_name);
     }
 
-    [[nodiscard]] tl::expected<Shader, GlError> Shader::create(ShaderType type, std::string_view const source) {
+    [[nodiscard]] tl::expected<Shader, GlError> Shader::create(ShaderType const type, std::string_view const source) {
         if (source.empty()) {
             spdlog::warn("no shader source");
             return tl::unexpected{ GlError{ GlErrorType::NoShaderSource } };
