@@ -67,7 +67,7 @@ namespace sly::gl {
             return tl::unexpected{ GlError{ GlErrorType::FailedToCompileShader } };
         }
         spdlog::info("SUCCESS::SHADER::{}::COMPILATION", get_name_from_shader_type(type));
-        return { Shader{ name } };
+        return Shader{ name };
     }
 
     [[nodiscard]] GLuint Shader::name() const {
