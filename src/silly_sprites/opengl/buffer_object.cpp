@@ -63,7 +63,7 @@ namespace sly::gl {
         glDrawElements(GL_TRIANGLES, gsl::narrow_cast<GLsizei>(m_index_count), GL_UNSIGNED_INT, nullptr);
     }
 
-    void BufferObject::set_points(Points points) {
+    void BufferObject::set_points(Points const points) {
         bind();
         glBufferData(
                 GL_ARRAY_BUFFER,
