@@ -1,6 +1,6 @@
 #pragma once
-#include "shader_type.hpp"
 #include "error.hpp"
+#include "shader_type.hpp"
 #include <glad/gl.h>
 #include <tl/expected.hpp>
 
@@ -11,7 +11,7 @@ namespace sly::gl {
         Shader(GLuint name);
 
     public:
-        Shader(Shader const&) = delete;
+        explicit Shader(Shader const&) = delete;
         Shader(Shader&& other) noexcept;
         Shader& operator=(Shader const&) = delete;
         Shader& operator=(Shader&& other) noexcept;
