@@ -1,3 +1,38 @@
+#include "../silly_sprites/globals/app_context.hpp"
+#include <iostream>
+
+
+using namespace sly::event;
+using namespace sly;
+
+class Test final {
+private:
+    EventID sound_event;
+
+public:
+    Test() {
+        sound_event = AppContext::get().event_system().add_handler<SoundEvent>([this](SoundEvent const& event) {
+            this->on_event(event);
+        });
+    }
+
+    ~Test() {
+        AppContext::get().event_system().remove_handler(sound_event);
+    }
+
+    void on_event(SoundEvent const&) {
+        std::cout << "sound event\n";
+    }
+};
+
+int main() {
+    auto& app_context = AppContext::get();
+
+    auto test = Test{};
+    app_context.event_system().dispatch<SoundEvent>(SoundEvent{});
+}
+
+/*
 #define GLFW_INCLUDE_NONE
 
 #include "../silly_sprites/input.hpp"
@@ -9,7 +44,7 @@
 #include "magic_enum_wrapper.hpp"
 #include <glad/gl.h>
 
-/*
+
 static char const* const example_vertex_shader{ R"(
         #version 330 core
         layout (location = 0) in vec3 aPos;
@@ -19,9 +54,9 @@ static char const* const example_vertex_shader{ R"(
             gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
         }
     )" };
-*/
+
 static char const* const example_vertex_shader{ "              " };
-/*
+
 static char const* const example_fragment_shader{ R"(
         #version 330 core
         out vec4 FragColor;
@@ -32,7 +67,7 @@ static char const* const example_fragment_shader{ R"(
         }
     )"
 };
-*/
+
 static char const* const example_fragment_shader{ R"(
         #version 330 core
         out vec4 FragColor;
@@ -136,3 +171,4 @@ int main() {
         move_points(buffer_object);
     }
 }
+*/

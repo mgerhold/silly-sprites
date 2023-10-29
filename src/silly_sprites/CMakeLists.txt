@@ -48,6 +48,9 @@ add_library(sillysprites
         opengl/renderer.cpp
         opengl/renderer.hpp
         opengl/vertex.hpp
+        globals/event_system.hpp
+        globals/events.hpp
+        globals/app_context.hpp
 )
 
 target_link_libraries(sillysprites
