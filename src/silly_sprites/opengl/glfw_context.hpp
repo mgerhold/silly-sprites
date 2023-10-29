@@ -10,30 +10,24 @@ namespace sly::gl {
 
     class GlfwContext final {
     private:
-        bool m_initialized;
-
-        GlfwContext() : m_initialized{ true } { }
+        bool m_initialized = false;
 
     public:
+        GlfwContext();
         ~GlfwContext();
 
-        GlfwContext(const GlfwContext&) = delete;
-        GlfwContext& operator=(const GlfwContext&) = delete;
+        GlfwContext(GlfwContext const&) = delete;
+        GlfwContext(GlfwContext&& other) noexcept : m_initialized{ std::exchange(other.m_initialized, false) } { }
 
-        GlfwContext(GlfwContext&& other) noexcept : m_initialized{ other.m_initialized } {
-            other.m_initialized = false;
-        }
-
+        GlfwContext& operator=(GlfwContext const&) = delete;
         GlfwContext& operator=(GlfwContext&& other) noexcept {
-            if (this == &other) {
+            if (this == std::addressof(other)) {
                 return *this;
             }
 
             std::swap(m_initialized, other.m_initialized);
             return *this;
         }
-
-        [[nodiscard]] static tl::expected<GlfwContext, GlError> create();
     };
 
 } // namespace sly::gl

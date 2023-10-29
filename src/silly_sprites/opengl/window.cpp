@@ -3,6 +3,8 @@
 
 namespace sly::gl {
 
+
+
     namespace {
         void destroy_glfw_window(GLFWwindow* const window) {
             glfwDestroyWindow(window);
@@ -14,21 +16,11 @@ namespace sly::gl {
         }
     } // namespace
 
-    Window::Window(GlfwContext context, GLFWwindow* window)
-        : m_context{ std::move(context) },
-          m_window{ window, destroy_glfw_window } { }
-
     [[nodiscard]] GLFWwindow* Window::get() const {
         return m_window.get();
     }
 
-    [[nodiscard]] tl::expected<Window, GlError> Window::create(int const width, int const height) {
-        auto context = GlfwContext::create();
-        if (not context.has_value()) {
-            spdlog::critical("Unable to create GLFW context");
-            return tl::unexpected{ GlError::UnableToCreateGlfwContext };
-        }
-
+    std::unique_ptr<GLFWwindow, Window::Deleter> Window::create(int const width, int const height) {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -36,7 +28,7 @@ namespace sly::gl {
         GLFWwindow* const window = glfwCreateWindow(width, height, "coder2k bester Mann", nullptr, nullptr);
         if (window == nullptr) {
             spdlog::critical("Failed to create GLFW window");
-            return tl::unexpected{ GlError::FailedToCreateWindow };
+            throw GlError{ GlErrorType::FailedToCreateWindow };
         }
         glfwMakeContextCurrent(window);
         glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
@@ -44,15 +36,17 @@ namespace sly::gl {
 
         if (not gladLoadGL(glfwGetProcAddress)) {
             spdlog::critical("Failed to initialize Glad");
-            return tl::unexpected{ GlError::FailedToInitializeGlad };
+            throw GlError{ GlErrorType::FailedToInitializeGlad };
         }
 
         on_framebuffer_size_changed(window, width, height);
         glfwSetFramebufferSizeCallback(window, on_framebuffer_size_changed);
 
         spdlog::info("window initialized");
-        return Window{ *std::move(context), window };
+        return { window, destroy_glfw_window };
     }
+
+    Window::Window(int const width, int const height) : m_window{ create(width, height) } { }
 
     bool Window::should_close() const {
         return glfwWindowShouldClose(get());

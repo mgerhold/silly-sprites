@@ -28,4 +28,9 @@ namespace sly {
     template<typename>
     inline constexpr auto type_dependent_false = false;
 
+
+    [[nodiscard]] std::string ltrim(std::string s);
+    [[nodiscard]] std::string rtrim(std::string s);
+    [[nodiscard]] std::string trim(std::string s);
+
 } // namespace sly
