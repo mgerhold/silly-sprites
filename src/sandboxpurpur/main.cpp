@@ -41,16 +41,15 @@ static char const* const example_fragment_shader{ R"(
         
             FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
         }
-    )"
-};
+    )" };
 
-static inline std::vector<float> points{
-    0.0f,   0.5f,  0.0f, // top
-    -0.25f, 0.0f,  0.0f, // mid left
-    0.25f,  0.0f,  0.0f, // mit right
-    -0.5f,  -0.5f, 0.0f, // bottom left
-    0.0f,   -0.5f, 0.0f, // bottom mid
-    0.5f,   -0.5f, 0.0f, // bottom right
+static inline std::vector<sly::gl::Vertex> points{
+    sly::gl::Vertex{ glm::vec3{ 0.0f, 0.5f, 0.0f } },   // top
+    sly::gl::Vertex{ glm::vec3{ -0.25f, 0.0f, 0.0f } }, // mid left
+    sly::gl::Vertex{ glm::vec3{ 0.25f, 0.0f, 0.0f } },  // mit right
+    sly::gl::Vertex{ glm::vec3{ -0.5f, -0.5f, 0.0f } }, // bottom left
+    sly::gl::Vertex{ glm::vec3{ 0.0f, -0.5f, 0.0f } },  // bottom mid
+    sly::gl::Vertex{ glm::vec3{ 0.5f, -0.5f, 0.0f } },  // bottom right
 };
 
 static inline std::vector<unsigned int> const indices{
@@ -60,37 +59,29 @@ static inline std::vector<unsigned int> const indices{
 };
 
 void move_points_down(sly::gl::BufferObject& buffer) {
-    for (sly::usize i = 0; i < points.size(); ++i) {
-        if ((i % 3) - 1 == 0) {
-            points.at(i) -= 0.01f;
-        }
+    for (auto& vertex : points) {
+        vertex.position.y -= 0.01f;
     }
 
     buffer.set_points(points);
 }
 void move_points_up(sly::gl::BufferObject& buffer) {
-    for (sly::usize i = 0; i < points.size(); ++i) {
-        if ((i % 3) - 1 == 0) {
-            points.at(i) += 0.01f;
-        }
+    for (auto& vertex : points) {
+        vertex.position.y += 0.01f;
     }
 
     buffer.set_points(points);
 }
 void move_points_left(sly::gl::BufferObject& buffer) {
-    for (sly::usize i = 0; i < points.size(); ++i) {
-        if (i % 3 == 0) {
-            points.at(i) -= 0.01f;
-        }
+    for (auto& vertex : points) {
+        vertex.position.x -= 0.01f;
     }
 
     buffer.set_points(points);
 }
 void move_points_right(sly::gl::BufferObject& buffer) {
-    for (sly::usize i = 0; i < points.size(); ++i) {
-        if (i % 3 == 0) {
-            points.at(i) += 0.01f;
-        }
+    for (auto& vertex : points) {
+        vertex.position.x += 0.01f;
     }
 
     buffer.set_points(points);
@@ -119,7 +110,7 @@ int main() {
 
 
     sly::gl::ShaderProgram shader_program{ example_vertex_shader, example_fragment_shader };
-    sly::gl::BufferObject buffer_object{ };
+    sly::gl::BufferObject buffer_object{};
     buffer_object.set_data(points, indices);
     // buffer_object.set_points(points);
     // buffer_object.set_indices(indices);

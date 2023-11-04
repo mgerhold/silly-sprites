@@ -47,6 +47,7 @@ add_library(sillysprites
         opengl/shader_program.cpp
         opengl/renderer.cpp
         opengl/renderer.hpp
+        opengl/vertex.hpp
 )
 
 target_link_libraries(sillysprites

@@ -23,6 +23,7 @@ namespace sly::gl {
         void start_frame();
 
         void draw_quad(glm::vec2 position, glm::vec2 scale, ShaderProgram& shader_program);
+        void draw_quad(glm::vec2 position, float rotation, glm::vec2 scale, ShaderProgram& shader_program);
 
         void render();
     };

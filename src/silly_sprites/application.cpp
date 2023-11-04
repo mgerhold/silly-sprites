@@ -77,8 +77,18 @@ namespace sly {
     }
 
     void Application::render() {
-        m_renderer.draw_quad(glm::vec2{ 0.0f, 0.0f }, glm::vec2{ 0.75f, 0.25f }, *m_shader_program);
-        m_renderer.draw_quad(glm::vec2{ -1.0f, -1.0f }, glm::vec2{ 0.25f, 0.75f }, *m_shader_program);
+        m_renderer.draw_quad(
+                glm::vec2{ 0.0f, 0.0f },
+                static_cast<float>(m_stopwatch.elapsed_time()),
+                glm::vec2{ 1.0f, 1.0f },
+                *m_shader_program
+        );
+        m_renderer.draw_quad(
+                glm::vec2{ -1.0f, -1.0f },
+                -static_cast<float>(m_stopwatch.elapsed_time()) * 0.7f,
+                glm::vec2{ 0.25f, 0.75f },
+                *m_shader_program
+        );
     }
 
     void Application::process_queued_scene_tasks() {
