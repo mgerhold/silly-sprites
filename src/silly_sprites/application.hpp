@@ -1,6 +1,7 @@
 #pragma once
 
 #include "app_context.hpp"
+#include "opengl/renderer.hpp"
 #include "opengl/window.hpp"
 #include "stopwatch.hpp"
 #include "time.hpp"
@@ -37,6 +38,8 @@ namespace sly {
         ApplicationSettings m_settings;
         StopWatch m_stopwatch;
         gl::Window m_window;
+        gl::Renderer m_renderer;
+        std::unique_ptr<gl::ShaderProgram> m_shader_program;
         std::unique_ptr<script::Engine> m_script_engine;
         std::vector<std::unique_ptr<Scene>> m_scenes;
 
@@ -60,7 +63,7 @@ namespace sly {
 
         void fixed_update(Time time);
         void update(Time time);
-        void render() const;
+        void render();
         void process_queued_scene_tasks();
     };
 

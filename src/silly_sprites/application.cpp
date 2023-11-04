@@ -1,6 +1,7 @@
 #include "application.hpp"
 #include "game_object_and_scene.hpp"
 #include "input.hpp"
+#include "opengl/shader_program.hpp"
 #include "script/engine.hpp"
 
 namespace sly {
@@ -8,6 +9,7 @@ namespace sly {
     Application::Application(ApplicationSettings settings)
         : m_settings{ settings },
           m_window{ 800, 600 },
+          m_shader_program{ std::make_unique<gl::ShaderProgram>("", "") }, // fallback shaders
           m_script_engine{ std::make_unique<script::Engine>() } {
         m_script_engine->create_module("MyModule", "src/silly_sprites/test.as");
         m_scenes.push_back(std::make_unique<Scene>(this));
@@ -24,6 +26,8 @@ namespace sly {
         auto num_fixed_updates = 0_u64;
 
         while (is_running and not m_window.should_close()) {
+            m_renderer.start_frame();
+
             auto elapsed_since_last_fixed_update = m_stopwatch.elapsed_time() - last_fixed_update;
             while (elapsed_since_last_fixed_update >= s_fixed_update_interval) {
                 auto const elapsed_time = static_cast<double>(num_fixed_updates) * s_fixed_update_interval;
@@ -55,6 +59,7 @@ namespace sly {
                 }
             }
 
+            m_renderer.render();
             m_window.swap_buffers();
         }
     }
@@ -71,7 +76,10 @@ namespace sly {
         }
     }
 
-    void Application::render() const { }
+    void Application::render() {
+        m_renderer.draw_quad(glm::vec2{ 0.0f, 0.0f }, glm::vec2{ 0.75f, 0.25f }, *m_shader_program);
+        m_renderer.draw_quad(glm::vec2{ -1.0f, -1.0f }, glm::vec2{ 0.25f, 0.75f }, *m_shader_program);
+    }
 
     void Application::process_queued_scene_tasks() {
         for (auto& scene : m_scenes) {

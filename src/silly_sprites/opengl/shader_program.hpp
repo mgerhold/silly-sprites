@@ -26,5 +26,7 @@ namespace sly::gl {
 
         void bind();
         void unbind();
+
+        friend class Renderer;
     };
 } // namespace sly::gl
