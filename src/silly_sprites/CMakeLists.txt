@@ -14,6 +14,7 @@ add_library(sillysprites
         input.hpp
         input.cpp
         game_object_and_scene.hpp
+        scene.hpp
         native_script.hpp
         transform.hpp
         time.hpp

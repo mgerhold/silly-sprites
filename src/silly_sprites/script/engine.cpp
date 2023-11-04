@@ -94,11 +94,13 @@ namespace sly::script {
     Engine::~Engine() {
         if (m_engine != nullptr) {
             assert(m_context != nullptr);
+            m_module = tl::nullopt;
             m_context->Release();
             m_context = nullptr;
             m_engine->ShutDownAndRelease();
             m_engine = nullptr;
         }
+        assert(not m_module.has_value());
         assert(m_context == nullptr);
         assert(m_engine == nullptr);
     }

@@ -1,12 +1,13 @@
 #include "application.hpp"
 #include "game_object_and_scene.hpp"
+#include "input.hpp"
 #include "script/engine.hpp"
-#include <string>
 
 namespace sly {
 
     Application::Application(ApplicationSettings settings)
         : m_settings{ settings },
+          m_window{ 800, 600 },
           m_script_engine{ std::make_unique<script::Engine>() } {
         m_script_engine->create_module("MyModule", "src/silly_sprites/test.as");
         m_scenes.push_back(std::make_unique<Scene>(this));
@@ -22,7 +23,7 @@ namespace sly {
         auto last_update = m_stopwatch.elapsed_time();
         auto num_fixed_updates = 0_u64;
 
-        while (is_running) {
+        while (is_running and not m_window.should_close()) {
             auto elapsed_since_last_fixed_update = m_stopwatch.elapsed_time() - last_fixed_update;
             while (elapsed_since_last_fixed_update >= s_fixed_update_interval) {
                 auto const elapsed_time = static_cast<double>(num_fixed_updates) * s_fixed_update_interval;
@@ -32,6 +33,9 @@ namespace sly {
                 elapsed_since_last_fixed_update = m_stopwatch.elapsed_time() - last_fixed_update;
                 ++num_fixed_updates;
             }
+
+            m_window.poll();
+            sly::Input::update(m_window);
 
             if (std::holds_alternative<refresh_rate::Unlimited>(m_settings.refresh_rate)
                 or std::holds_alternative<refresh_rate::VSync>(m_settings.refresh_rate)) {
@@ -50,6 +54,8 @@ namespace sly {
                     render();
                 }
             }
+
+            m_window.swap_buffers();
         }
     }
 

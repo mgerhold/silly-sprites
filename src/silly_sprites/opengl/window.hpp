@@ -3,14 +3,14 @@
 #define GLFW_INCLUDE_NONE
 #include "error.hpp"
 #include "glfw_context.hpp"
-#include <GLFW/glfw3.h>
 #include <memory>
-#include <spdlog/spdlog.h>
-#include <tl/expected.hpp>
+
 
 namespace sly {
     class Input;
 }
+
+struct GLFWwindow;
 
 namespace sly::gl {
 
@@ -30,6 +30,9 @@ namespace sly::gl {
         Window(int width, int height);
 
         [[nodiscard]] bool should_close() const;
+
         void swap_buffers();
+
+        void poll() const;
     };
 } // namespace sly::gl

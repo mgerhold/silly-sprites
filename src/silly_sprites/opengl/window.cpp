@@ -1,8 +1,11 @@
 #include "window.hpp"
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 #include <glad/gl.h>
+#include <spdlog/spdlog.h>
+#include <tl/expected.hpp>
 
 namespace sly::gl {
-
 
 
     namespace {
@@ -54,5 +57,9 @@ namespace sly::gl {
 
     void Window::swap_buffers() {
         glfwSwapBuffers(get());
+    }
+
+    void Window::poll() const {
+        glfwPollEvents();
     }
 } // namespace sly::gl

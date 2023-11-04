@@ -65,7 +65,7 @@ namespace sly {
         };
 
     public:
-        Scene(AppContext* app_context);
+        explicit Scene(AppContext* app_context);
         Scene(Scene const&) = delete;
         Scene(Scene&&) = delete;
         Scene& operator=(Scene const&) = delete;
@@ -183,8 +183,8 @@ namespace sly {
 
     inline Scene::Scene(AppContext* const app_context) : m_app_context{ app_context } {
         m_registry.on_destroy<Script>().connect<&Scene::on_script_destroyed>(*this);
-        instantiate(Script{ "Player" });
-        instantiate(Script{ "Player" });
+        //instantiate(Script{ "Player" });
+        //instantiate(Script{ "Player" });
     }
 
     inline Scene::~Scene() {

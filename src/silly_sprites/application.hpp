@@ -1,6 +1,7 @@
 #pragma once
 
 #include "app_context.hpp"
+#include "opengl/window.hpp"
 #include "stopwatch.hpp"
 #include "time.hpp"
 #include <memory>
@@ -35,8 +36,9 @@ namespace sly {
     private:
         ApplicationSettings m_settings;
         StopWatch m_stopwatch;
-        std::vector<std::unique_ptr<Scene>> m_scenes;
+        gl::Window m_window;
         std::unique_ptr<script::Engine> m_script_engine;
+        std::vector<std::unique_ptr<Scene>> m_scenes;
 
     public:
         explicit Application(ApplicationSettings settings);
