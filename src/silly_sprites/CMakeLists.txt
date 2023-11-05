@@ -14,6 +14,7 @@ add_library(sillysprites
         input.hpp
         input.cpp
         game_object_and_scene.hpp
+        scene.hpp
         native_script.hpp
         transform.hpp
         time.hpp
@@ -44,6 +45,9 @@ add_library(sillysprites
         opengl/shader_type.hpp
         opengl/shader_program.hpp
         opengl/shader_program.cpp
+        opengl/renderer.cpp
+        opengl/renderer.hpp
+        opengl/vertex.hpp
 )
 
 target_link_libraries(sillysprites
@@ -52,13 +56,13 @@ target_link_libraries(sillysprites
 
 target_link_system_libraries(sillysprites
         PRIVATE nlohmann_json::nlohmann_json
-        PRIVATE glm::glm
+        PUBLIC glm::glm
         PRIVATE tl::optional
         PRIVATE tl::expected
-        PRIVATE spdlog::spdlog
+        PUBLIC spdlog::spdlog
         PRIVATE EnTT::EnTT
         PRIVATE glfw
-        PRIVATE Microsoft.GSL::GSL
+        PUBLIC Microsoft.GSL::GSL
         PRIVATE glad
         PRIVATE magic_enum::magic_enum
         PRIVATE angelscript

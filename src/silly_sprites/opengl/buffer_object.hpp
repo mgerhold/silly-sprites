@@ -1,13 +1,14 @@
 #pragma once
 
 #include "../types.hpp"
+#include "vertex.hpp"
 #include <glad/gl.h>
 #include <span>
 
 namespace sly::gl {
     class BufferObject final {
     private:
-        using Points = std::span<GLfloat const>;
+        using Vertices = std::span<Vertex const>;
         using Indices = std::span<GLuint const>;
 
         GLuint m_vertex_array_object = 0;
@@ -28,8 +29,8 @@ namespace sly::gl {
 
         void draw() const;
 
-        void set_points(Points points);
+        void set_points(Vertices points);
         void set_indices(Indices indices);
-        void set_data(Points points, Indices indices);
+        void set_data(Vertices points, Indices indices);
     };
 } // namespace sly::gl

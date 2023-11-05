@@ -1,10 +1,8 @@
 #pragma once
 
-#include "spdlog/spdlog.h"
-#include "../include/magic_enum_wrapper.hpp"
-#include <string>
 #include <cassert>
 #include <exception>
+#include <string>
 
 namespace sly::gl {
 
@@ -34,8 +32,6 @@ namespace sly::gl {
         [[nodiscard]] char const* what() const noexcept override;
     };
 
-    inline void error_callback(int code, char const* message) {
-        spdlog::critical("GLFW error ({}): {}", code, message);
-    }
+    void glfw_error_callback(int code, char const* message);
 
 } // namespace sly::gl

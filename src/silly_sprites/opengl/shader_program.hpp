@@ -8,6 +8,8 @@
 
 namespace sly::gl {
     class ShaderProgram final {
+        friend class Renderer;
+
     private:
         GLuint m_program_name = 0;
 
@@ -26,5 +28,6 @@ namespace sly::gl {
 
         void bind();
         void unbind();
+
     };
 } // namespace sly::gl

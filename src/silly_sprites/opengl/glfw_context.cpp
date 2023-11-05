@@ -1,9 +1,14 @@
 #include "glfw_context.hpp"
 
+#include <spdlog/spdlog.h>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+#include <tl/expected.hpp>
+
 namespace sly::gl {
 
     GlfwContext::GlfwContext() {
-        glfwSetErrorCallback(error_callback);
+        glfwSetErrorCallback(glfw_error_callback);
         if (glfwInit() == GLFW_FALSE) {
             spdlog::critical("Failed to initialize GLFW");
             throw GlError{ GlErrorType::FailedToInitializeGlfw };

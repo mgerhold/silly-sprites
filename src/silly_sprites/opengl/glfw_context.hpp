@@ -1,10 +1,7 @@
 #pragma once
 
 #include "error.hpp"
-#include "spdlog/spdlog.h"
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-#include <tl/expected.hpp>
+#include <utility>
 
 namespace sly::gl {
 

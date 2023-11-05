@@ -1,5 +1,8 @@
 #include "error.hpp"
 
+#include "../include/magic_enum_wrapper.hpp"
+#include <spdlog/spdlog.h>
+
 namespace sly::gl {
     GlError::GlError(GlErrorType const type) : GlError{ type, "" } { }
 
@@ -14,5 +17,9 @@ namespace sly::gl {
 
     [[nodiscard]] char const* GlError::what() const noexcept {
         return m_message.c_str();
+    }
+
+    void glfw_error_callback(int code, char const* message) {
+        spdlog::critical("GLFW error ({}): {}", code, message);
     }
 } // namespace sly::gl

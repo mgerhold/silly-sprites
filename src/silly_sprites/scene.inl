@@ -65,7 +65,7 @@ namespace sly {
         };
 
     public:
-        Scene(AppContext* app_context);
+        explicit Scene(AppContext* app_context);
         Scene(Scene const&) = delete;
         Scene(Scene&&) = delete;
         Scene& operator=(Scene const&) = delete;
