@@ -2,7 +2,6 @@
 #include "buffer_object.hpp"
 #include "shader_program.hpp"
 #include "vertex.hpp"
-
 #include <gsl/gsl>
 
 // clang-format off
