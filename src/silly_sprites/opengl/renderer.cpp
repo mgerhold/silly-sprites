@@ -87,7 +87,7 @@ namespace sly::gl {
 
             auto const radius = glm::sqrt(2.0f * 0.5f * 0.5f);
             for (auto& position : positions) {
-                auto new_position = glm::vec3{
+                auto const new_position = glm::vec3{
                     radius * (glm::cos(command.rotation) * position.x - glm::sin(command.rotation) * position.y)
                             + command.position.x,
                     radius * (glm::sin(command.rotation) * position.x + glm::cos(command.rotation) * position.y)
