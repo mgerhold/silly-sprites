@@ -50,7 +50,7 @@ add_library(sillysprites
         opengl/vertex.hpp
         globals/event_system.hpp
         globals/events.hpp
-        globals/app_context.hpp
+        globals/global.hpp
 )
 
 target_link_libraries(sillysprites

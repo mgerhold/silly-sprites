@@ -1,19 +1,19 @@
 #include "event_system.hpp"
 
 namespace sly {
-    class AppContext final {
+    class Global final {
     private:
         event::EventSystem m_event_system;
 
     public:
-        AppContext() = default;
-        AppContext(AppContext const&) = delete;
-        AppContext(AppContext&&) = delete;
-        AppContext& operator=(AppContext const&) = delete;
-        AppContext& operator=(AppContext&&) = delete;
+        Global() = default;
+        Global(Global const&) = delete;
+        Global(Global&&) = delete;
+        Global& operator=(Global const&) = delete;
+        Global& operator=(Global&&) = delete;
 
-        [[nodiscard]] static AppContext& get() {
-            static auto app_context = AppContext{};
+        [[nodiscard]] static Global& get() {
+            static auto app_context = Global{};
             return app_context;
         }
 

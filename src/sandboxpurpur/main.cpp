@@ -1,40 +1,6 @@
-#include "../silly_sprites/globals/app_context.hpp"
-#include <iostream>
-
-
-using namespace sly::event;
-using namespace sly;
-
-class Test final {
-private:
-    EventID sound_event;
-
-public:
-    Test() {
-        sound_event = AppContext::get().event_system().add_handler<SoundEvent>([this](SoundEvent const& event) {
-            this->on_event(event);
-        });
-    }
-
-    ~Test() {
-        AppContext::get().event_system().remove_handler(sound_event);
-    }
-
-    void on_event(SoundEvent const&) {
-        std::cout << "sound event\n";
-    }
-};
-
-int main() {
-    auto& app_context = AppContext::get();
-
-    auto test = Test{};
-    app_context.event_system().dispatch<SoundEvent>(SoundEvent{});
-}
-
-/*
 #define GLFW_INCLUDE_NONE
 
+#include "../silly_sprites/globals/global.hpp"
 #include "../silly_sprites/input.hpp"
 #include "../silly_sprites/opengl/buffer_object.hpp"
 #include "../silly_sprites/opengl/shader_program.hpp"
@@ -43,8 +9,32 @@ int main() {
 #include "../silly_sprites/types.hpp"
 #include "magic_enum_wrapper.hpp"
 #include <glad/gl.h>
+#include <iostream>
 
+using namespace sly;
 
+class Test final {
+private:
+    event::EventID m_message_event;
+
+public:
+    Test() {
+        m_message_event = Global::get().event_system().add_handler<event::MessageEvent>([this](event::MessageEvent const& event
+                                                                                  ) {
+            this->on_event(event);
+        });
+    }
+
+    ~Test() {
+        Global::get().event_system().remove_handler(m_message_event);
+    }
+
+    void on_event(event::MessageEvent const& e) {
+        spdlog::info("Message Event: {}", e.message());
+    }
+};
+
+/*
 static char const* const example_vertex_shader{ R"(
         #version 330 core
         layout (location = 0) in vec3 aPos;
@@ -54,9 +44,11 @@ static char const* const example_vertex_shader{ R"(
             gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
         }
     )" };
+*/
 
 static char const* const example_vertex_shader{ "              " };
 
+/*
 static char const* const example_fragment_shader{ R"(
         #version 330 core
         out vec4 FragColor;
@@ -65,8 +57,8 @@ static char const* const example_fragment_shader{ R"(
         {
             FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
         }
-    )"
-};
+    )" };
+*/
 
 static char const* const example_fragment_shader{ R"(
         #version 330 core
@@ -76,6 +68,7 @@ static char const* const example_fragment_shader{ R"(
         
             FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
         }
+    )" };
     )" };
 
 static inline std::vector<sly::gl::Vertex> points{
@@ -127,27 +120,33 @@ void move_points_right(sly::gl::BufferObject& buffer) {
 void move_points(sly::gl::BufferObject& buffer) {
     if (sly::Input::is_key_down(sly::Key::Right)) {
         move_points_right(buffer);
+        Global::get().event_system().dispatch<event::MessageEvent>(event::MessageEvent{ "RIGHT!" });
     }
     if (sly::Input::is_key_down(sly::Key::Left)) {
         move_points_left(buffer);
+        Global::get().event_system().dispatch<event::MessageEvent>(event::MessageEvent{ "LEFT!" });
     }
     if (sly::Input::is_key_down(sly::Key::Up)) {
         move_points_up(buffer);
+        Global::get().event_system().dispatch<event::MessageEvent>(event::MessageEvent{ "UP!" });
     }
     if (sly::Input::is_key_down(sly::Key::Down)) {
         move_points_down(buffer);
+        Global::get().event_system().dispatch<event::MessageEvent>(event::MessageEvent{ "DOWN!" });
     }
 }
 
 int main() {
-    auto window = sly::gl::Window{ 800, 600 };
+    auto& global = Global::get();
+    auto window = gl::Window{ 800, 600 };
+    auto test = Test{};
 
     // wrap this in some kind of rendering class
     glClearColor(0.5f, 0.0f, 1.0f, 1.0f);
 
 
-    sly::gl::ShaderProgram shader_program{ example_vertex_shader, example_fragment_shader };
-    sly::gl::BufferObject buffer_object{};
+    gl::ShaderProgram shader_program{ example_vertex_shader, example_fragment_shader };
+    gl::BufferObject buffer_object{};
     buffer_object.set_data(points, indices);
     // buffer_object.set_points(points);
     // buffer_object.set_indices(indices);
@@ -166,9 +165,9 @@ int main() {
 
         window.swap_buffers();
         glfwPollEvents();
-        sly::Input::update(window);
+        Input::update(window);
 
         move_points(buffer_object);
     }
 }
-*/
+
