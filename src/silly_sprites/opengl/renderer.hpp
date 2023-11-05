@@ -18,6 +18,11 @@ namespace sly::gl {
 
     public:
         Renderer();
+        Renderer(Renderer const&) = delete;
+        Renderer(Renderer&&) = delete;
+        Renderer& operator=(Renderer const&) = delete;
+        Renderer& operator=(Renderer&&) = delete;
+
         ~Renderer();
 
         void start_frame();
