@@ -6,6 +6,7 @@ namespace sly::event {
 
     struct EventID final {
         friend class EventSystem;
+
     private:
         usize m_id;
         EventID(usize id) : m_id{ id } {};
@@ -37,7 +38,7 @@ namespace sly::event {
         EventID add_handler(std::function<void(T const&)> handler) {
             auto const id = EventID{ eventID++ };
             m_handlers.push_back({ id, handler });
-            return id ;
+            return id;
         }
 
         void remove_handler(EventID id) {
