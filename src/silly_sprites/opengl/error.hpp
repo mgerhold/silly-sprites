@@ -32,6 +32,6 @@ namespace sly::gl {
         [[nodiscard]] char const* what() const noexcept override;
     };
 
-    void error_callback(int code, char const* message);
+    void glfw_error_callback(int code, char const* message);
 
 } // namespace sly::gl

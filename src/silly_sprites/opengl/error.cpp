@@ -19,7 +19,7 @@ namespace sly::gl {
         return m_message.c_str();
     }
 
-    void error_callback(int code, char const* message) {
+    void glfw_error_callback(int code, char const* message) {
         spdlog::critical("GLFW error ({}): {}", code, message);
     }
 } // namespace sly::gl
