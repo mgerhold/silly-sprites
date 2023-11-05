@@ -44,12 +44,14 @@ static char const* const example_fragment_shader{ R"(
     )" };
 
 static inline std::vector<sly::gl::Vertex> points{
-    sly::gl::Vertex{ glm::vec3{ 0.0f, 0.5f, 0.0f } },   // top
+    // clang-format off
+    sly::gl::Vertex{ glm::vec3{  0.0f,  0.5f, 0.0f } }, // top
     sly::gl::Vertex{ glm::vec3{ -0.25f, 0.0f, 0.0f } }, // mid left
-    sly::gl::Vertex{ glm::vec3{ 0.25f, 0.0f, 0.0f } },  // mit right
+    sly::gl::Vertex{ glm::vec3{  0.25f, 0.0f, 0.0f } }, // mit right
     sly::gl::Vertex{ glm::vec3{ -0.5f, -0.5f, 0.0f } }, // bottom left
-    sly::gl::Vertex{ glm::vec3{ 0.0f, -0.5f, 0.0f } },  // bottom mid
-    sly::gl::Vertex{ glm::vec3{ 0.5f, -0.5f, 0.0f } },  // bottom right
+    sly::gl::Vertex{ glm::vec3{  0.0f, -0.5f, 0.0f } }, // bottom mid
+    sly::gl::Vertex{ glm::vec3{  0.5f, -0.5f, 0.0f } }, // bottom right
+    // clang-format on
 };
 
 static inline std::vector<unsigned int> const indices{
