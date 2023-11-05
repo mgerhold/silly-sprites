@@ -8,6 +8,9 @@ add_library(sillysprites
         application.hpp
         silly_sprites.cpp
         application.cpp
+        event_system.hpp
+        events.hpp
+        global.hpp
         stopwatch.cpp
         stopwatch.hpp
         types.hpp
@@ -48,9 +51,6 @@ add_library(sillysprites
         opengl/renderer.cpp
         opengl/renderer.hpp
         opengl/vertex.hpp
-        globals/event_system.hpp
-        globals/events.hpp
-        globals/global.hpp
 )
 
 target_link_libraries(sillysprites

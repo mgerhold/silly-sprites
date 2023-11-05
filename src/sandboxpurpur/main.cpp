@@ -1,6 +1,6 @@
 #define GLFW_INCLUDE_NONE
 
-#include "../silly_sprites/globals/global.hpp"
+#include "../silly_sprites/global.hpp"
 #include "../silly_sprites/input.hpp"
 #include "../silly_sprites/opengl/buffer_object.hpp"
 #include "../silly_sprites/opengl/shader_program.hpp"
@@ -9,7 +9,6 @@
 #include "../silly_sprites/types.hpp"
 #include "magic_enum_wrapper.hpp"
 #include <glad/gl.h>
-#include <iostream>
 
 using namespace sly;
 
