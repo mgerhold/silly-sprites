@@ -1,6 +1,7 @@
 #include <string>
 #include <type_traits>
 #include <variant>
+#include <functional>
 
 namespace sly::event {
     // add new events here
