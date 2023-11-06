@@ -18,10 +18,10 @@ private:
 
 public:
     Test() {
-        m_message_event = Global::get().event_system().add_handler<event::MessageEvent>([this](event::MessageEvent const& event
-                                                                                  ) {
-            this->on_event(event);
-        });
+        m_message_event =
+                Global::get().event_system().add_handler<event::MessageEvent>([this](event::MessageEvent const& event) {
+                    this->on_event(event);
+                });
     }
 
     ~Test() {
@@ -67,7 +67,6 @@ static char const* const example_fragment_shader{ R"(
         
             FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
         }
-    )" };
     )" };
 
 static inline std::vector<sly::gl::Vertex> points{
@@ -169,4 +168,3 @@ int main() {
         move_points(buffer_object);
     }
 }
-

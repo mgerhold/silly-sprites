@@ -1,5 +1,5 @@
-#include "types.hpp"
 #include "events.hpp"
+#include "types.hpp"
 #include <vector>
 
 namespace sly::event {
