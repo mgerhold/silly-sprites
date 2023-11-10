@@ -19,7 +19,7 @@ namespace sly::event {
     class EventSystem final {
     private:
         std::vector<std::pair<EventId, EventCallbacks>> m_handlers;
-        usize event_id = 0;
+        usize m_event_id = 0;
 
         template<Event T>
         [[nodiscard]] static bool
@@ -36,7 +36,7 @@ namespace sly::event {
 
         template<Event T>
         EventId add_handler(std::function<void(T const&)> handler) {
-            auto const id = EventId{ event_id++ };
+            auto const id = EventId{ m_event_id++ };
             m_handlers.push_back({ id, handler });
             return id;
         }
