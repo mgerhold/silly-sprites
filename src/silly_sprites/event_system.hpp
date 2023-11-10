@@ -9,10 +9,10 @@ namespace sly::event {
 
     private:
         usize m_id;
-        EventID(usize id) : m_id{ id } {};
+        constexpr EventID(usize id) : m_id{ id } {}
 
     public:
-        EventID() : m_id{ 0 } {};
+        constexpr EventID() : m_id{ 0 } {}
         [[nodiscard]] auto operator<=>(EventID const&) const = default;
     };
 
