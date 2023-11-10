@@ -22,8 +22,8 @@ namespace sly::event {
         usize eventID = 0;
 
         template<Event T>
-        [[nodiscard]] bool
-        is_same_handler(std::function<void(T const&)> handler, std::function<void(T const&)> handler2) {
+        [[nodiscard]] static bool
+        is_same_handler(std::function<void(T const&)> const& handler, std::function<void(T const&)> const& handler2) {
             return handler == handler2;
         }
 
