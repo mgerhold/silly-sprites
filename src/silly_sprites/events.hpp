@@ -4,7 +4,7 @@
 #include <functional>
 
 namespace sly::event {
-    // add new events here
+    // define new events here
     struct CollisionEvent { };
     struct SoundEvent { };
     struct MessageEvent {
