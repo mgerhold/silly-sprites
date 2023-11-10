@@ -4,21 +4,21 @@
 
 namespace sly::event {
 
-    struct EventID final {
+    struct EventId final {
         friend class EventSystem;
 
     private:
         usize m_id;
-        constexpr EventID(usize id) : m_id{ id } {}
+        constexpr EventId(usize id) : m_id{ id } {}
 
     public:
-        constexpr EventID() : m_id{ 0 } {}
-        [[nodiscard]] constexpr auto operator<=>(EventID const&) const = default;
+        constexpr EventId() : m_id{ 0 } {}
+        [[nodiscard]] constexpr auto operator<=>(EventId const&) const = default;
     };
 
     class EventSystem final {
     private:
-        std::vector<std::pair<EventID, EventCallbacks>> m_handlers;
+        std::vector<std::pair<EventId, EventCallbacks>> m_handlers;
         usize eventID = 0;
 
         template<Event T>
@@ -35,13 +35,13 @@ namespace sly::event {
         EventSystem& operator=(EventSystem&&) = delete;
 
         template<Event T>
-        EventID add_handler(std::function<void(T const&)> handler) {
-            auto const id = EventID{ eventID++ };
+        EventId add_handler(std::function<void(T const&)> handler) {
+            auto const id = EventId{ eventID++ };
             m_handlers.push_back({ id, handler });
             return id;
         }
 
-        void remove_handler(EventID id) {
+        void remove_handler(EventId id) {
             std::erase_if(m_handlers, [id](auto const& entry) {
                 auto const& [id_, handler] = entry;
                 return id_ == id;

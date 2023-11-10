@@ -14,7 +14,7 @@ using namespace sly;
 
 class Test final {
 private:
-    event::EventID m_message_event;
+    event::EventId m_message_event;
 
 public:
     Test() {
