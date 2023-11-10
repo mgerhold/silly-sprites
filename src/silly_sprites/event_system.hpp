@@ -13,7 +13,7 @@ namespace sly::event {
 
     public:
         constexpr EventID() : m_id{ 0 } {}
-        [[nodiscard]] auto operator<=>(EventID const&) const = default;
+        [[nodiscard]] constexpr auto operator<=>(EventID const&) const = default;
     };
 
     class EventSystem final {
