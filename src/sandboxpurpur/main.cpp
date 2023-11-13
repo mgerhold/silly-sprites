@@ -1,5 +1,3 @@
-#define GLFW_INCLUDE_NONE
-
 #include "../silly_sprites/event_system.hpp"
 #include "../silly_sprites/include/silly_sprites.hpp"
 
@@ -18,13 +16,13 @@ private:
 
 public:
     Test(SandboxApplication& app) : m_app{ app } {
-        m_message_event = app.event_system().add_handler<event::MessageEvent>([this](event::MessageEvent const& event) {
+        m_message_event = app.event_system().add_handler<event::MessageEvent>([this](auto const& event) {
             this->on_event(event);
         });
     }
 
     ~Test() {
-        // m_app.event_system().remove_handler(m_message_event);
+        m_app.event_system().remove_handler(m_message_event);
         m_app.event_system().remove_handler(m_test_event);
     }
 
