@@ -12,7 +12,7 @@ namespace sly {
           m_window{ 800, 600 },
           m_shader_program{ std::make_unique<gl::ShaderProgram>("", "") }, // fallback shaders
           m_script_engine{ std::make_unique<script::Engine>() },
-          m_event_system{ std::make_unique<event::EventSystem>() } {
+          m_event_system{ std::make_unique<event::EventSystem>(this) } {
         m_script_engine->create_module("MyModule", "src/silly_sprites/test.as");
         m_scenes.push_back(std::make_unique<Scene>(this));
     }

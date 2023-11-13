@@ -10,20 +10,13 @@ public:
 
 class Test final {
 private:
-    event::EvenHandlerId m_message_event;
-    event::EvenHandlerId m_test_event;
-    SandboxApplication& m_app;
+    event::EventHandlerId m_message_event;
 
 public:
-    Test(SandboxApplication& app) : m_app{ app } {
+    Test(SandboxApplication& app) {
         m_message_event = app.event_system().add_handler<event::MessageEvent>([this](auto const& event) {
             this->on_event(event);
         });
-    }
-
-    ~Test() {
-        m_app.event_system().remove_handler(m_message_event);
-        m_app.event_system().remove_handler(m_test_event);
     }
 
     void on_event(event::MessageEvent const& e) {

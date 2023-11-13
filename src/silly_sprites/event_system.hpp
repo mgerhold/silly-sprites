@@ -1,28 +1,40 @@
 #include "events.hpp"
 #include "types.hpp"
+#include <cassert>
 #include <tl/optional.hpp>
 #include <unordered_map>
-#include <cassert>
+
+namespace sly {
+    class AppContext;
+}
 
 namespace sly::event {
 
-    struct EvenHandlerId final {
+    struct EventHandlerId final {
         friend class EventSystem;
-        friend struct std::hash<EvenHandlerId>;
+        friend struct std::hash<EventHandlerId>;
 
     private:
         tl::optional<usize> m_id;
-        constexpr EvenHandlerId(usize id) : m_id{ id } { }
+        AppContext* m_app_context;
+
+        constexpr EventHandlerId(usize id, AppContext* app_context) : m_id{ id }, m_app_context{ app_context } { }
 
     public:
-        constexpr EvenHandlerId() : m_id{ tl::nullopt } { }
-        [[nodiscard]] constexpr auto operator<=>(EvenHandlerId const&) const = default;
+        constexpr EventHandlerId() : m_id{ tl::nullopt }, m_app_context{ nullptr } { }
+        EventHandlerId(EventHandlerId const& other) = delete;
+        EventHandlerId(EventHandlerId&& other) noexcept;
+        EventHandlerId& operator=(EventHandlerId const& other) = delete;
+        EventHandlerId& operator=(EventHandlerId&& other) noexcept;
+        ~EventHandlerId();
+
+        [[nodiscard]] constexpr auto operator<=>(EventHandlerId const&) const = default;
     };
-}
+} // namespace sly::event
 
 template<>
-struct std::hash<sly::event::EvenHandlerId> {
-    std::size_t operator()(sly::event::EvenHandlerId const& id) const {
+struct std::hash<sly::event::EventHandlerId> {
+    std::size_t operator()(sly::event::EventHandlerId const& id) const {
         assert(id.m_id.has_value());
         return std::hash<size_t>()(id.m_id.value());
     }
@@ -31,8 +43,9 @@ struct std::hash<sly::event::EvenHandlerId> {
 namespace sly::event {
     class EventSystem final {
     private:
-        std::unordered_map<EvenHandlerId, EventCallbacks> m_handlers;
+        std::unordered_map<usize, EventCallbacks> m_handlers;
         usize m_event_id = 0;
+        AppContext* m_app_context;
 
         template<Event T>
         [[nodiscard]] static bool
@@ -41,20 +54,20 @@ namespace sly::event {
         }
 
     public:
-        EventSystem() = default;
+        EventSystem(AppContext* app_context);
         EventSystem(EventSystem const&) = delete;
         EventSystem(EventSystem&&) = delete;
         EventSystem& operator=(EventSystem const&) = delete;
         EventSystem& operator=(EventSystem&&) = delete;
 
         template<Event T>
-        EvenHandlerId add_handler(std::function<void(T const&)> handler) {
-            auto const id = EvenHandlerId{ m_event_id++ };
-            m_handlers[id] = handler;
+        EventHandlerId add_handler(std::function<void(T const&)> handler) {
+            auto id = EventHandlerId{ m_event_id++, m_app_context };
+            m_handlers[id.m_id.value()] = handler;
             return id;
         }
 
-        void remove_handler(EvenHandlerId id);
+        void remove_handler(EventHandlerId const& id);
 
         template<Event T>
         void dispatch(T const& event) const {
