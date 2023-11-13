@@ -1,5 +1,6 @@
 #include "events.hpp"
 #include "types.hpp"
+#include <tl/optional.hpp>
 #include <vector>
 
 namespace sly::event {
@@ -8,11 +9,11 @@ namespace sly::event {
         friend class EventSystem;
 
     private:
-        usize m_id;
+        tl::optional<usize> m_id;
         constexpr EvenHandlerId(usize id) : m_id{ id } {}
 
     public:
-        constexpr EvenHandlerId() : m_id{ 0 } {}
+        constexpr EvenHandlerId() : m_id{ tl::nullopt } {}
         [[nodiscard]] constexpr auto operator<=>(EvenHandlerId const&) const = default;
     };
 
@@ -42,8 +43,15 @@ namespace sly::event {
         }
 
         void remove_handler(EvenHandlerId id) {
+            if (not id.m_id.has_value()) {
+                spdlog::warn("tried to remove event handler id without value");
+                return;
+            }
             std::erase_if(m_handlers, [id](auto const& entry) {
-                auto const& [id_, handler] = entry;
+                auto const& [id_, unused] = entry;
+                if (not id_.m_id.has_value()) {
+                    return false;
+                }
                 return id_ == id;
             });
         }
@@ -51,7 +59,7 @@ namespace sly::event {
 
         template<Event T>
         void dispatch(T const& event) const {
-            for (auto const& [id, handler] : m_handlers) {
+            for (auto const& [unused, handler] : m_handlers) {
                 std::visit(
                         [&event](auto&& handler) {
                             if constexpr (requires() { handler(event); }) {

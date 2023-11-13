@@ -15,6 +15,7 @@ using namespace sly;
 class Test final {
 private:
     event::EvenHandlerId m_message_event;
+    event::EvenHandlerId m_test_event;
 
 public:
     Test() {
@@ -26,6 +27,7 @@ public:
 
     ~Test() {
         Global::get().event_system().remove_handler(m_message_event);
+        Global::get().event_system().remove_handler(m_test_event);
     }
 
     void on_event(event::MessageEvent const& e) {
