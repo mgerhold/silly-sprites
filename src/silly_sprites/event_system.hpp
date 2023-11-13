@@ -1,25 +1,37 @@
 #include "events.hpp"
 #include "types.hpp"
 #include <tl/optional.hpp>
-#include <vector>
+#include <unordered_map>
+#include <cassert>
 
 namespace sly::event {
 
     struct EvenHandlerId final {
         friend class EventSystem;
+        friend struct std::hash<EvenHandlerId>;
 
     private:
         tl::optional<usize> m_id;
-        constexpr EvenHandlerId(usize id) : m_id{ id } {}
+        constexpr EvenHandlerId(usize id) : m_id{ id } { }
 
     public:
-        constexpr EvenHandlerId() : m_id{ tl::nullopt } {}
+        constexpr EvenHandlerId() : m_id{ tl::nullopt } { }
         [[nodiscard]] constexpr auto operator<=>(EvenHandlerId const&) const = default;
     };
+}
 
+template<>
+struct std::hash<sly::event::EvenHandlerId> {
+    std::size_t operator()(sly::event::EvenHandlerId const& id) const {
+        assert(id.m_id.has_value());
+        return std::hash<size_t>()(id.m_id.value());
+    }
+};
+
+namespace sly::event {
     class EventSystem final {
     private:
-        std::vector<std::pair<EvenHandlerId, EventCallbacks>> m_handlers;
+        std::unordered_map<EvenHandlerId, EventCallbacks> m_handlers;
         usize m_event_id = 0;
 
         template<Event T>
@@ -38,7 +50,7 @@ namespace sly::event {
         template<Event T>
         EvenHandlerId add_handler(std::function<void(T const&)> handler) {
             auto const id = EvenHandlerId{ m_event_id++ };
-            m_handlers.push_back({ id, handler });
+            m_handlers[id] = handler;
             return id;
         }
 

@@ -6,12 +6,7 @@ namespace sly::event {
             spdlog::warn("tried to remove event handler id without value");
             return;
         }
-        std::erase_if(m_handlers, [id](auto const& entry) {
-            auto const& [id_, unused] = entry;
-            if (not id_.m_id.has_value()) {
-                return false;
-            }
-            return id_ == id;
-        });
+
+        m_handlers.erase(id);
     }
 } // namespace sly::event
