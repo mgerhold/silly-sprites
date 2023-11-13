@@ -1,4 +1,5 @@
 #include "application.hpp"
+#include "event_system.hpp"
 #include "game_object_and_scene.hpp"
 #include "input.hpp"
 #include "opengl/shader_program.hpp"
@@ -10,7 +11,8 @@ namespace sly {
         : m_settings{ settings },
           m_window{ 800, 600 },
           m_shader_program{ std::make_unique<gl::ShaderProgram>("", "") }, // fallback shaders
-          m_script_engine{ std::make_unique<script::Engine>() } {
+          m_script_engine{ std::make_unique<script::Engine>() },
+          m_event_system{ std::make_unique<event::EventSystem>() } {
         m_script_engine->create_module("MyModule", "src/silly_sprites/test.as");
         m_scenes.push_back(std::make_unique<Scene>(this));
     }

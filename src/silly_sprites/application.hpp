@@ -14,6 +14,9 @@ namespace sly {
     namespace script {
         class Engine;
     }
+    namespace event {
+        class EventSystem;
+    }
 
     class Scene;
 
@@ -41,6 +44,7 @@ namespace sly {
         gl::Renderer m_renderer;
         std::unique_ptr<gl::ShaderProgram> m_shader_program;
         std::unique_ptr<script::Engine> m_script_engine;
+        std::unique_ptr<event::EventSystem> m_event_system;
         std::vector<std::unique_ptr<Scene>> m_scenes;
 
     public:
@@ -61,6 +65,13 @@ namespace sly {
 
         [[nodiscard]] script::Engine const& script_engine() const override {
             return *m_script_engine;
+        }
+
+        [[nodiscard]] virtual event::EventSystem& event_system() {
+            return *m_event_system;
+        }
+        [[nodiscard]] virtual event::EventSystem const& event_system() const {
+            return *m_event_system;
         }
 
     private:
