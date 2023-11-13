@@ -42,20 +42,7 @@ namespace sly::event {
             return id;
         }
 
-        void remove_handler(EvenHandlerId id) {
-            if (not id.m_id.has_value()) {
-                spdlog::warn("tried to remove event handler id without value");
-                return;
-            }
-            std::erase_if(m_handlers, [id](auto const& entry) {
-                auto const& [id_, unused] = entry;
-                if (not id_.m_id.has_value()) {
-                    return false;
-                }
-                return id_ == id;
-            });
-        }
-
+        void remove_handler(EvenHandlerId id);
 
         template<Event T>
         void dispatch(T const& event) const {

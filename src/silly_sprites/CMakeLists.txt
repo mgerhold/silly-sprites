@@ -9,6 +9,7 @@ add_library(sillysprites
         silly_sprites.cpp
         application.cpp
         event_system.hpp
+        event_system.cpp
         events.hpp
         global.hpp
         stopwatch.cpp
