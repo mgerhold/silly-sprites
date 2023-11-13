@@ -11,7 +11,6 @@ add_library(sillysprites
         event_system.hpp
         event_system.cpp
         events.hpp
-        global.hpp
         stopwatch.cpp
         stopwatch.hpp
         types.hpp
