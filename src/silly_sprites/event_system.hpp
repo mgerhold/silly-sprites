@@ -60,9 +60,9 @@ namespace sly::event {
         void dispatch(T const& event) const {
             for (auto const& [unused, handler] : m_handlers) {
                 std::visit(
-                        [&event](auto&& handler) {
-                            if constexpr (requires() { handler(event); }) {
-                                handler(event);
+                        [&event](auto&& dler) {
+                            if constexpr (requires() { dler(event); }) {
+                                dler(event);
                             }
                         },
                         handler
