@@ -49,12 +49,6 @@ namespace sly::event {
         usize m_event_id = 0;
         AppContext* m_app_context;
 
-        template<Event T>
-        [[nodiscard]] static bool
-        is_same_handler(std::function<void(T const&)> const& handler, std::function<void(T const&)> const& handler2) {
-            return handler == handler2;
-        }
-
     public:
         EventSystem(AppContext* app_context);
         EventSystem(EventSystem const&) = delete;
