@@ -67,14 +67,14 @@ namespace sly::event {
 
         template<Event T>
         void dispatch(T const& event) const {
-            for (auto const& [unused, handler] : m_handlers) {
+            for (auto const& [unused, current_handler] : m_handlers) {
                 std::visit(
-                        [&event](auto&& dler) {
-                            if constexpr (requires() { dler(event); }) {
-                                dler(event);
+                        [&event](auto&& handler) {
+                            if constexpr (requires() { handler(event); }) {
+                                handler(event);
                             }
                         },
-                        handler
+                        current_handler
                 );
             }
         }
