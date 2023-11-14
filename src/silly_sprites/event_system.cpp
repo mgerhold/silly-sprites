@@ -6,7 +6,7 @@ namespace sly::event {
         : m_id{ std::exchange(other.m_id, tl::nullopt) },
           m_app_context{ std::exchange(other.m_app_context, nullptr) } { }
 
-    EventHandlerId& EventHandlerId::operator=(EventHandlerId&& other) noexcept {;
+    EventHandlerId& EventHandlerId::operator=(EventHandlerId&& other) noexcept {
         std::swap(m_id, other.m_id);
         std::swap(m_app_context, other.m_app_context);
         return *this;
@@ -24,11 +24,11 @@ namespace sly::event {
         m_id = tl::nullopt;
     }
 
-    EventSystem::EventSystem(AppContext* app_context) : m_app_context{ app_context } {
+    EventSystem::EventSystem(AppContext* const app_context) : m_app_context{ app_context } {
         // don't use the AppContext*. the object is not fully created yet.
     }
 
-    void EventSystem::remove_handler(EventHandlerId const&  id) {
+    void EventSystem::remove_handler(EventHandlerId const& id) {
         if (not id.m_id.has_value()) {
             return;
         }
