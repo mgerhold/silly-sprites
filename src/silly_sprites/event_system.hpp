@@ -35,7 +35,7 @@ namespace sly::event {
 } // namespace sly::event
 
 template<>
-struct std::hash<sly::event::EventHandlerId> {
+struct std::hash<sly::event::EventHandlerId> final {
     [[nodiscard]] std::size_t operator()(sly::event::EventHandlerId const& id) const {
         assert(id.m_id.has_value());
         return std::hash<size_t>()(id.m_id.value());
