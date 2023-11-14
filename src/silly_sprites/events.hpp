@@ -26,6 +26,6 @@ namespace sly::event {
 
     template<typename T>
     concept Event = IsAnyOf<T, CollisionEvent, SoundEvent, MessageEvent>;              // add new events here
-    using EventCallbacks = VariantCallbacks<CollisionEvent, SoundEvent, MessageEvent>; // add new events here
+    using EventCallback = VariantCallbacks<CollisionEvent, SoundEvent, MessageEvent>; // add new events here
 
 } // namespace sly::event

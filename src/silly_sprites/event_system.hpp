@@ -45,7 +45,7 @@ struct std::hash<sly::event::EventHandlerId> final {
 namespace sly::event {
     class EventSystem final {
     private:
-        std::unordered_map<usize, EventCallbacks> m_handlers;
+        std::unordered_map<usize, EventCallback> m_handlers;
         usize m_event_id = 0;
         AppContext* m_app_context;
 
