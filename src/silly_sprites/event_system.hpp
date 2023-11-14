@@ -36,7 +36,7 @@ namespace sly::event {
 
 template<>
 struct std::hash<sly::event::EventHandlerId> {
-    std::size_t operator()(sly::event::EventHandlerId const& id) const {
+    [[nodiscard]] std::size_t operator()(sly::event::EventHandlerId const& id) const {
         assert(id.m_id.has_value());
         return std::hash<size_t>()(id.m_id.value());
     }
@@ -63,7 +63,7 @@ namespace sly::event {
         EventSystem& operator=(EventSystem&&) = delete;
 
         template<Event T>
-        EventHandlerId add_handler(std::function<void(T const&)> handler) {
+        [[nodiscard]] EventHandlerId add_handler(std::function<void(T const&)> handler) {
             auto id = EventHandlerId{ m_event_id++, m_app_context };
             m_handlers[id.m_id.value()] = handler;
             return id;
