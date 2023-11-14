@@ -28,6 +28,8 @@ namespace sly::event {
         EventHandlerId& operator=(EventHandlerId&& other) noexcept;
         ~EventHandlerId();
 
+        void remove();
+
         [[nodiscard]] constexpr auto operator<=>(EventHandlerId const&) const = default;
     };
 } // namespace sly::event

@@ -13,10 +13,15 @@ namespace sly::event {
     }
 
     EventHandlerId::~EventHandlerId() {
-        if (not m_app_context) {
-            return;
+        remove();
+    }
+
+    void EventHandlerId::remove() {
+        if (m_app_context) {
+            m_app_context->event_system().remove_handler(*this);
         }
-        m_app_context->event_system().remove_handler(*this);
+        m_app_context = nullptr;
+        m_id = tl::nullopt;
     }
 
     EventSystem::EventSystem(AppContext* app_context) : m_app_context{ app_context } {
