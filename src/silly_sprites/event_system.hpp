@@ -67,6 +67,7 @@ namespace sly::event {
 
         template<Event T>
         void dispatch(T const& event) const {
+            spdlog::info("handler count: {}", m_handlers.size());
             for (auto const& [unused, current_handler] : m_handlers) {
                 std::visit(
                         [&event](auto&& handler) {
