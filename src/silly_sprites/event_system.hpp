@@ -59,7 +59,7 @@ namespace sly::event {
         State m_state = State::Idle;
 
     public:
-        EventSystem(AppContext* app_context);
+        explicit EventSystem(AppContext* app_context);
         EventSystem(EventSystem const&) = delete;
         EventSystem(EventSystem&&) = delete;
         EventSystem& operator=(EventSystem const&) = delete;
