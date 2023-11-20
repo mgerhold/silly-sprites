@@ -44,6 +44,8 @@ struct std::hash<sly::event::EventHandlerId> final {
 
 namespace sly::event {
     class EventSystem final {
+        friend struct EventHandlerId;
+
     private:
         std::unordered_map<usize, EventCallback> m_handlers;
         usize m_event_id = 0;
@@ -63,8 +65,6 @@ namespace sly::event {
             return id;
         }
 
-        void remove_handler(EventHandlerId const& id);
-
         template<Event T>
         void dispatch(T const& event) const {
             spdlog::info("handler count: {}", m_handlers.size());
@@ -79,6 +79,9 @@ namespace sly::event {
                 );
             }
         }
+
+    private:
+        void remove_handler(EventHandlerId const& id);
     };
 
 } // namespace sly::event
