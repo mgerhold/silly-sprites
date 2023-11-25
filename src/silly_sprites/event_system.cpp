@@ -33,6 +33,13 @@ namespace sly::event {
             return;
         }
 
-        m_handlers.erase(id.m_id.value());
+        switch (m_state) {
+            case State::Dispatching:
+                m_handlers_to_delete.push_back(id.m_id.value());
+                break;
+            case State::Idle:
+                m_handlers.erase(id.m_id.value());
+                break;
+        }
     }
 } // namespace sly::event

@@ -44,13 +44,22 @@ struct std::hash<sly::event::EventHandlerId> final {
 
 namespace sly::event {
     class EventSystem final {
+        friend struct EventHandlerId;
+
     private:
+        enum class State {
+            Dispatching,
+            Idle,
+        };
+
         std::unordered_map<usize, EventCallback> m_handlers;
         usize m_event_id = 0;
         AppContext* m_app_context;
+        std::vector<usize> m_handlers_to_delete;
+        State m_state = State::Idle;
 
     public:
-        EventSystem(AppContext* app_context);
+        explicit EventSystem(AppContext* app_context);
         EventSystem(EventSystem const&) = delete;
         EventSystem(EventSystem&&) = delete;
         EventSystem& operator=(EventSystem const&) = delete;
@@ -63,11 +72,11 @@ namespace sly::event {
             return id;
         }
 
-        void remove_handler(EventHandlerId const& id);
-
         template<Event T>
-        void dispatch(T const& event) const {
+        void dispatch(T const& event) {
             spdlog::info("handler count: {}", m_handlers.size());
+            assert(m_handlers_to_delete.empty());
+            m_state = State::Dispatching;
             for (auto const& [unused, current_handler] : m_handlers) {
                 std::visit(
                         [&event](auto&& handler) {
@@ -78,7 +87,15 @@ namespace sly::event {
                         current_handler
                 );
             }
+            m_state = State::Idle;
+            for (auto const handler_id : m_handlers_to_delete) {
+                m_handlers.erase(handler_id);
+            }
+            m_handlers_to_delete.clear();
         }
+
+    private:
+        void remove_handler(EventHandlerId const& id);
     };
 
 } // namespace sly::event
