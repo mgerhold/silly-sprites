@@ -19,6 +19,9 @@ add_library(sillysprites
         transform.hpp
         time.hpp
         utils.cpp
+        event/events.hpp
+        event/base_handler.hpp
+        event/event_concept.hpp
         app_context.hpp
         script/engine.cpp
         script/engine.hpp
