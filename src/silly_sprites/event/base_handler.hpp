@@ -2,6 +2,7 @@
 
 #include "event_concept.hpp"
 #include <algorithm>
+#include <cassert>
 #include <vector>
 
 
@@ -20,10 +21,18 @@ namespace sly::event {
             E::move(&other, this);
         }
         handler_ty& operator=(handler_ty const& other) {
+            if (this == &other) {
+                return *this;
+            }
             E::copy(&other, this);
+            return *this;
         }
         handler_ty& operator=(handler_ty&& other) {
+            if (this == &other) {
+                return *this;
+            }
             E::move(&other, this);
+            return *this;
         }
 
         virtual ~Handler() {
@@ -44,9 +53,9 @@ namespace sly::event {
             return std::find(m_handlers.begin(), m_handlers.end(), handler) != m_handlers.end();
         }
 
-        [[nodiscard]] constexpr E& derived() noexcept {
+        [[nodiscard]] constexpr E const& derived() const noexcept {
             static_assert(std::derived_from<E, Base>);
-            return static_cast<E&>(*this);
+            return static_cast<E const&>(*this);
         }
 
     protected:
@@ -59,6 +68,7 @@ namespace sly::event {
             }
             m_handlers.push_back(handler);
         }
+
         static void disconnect(handler_ty handler) {
             std::erase(m_handlers, handler);
         }
@@ -70,30 +80,18 @@ namespace sly::event {
                 }
             }
         }
+
         static void copy(handler_const_ty from, handler_ty to) {
             if (contains_handler(from)) {
                 connect(to);
             }
         }
 
-
         void dispatch() const {
             for (auto const& h : m_handlers) {
+                assert(h != nullptr);
                 h->on_event(derived());
-            }
-        }
-
-
-        static void dispatch(E event) {
-            for (auto const& h : m_handlers) {
-                h->on_event(event);
             }
         }
     };
 } // namespace sly::event
-
-/*
-event::Message::dispatch(event::Message{ "best message" });
-event::Message{ "best message" }; // ctor dispatched automatisch
-event::Message{ "best message" }.dispatch();
-*/

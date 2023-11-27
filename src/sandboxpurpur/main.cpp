@@ -18,12 +18,10 @@ public:
 
     void on_event(event::Sound const& event) override {
         std::cout << this << " | " << event.sound() << '\n';
-        // spdlog::info("{} | {}\n", this, event.sound());
     }
 
     void on_event(event::Message const& event) override {
         std::cout << this << " | " << event.message() << '\n';
-        //spdlog::info("{} | {}\n", this, event.message());
     }
 };
 
@@ -41,13 +39,8 @@ int main() {
     event::Sound s1 = { "shoot.wav" };
     event::Message m0 = { "best message" };
 
-    
+
     s0.dispatch();
     m0.dispatch();
     s1.dispatch();
-    
-    
-    event::Sound::dispatch(s0);
-    event::Sound::dispatch(s1);
-    event::Message::dispatch(m0);
 }
