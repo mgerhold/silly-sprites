@@ -41,11 +41,11 @@ int main() {
     event::Sound s1 = { "shoot.wav" };
     event::Message m0 = { "best message" };
 
-    /*
+    
     s0.dispatch();
     m0.dispatch();
     s1.dispatch();
-    */
+    
     
     event::Sound::dispatch(s0);
     event::Sound::dispatch(s1);

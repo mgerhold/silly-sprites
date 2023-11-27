@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 
+
 namespace sly::event {
     template<Event E>
     class Handler {
@@ -15,7 +16,7 @@ namespace sly::event {
         Handler(handler_ty const& other) {
             E::copy(&other, this);
         }
-        Handler(handler_ty&& other) {
+        Handler(handler_ty&& other) noexcept {
             E::move(&other, this);
         }
         handler_ty& operator=(handler_ty const& other) {
@@ -41,6 +42,11 @@ namespace sly::event {
 
         [[nodiscard]] static bool contains_handler(handler_const_ty handler) {
             return std::find(m_handlers.begin(), m_handlers.end(), handler) != m_handlers.end();
+        }
+
+        [[nodiscard]] constexpr E& derived() noexcept {
+            static_assert(std::derived_from<E, Base>);
+            return static_cast<E&>(*this);
         }
 
     protected:
@@ -70,20 +76,19 @@ namespace sly::event {
             }
         }
 
-        /*
+
         void dispatch() const {
             for (auto const& h : m_handlers) {
-                h->on_event(*this);
+                h->on_event(derived());
             }
         }
-        */
+
 
         static void dispatch(E event) {
             for (auto const& h : m_handlers) {
                 h->on_event(event);
             }
         }
-        
     };
 } // namespace sly::event
 
