@@ -70,17 +70,20 @@ namespace sly::event {
             }
         }
 
+        /*
         void dispatch() const {
             for (auto const& h : m_handlers) {
                 h->on_event(*this);
             }
         }
-        
+        */
+
         static void dispatch(E event) {
             for (auto const& h : m_handlers) {
                 h->on_event(event);
             }
         }
+        
     };
 } // namespace sly::event
 
