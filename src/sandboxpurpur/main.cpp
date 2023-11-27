@@ -27,6 +27,8 @@ public:
 
 
 int main() {
+    auto app = SandboxApplication{};
+
     Object first;
     Object second = std::move(first);
     Object third = second;
@@ -41,6 +43,9 @@ int main() {
 
 
     s0.dispatch();
+    
+    app.run();
+
     m0.dispatch();
     s1.dispatch();
 }
