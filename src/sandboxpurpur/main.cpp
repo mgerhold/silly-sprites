@@ -46,7 +46,9 @@ int main() {
     
     app.run();
 
+    event::Sound::disconnect(&third); // remove sound event from third instance. 
+
     m0.dispatch(); // should be send to instance 3
-    s1.dispatch(); // should be send to instance 2,3,4
+    s1.dispatch(); // should be send to instance 2,4
     // instance 1 was moved so all of its pointer were removed.
 }
