@@ -9,7 +9,7 @@ namespace sly::event {
         std::string m_message;
 
     public:
-        Message(std::string const& message) : m_message{ message } {};
+        explicit Message(std::string const message) : m_message{ std::move(message) } {};
 
         [[nodiscard]] std::string message() const {
             return m_message;
@@ -21,7 +21,7 @@ namespace sly::event {
         std::string m_sound;
 
     public:
-        Sound(std::string const& sound) : m_sound{ sound } {};
+        explicit Sound(std::string const sound) : m_sound{ std::move(sound) } {};
 
         [[nodiscard]] std::string sound() const {
             return m_sound;
