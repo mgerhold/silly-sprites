@@ -12,10 +12,6 @@ public:
 
 class Object : public event::Handler<event::Sound>, public event::Handler<event::Message> {
 public:
-    Object() {
-        event::Sound::connect(this); // connect event in ctor to proof that.
-    }
-
     void on_event(event::Sound const& event) override {
         std::cout << this << " | " << event.sound() << '\n';
     }
@@ -29,8 +25,7 @@ public:
 int main() {
     auto app = SandboxApplication{};
 
-    Object first;  // sound event from ctor.
-    event::Message::connect(&first);
+    Object first;
 
     auto s0 = event::Sound{ "jump.wav" };
     auto s1 = event::Sound{ "shoot.wav" };
