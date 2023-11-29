@@ -44,10 +44,10 @@ namespace sly::event {
     private:
         using handler_ty = Handler<E>*;
         using handler_const_ty = Handler<E> const*;
-        inline static std::vector<handler_ty> m_handlers;
+        inline static std::vector<handler_ty> s_handlers;
 
         [[nodiscard]] static bool contains_handler(handler_const_ty handler) {
-            return std::find(m_handlers.begin(), m_handlers.end(), handler) != m_handlers.end();
+            return std::find(s_handlers.begin(), s_handlers.end(), handler) != s_handlers.end();
         }
 
         [[nodiscard]] constexpr E const& derived() const noexcept {
@@ -63,15 +63,15 @@ namespace sly::event {
             if (contains_handler(handler)) {
                 return;
             }
-            m_handlers.push_back(handler);
+            s_handlers.push_back(handler);
         }
 
         static void disconnect(handler_ty handler) {
-            std::erase(m_handlers, handler);
+            std::erase(s_handlers, handler);
         }
 
         static void move(handler_ty from, handler_ty to) {
-            for (auto& h : m_handlers) {
+            for (auto& h : s_handlers) {
                 if (h == from) {
                     h = to;
                 }
@@ -85,7 +85,7 @@ namespace sly::event {
         }
 
         void dispatch() const {
-            for (auto const& h : m_handlers) {
+            for (auto const& h : s_handlers) {
                 assert(h != nullptr);
                 h->on_event(derived());
             }
