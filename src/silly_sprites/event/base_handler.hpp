@@ -42,11 +42,9 @@ namespace sly::event {
     template<Event E>
     struct Base {
     private:
-        using handler_ty = Handler<E>*;
-        using handler_const_ty = Handler<E> const*;
-        inline static std::vector<handler_ty> s_handlers;
+        inline static std::vector<Handler<E>*> s_handlers;
 
-        [[nodiscard]] static bool contains_handler(handler_const_ty handler) {
+        [[nodiscard]] static bool contains_handler(Handler<E> const* handler) {
             return std::find(s_handlers.begin(), s_handlers.end(), handler) != s_handlers.end();
         }
 
@@ -54,18 +52,18 @@ namespace sly::event {
         Base() = default;
 
     public:
-        static void connect(handler_ty handler) {
+        static void connect(Handler<E>* handler) {
             if (contains_handler(handler)) {
                 return;
             }
             s_handlers.push_back(handler);
         }
 
-        static void disconnect(handler_ty handler) {
+        static void disconnect(Handler<E>* handler) {
             std::erase(s_handlers, handler);
         }
 
-        static void move(handler_ty from, handler_ty to) {
+        static void move(Handler<E>* from, Handler<E>* to) {
             for (auto& h : s_handlers) {
                 if (h == from) {
                     h = to;
@@ -73,7 +71,7 @@ namespace sly::event {
             }
         }
 
-        static void copy(handler_const_ty from, handler_ty to) {
+        static void copy(Handler<E> const* from, Handler<E>* to) {
             if (contains_handler(from)) {
                 connect(to);
             }
