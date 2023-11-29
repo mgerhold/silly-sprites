@@ -50,11 +50,6 @@ namespace sly::event {
             return std::find(s_handlers.begin(), s_handlers.end(), handler) != s_handlers.end();
         }
 
-        [[nodiscard]] constexpr E const& derived() const noexcept {
-            static_assert(std::derived_from<E, Base>);
-            return static_cast<E const&>(*this);
-        }
-
     protected:
         Base() = default;
 
@@ -87,7 +82,7 @@ namespace sly::event {
         void dispatch() const {
             for (auto const& h : s_handlers) {
                 assert(h != nullptr);
-                h->on_event(derived());
+                h->on_event(static_cast<E const&>(*this));
             }
         }
     };
