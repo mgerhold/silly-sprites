@@ -29,26 +29,18 @@ public:
 int main() {
     auto app = SandboxApplication{};
 
-    Object first;  // sound event from ctor (first instance).
-    Object second = std::move(first); // sound event gets moved (second instance) 
-    Object third = second; // sound event gets copied. there are 2 instances now so there are two pointer in the sound event (second & third instance)
-
-    event::Message::connect(&third); // connect message event to the third instance.
-    Object fourth = third; // copy of sound and message event.
-    event::Message::disconnect(&fourth); // remove message event from fourth (copied) instance. 
+    Object first;  // sound event from ctor.
+    event::Message::connect(&first);
 
     auto s0 = event::Sound{ "jump.wav" };
     auto s1 = event::Sound{ "shoot.wav" };
     auto m0 = event::Message{ "best message" };
 
 
-    s0.dispatch(); // should be send to instance 2,3,4
+    s0.dispatch();
     
     app.run();
 
-    event::Sound::disconnect(&third); // remove sound event from third instance. 
-
-    m0.dispatch(); // should be send to instance 3
-    s1.dispatch(); // should be send to instance 2,4
-    // instance 1 was moved so all of its pointer were removed.
+    m0.dispatch();
+    s1.dispatch();
 }

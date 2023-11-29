@@ -11,26 +11,10 @@ namespace sly::event {
     class Handler {
     public:
         Handler() = default;
-        Handler(Handler const& other) {
-            E::copy(&other, this);
-        }
-        Handler(Handler&& other) noexcept {
-            E::move(&other, this);
-        }
-        Handler& operator=(Handler const& other) {
-            if (this == &other) {
-                return *this;
-            }
-            E::copy(&other, this);
-            return *this;
-        }
-        Handler& operator=(Handler&& other) {
-            if (this == &other) {
-                return *this;
-            }
-            E::move(&other, this);
-            return *this;
-        }
+        Handler(Handler const& other) = delete;
+        Handler(Handler&& other) noexcept = delete;
+        Handler& operator=(Handler const& other) = delete;
+        Handler& operator=(Handler&& other) = delete;
 
         virtual ~Handler() {
             E::disconnect(this);
@@ -61,20 +45,6 @@ namespace sly::event {
 
         static void disconnect(Handler<E>* handler) {
             std::erase(s_handlers, handler);
-        }
-
-        static void move(Handler<E>* from, Handler<E>* to) {
-            for (auto& h : s_handlers) {
-                if (h == from) {
-                    h = to;
-                }
-            }
-        }
-
-        static void copy(Handler<E> const* from, Handler<E>* to) {
-            if (contains_handler(from)) {
-                connect(to);
-            }
         }
 
         void dispatch() const {
