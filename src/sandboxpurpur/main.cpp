@@ -13,7 +13,7 @@ public:
 class Object : public event::Handler<event::Sound>, public event::Handler<event::Message> {
 public:
     Object() {
-        event::Sound::connect(this);
+        event::Sound::connect(this); // connect event in ctor to proof that.
     }
 
     void on_event(event::Sound const& event) override {
@@ -29,23 +29,24 @@ public:
 int main() {
     auto app = SandboxApplication{};
 
-    Object first;
-    Object second = std::move(first);
-    Object third = second;
+    Object first;  // sound event from ctor (first instance).
+    Object second = std::move(first); // sound event gets moved (second instance) 
+    Object third = second; // sound event gets copied. there are 2 instances now so there are two pointer in the sound event (second & third instance)
 
-    event::Message::connect(&third);
-    Object fourth = third;
-    event::Message::disconnect(&fourth);
+    event::Message::connect(&third); // connect message event to the third instance.
+    Object fourth = third; // copy of sound and message event.
+    event::Message::disconnect(&fourth); // remove message event from fourth (copied) instance. 
 
-    event::Sound s0 = { "jump.wav" };
-    event::Sound s1 = { "shoot.wav" };
-    event::Message m0 = { "best message" };
+    auto s0 = event::Sound{ "jump.wav" };
+    auto s1 = event::Sound{ "shoot.wav" };
+    auto m0 = event::Message{ "best message" };
 
 
-    s0.dispatch();
+    s0.dispatch(); // should be send to instance 2,3,4
     
     app.run();
 
-    m0.dispatch();
-    s1.dispatch();
+    m0.dispatch(); // should be send to instance 3
+    s1.dispatch(); // should be send to instance 2,3,4
+    // instance 1 was moved so all of its pointer were removed.
 }
