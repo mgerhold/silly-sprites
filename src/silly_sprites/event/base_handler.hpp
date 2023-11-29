@@ -9,25 +9,22 @@
 namespace sly::event {
     template<Event E>
     class Handler {
-    private:
-        using handler_ty = Handler<E>;
-
     public:
         Handler() = default;
-        Handler(handler_ty const& other) {
+        Handler(Handler const& other) {
             E::copy(&other, this);
         }
-        Handler(handler_ty&& other) noexcept {
+        Handler(Handler&& other) noexcept {
             E::move(&other, this);
         }
-        handler_ty& operator=(handler_ty const& other) {
+        Handler& operator=(Handler const& other) {
             if (this == &other) {
                 return *this;
             }
             E::copy(&other, this);
             return *this;
         }
-        handler_ty& operator=(handler_ty&& other) {
+        Handler& operator=(Handler&& other) {
             if (this == &other) {
                 return *this;
             }
