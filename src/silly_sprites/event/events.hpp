@@ -9,7 +9,7 @@ namespace sly::event {
         std::string m_message;
 
     public:
-        explicit Message(std::string const message) : m_message{ std::move(message) } {};
+        explicit Message(std::string message) : m_message{ std::move(message) } {};
 
         [[nodiscard]] std::string message() const {
             return m_message;
