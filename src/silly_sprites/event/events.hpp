@@ -15,16 +15,4 @@ namespace sly::event {
             return m_message;
         }
     };
-
-    struct Sound final : public Base<Sound> {
-    private:
-        std::string m_sound;
-
-    public:
-        explicit Sound(std::string const sound) : m_sound{ std::move(sound) } {};
-
-        [[nodiscard]] std::string sound() const {
-            return m_sound;
-        }
-    };
 } // namespace sly::event

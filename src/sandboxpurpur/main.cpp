@@ -10,12 +10,8 @@ public:
     SandboxApplication() : sly::Application{ sly::ApplicationSettings{} } { }
 };
 
-class Object : public event::Handler<event::Sound>, public event::Handler<event::Message> {
+class Object :  public event::Handler<event::Message> {
 public:
-    void on_event(event::Sound const& event) override {
-        std::cout << this << " | " << event.sound() << '\n';
-    }
-
     void on_event(event::Message const& event) override {
         std::cout << this << " | " << event.message() << '\n';
     }
@@ -27,15 +23,9 @@ int main() {
 
     Object first;
 
-    auto s0 = event::Sound{ "jump.wav" };
-    auto s1 = event::Sound{ "shoot.wav" };
     auto m0 = event::Message{ "best message" };
-
-
-    s0.dispatch();
     
     app.run();
 
     m0.dispatch();
-    s1.dispatch();
 }
