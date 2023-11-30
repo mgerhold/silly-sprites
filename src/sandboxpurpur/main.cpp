@@ -23,9 +23,15 @@ int main() {
 
     Object first;
 
+    event::Message::connect(first);
+    event::Message::connect(first);
+
     auto m0 = event::Message{ "best message" };
     
     app.run();
 
     m0.dispatch();
+
+    event::Message::disconnect(first);
+    event::Message::disconnect(first);
 }

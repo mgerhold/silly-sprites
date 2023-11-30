@@ -3,7 +3,7 @@
 #include "event_concept.hpp"
 #include <algorithm>
 #include <cassert>
-#include <vector>
+#include <unordered_set>
 
 
 namespace sly::event {
@@ -28,25 +28,18 @@ namespace sly::event {
     template<Event E>
     struct Base {
     private:
-        inline static std::vector<Handler<E>*> s_handlers;
-
-        [[nodiscard]] static bool contains_handler(Handler<E> const* handler) {
-            return std::find(s_handlers.begin(), s_handlers.end(), handler) != s_handlers.end();
-        }
+        inline static std::unordered_set<Handler<E>*> s_handlers;
 
     protected:
         Base() = default;
 
     public:
         static void connect(Handler<E>& handler) {
-            if (contains_handler(&handler)) {
-                return;
-            }
-            s_handlers.push_back(&handler);
+            s_handlers.insert(&handler);
         }
 
         static void disconnect(Handler<E>& handler) {
-            std::erase(s_handlers, &handler);
+            s_handlers.erase(&handler);
         }
 
         void dispatch() const {
