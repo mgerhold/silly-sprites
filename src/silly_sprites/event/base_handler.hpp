@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cassert>
 #include <unordered_set>
+#include <spdlog/spdlog.h>
 
 
 namespace sly::event {
@@ -35,7 +36,10 @@ namespace sly::event {
 
     public:
         static void connect(Handler<E>& handler) {
-            s_handlers.insert(&handler);
+            auto const&& [interator, inserted] = s_handlers.insert(&handler);
+            if (not inserted) {
+                spdlog::warn("handler and event already connected -> ignoring the connect()");
+            }
         }
 
         static void disconnect(Handler<E>& handler) {
