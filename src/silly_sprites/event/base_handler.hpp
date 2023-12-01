@@ -1,3 +1,5 @@
+// FAIL!
+
 #pragma once
 
 #include "event_concept.hpp"
