@@ -1,3 +1,5 @@
+// FAIL!
+
 #include "events.hpp"
 #include "types.hpp"
 #include <cassert>
