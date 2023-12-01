@@ -18,16 +18,19 @@ add_library(sillysprites
         native_script.hpp
         transform.hpp
         time.hpp
+        utils.cpp
+        event/events.hpp
+        event/base_handler.hpp
+        event/event_concept.hpp
+        app_context.hpp
         script/engine.cpp
         script/engine.hpp
         script/builtins.hpp
         script/builtins.cpp
-        utils.cpp
         script/module.cpp
         script/module.hpp
         script/class_info.hpp
         script.hpp
-        app_context.hpp
         script/class_info.cpp
         script/object.hpp
         script/function.hpp
