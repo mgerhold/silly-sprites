@@ -10,7 +10,7 @@ public:
     SandboxApplication() : sly::Application{ sly::ApplicationSettings{} } { }
 };
 
-class Object :  public event::Handler<event::Message> {
+class Object : public event::Handler<event::Message> {
 public:
     void on_event(event::Message const& event) override {
         std::cout << this << " | " << event.message() << '\n';
@@ -27,7 +27,7 @@ int main() {
     event::Message::connect(first);
 
     auto m0 = event::Message{ "best message" };
-    
+
     app.run();
 
     m0.dispatch();
